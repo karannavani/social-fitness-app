@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const exerciseSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model 
+  user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model
   adoptedFrom: String, //will have the program id
   dayOne: {
     exerciseCompleted: Boolean,
@@ -38,7 +38,7 @@ const exerciseSchema = new mongoose.Schema({
     time: Number,
     intensity: String
   },
-  days: [String] //if the activity for that day has been logged, push the date into this array
+  daysLogged: [String] //if the activity for that day has been logged, push the date into this array
 });
 
 module.exports = mongoose.model('Exercise', exerciseSchema);
