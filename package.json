@@ -1,0 +1,54 @@
+{
+  "name": "ripe-tomatoes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "WDI35",
+  "license": "MIT",
+  "nodeConfig": {
+    "ignore": [
+      "src/*"
+    ]
+  },
+  "scripts": {
+    "start:server": "nodemon",
+    "start:client": "webpack-dev-server",
+    "seed": "node db/seeds"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "bcrypt": "^3.0.0",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.3",
+    "bulma": "^0.7.1",
+    "chai": "^4.1.2",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "mocha": "^5.2.0",
+    "moment": "^2.22.2",
+    "mongoose": "^5.2.10",
+    "mongoose-unique-validator": "^2.0.1",
+    "morgan": "^1.9.0",
+    "node-sass": "^4.9.3",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-router-dom": "^4.3.1",
+    "supertest": "^3.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.22.1",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.6"
+  }
+}
