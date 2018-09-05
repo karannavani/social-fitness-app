@@ -8,9 +8,9 @@ function login(req, res, next) {
       if(!user.validatePassword(req.body.password) || !user) {
         return res.status(401).json({ message: 'Authorization Failed'});
       }
-      createAndSendToken(user, res, `Welcome back ${user.username}`)
-        .catch(next);
-    });
+      createAndSendToken(user, res, `Welcome back ${user.username}`);
+    })
+    .catch(next);
 }
 
 function register(req, res, next) {
