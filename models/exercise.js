@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const exerciseSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model
+  // user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model
   adoptedFrom: String, //will have the program id
   dayOne: {
     exerciseCompleted: Boolean,
