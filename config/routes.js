@@ -11,13 +11,13 @@ const userController = require('../controllers/userController');
 const exerciseController = require('../controllers/exerciseController');
 
 
-// AUTH ROUTES
+// // AUTH ROUTES
 Router.route('/login')
   .post(authController.login);
-
+//
 Router.route('/register')
   .post(authController.register);
-
+//
 // USER ROUTES
 Router.route('/users')
   .get(userController.index);
@@ -39,13 +39,14 @@ Router.route('/exercises')
   .get(exerciseController.index)
   .post(exerciseController.create); // NOTE: also take care of adopt
 
-Router.route('/exercise/:id/')
+Router.route('/exercises/:id')
   .get(exerciseController.show)
   .put(exerciseController.update)
   .patch(exerciseController.updateDay)
   .delete(exerciseController.delete);
 
-// Router.route('/exercise/:id/adopt')
+
+Router.route('/exercise/:id/adopt');
 
 
 
