@@ -6,6 +6,7 @@ import './scss/style.scss';
 
 //Components
 import Header from './components/Header';
+import Dashboard from './components/dashboard/Dashboard.js';
 // import Footer from './components/Footer';
 
 class App extends React.Component {
@@ -13,6 +14,7 @@ class App extends React.Component {
     return(
       <main>
         <Header />
+        <Dashboard />
         {/* <Switch>
         </Switch> */}
         {/* <Footer /> */}
