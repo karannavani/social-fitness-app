@@ -33,12 +33,15 @@ class Dashboard extends React.Component {
     console.log(Object.values(this.state.exercises));
     Object.values(this.state.exercises).forEach((value,i) => {
       // console.log(value);
-      const date = moment(startDate).add(i, 'days').format('L');
-      console.log('program dates are', date);
+      if (i < 7) {
+        const date = moment(startDate).add(i, 'days').format('L');
+        console.log('program dates are', date);
 
-      if (date === today) {
-        console.log('program for today is', value);
-        this.setState({ programToday: value });
+        if (date === today) {
+          console.log('program for today is', value);
+          this.setState({ programToday: value });
+        }
+
       }
     });
   }
