@@ -27,7 +27,8 @@ Router.route('/users/:id')
   .delete(userController.delete);
 
 Router.route('/users/:id/follow')
-  .post(userController.follow);
+  .post(userController.createFollow)
+  .delete(userController.deleteFollow); //// IDEA: will follow have its own ID?
 
 Router.route('/users/:id/grit')
   .post(userController.addUserGrit);

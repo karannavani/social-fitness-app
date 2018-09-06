@@ -9,6 +9,7 @@ function userIndex( req, res, next ){
     .catch(next);
 }
 
+//---------- USER---------------//
 function userShow( req, res, next ){
 // GET to /users/:id
   User
@@ -46,11 +47,24 @@ function userDelete( req, res, next ){
     .catch(next);
 }
 
-function userFollow( req, res, next ){
+//---------- APPLICATION-----------//
+function addUserGrit( req, res, next ){
+  // POST /users/:id/grit
+}
+
+//------------- SOCIAL ------------//
+function userFollowCreate( req, res, next ){
   // POST to /users/:id/follow   with body of user to follow;
 
   //add the other user to the users following array
-  //add the user to another another users followers array
+  //add the user to the other users followers array
+}
+
+function userFollowDelete( req, res, next ){
+  // POST to /users/:id/follow   with body of user to follow;
+
+  //remove the other user from the users following array
+  //remove the user from the other users followers array
 }
 
 function userFollowIndex( req, res, next ){
@@ -59,22 +73,18 @@ function userFollowIndex( req, res, next ){
   // get the user model populate it its follower and following arrays
 }
 
-function addUserGrit( req, res, next ){
-  // POST /users/:id/grit
-}
-
 module.exports = {
-  //dashboard
-  //profile show
+  //primary user routes
   index: userIndex,
   show: userShow,
   update: userUpdate,
   delete: userDelete,
-  //follow
-  follow: userFollow,
-  //followingIndex
-  //followerIndex
-  followIndex: userFollowIndex,   // NOTE: this could be the same as GET users
-  //update daily GRIT
-  createGrit: addUserGrit
+
+  // Application
+  createGrit: addUserGrit,
+
+  //social
+  createFollow: userFollowCreate,
+  deleteFollow: userFollowDelete,
+  followIndex: userFollowIndex   // NOTE: this could be the same as GET users
 };
