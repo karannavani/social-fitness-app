@@ -64,7 +64,9 @@ function addUserGrit( req, res, next ){
 
 //------------- SOCIAL ------------//
 function userFollowDelete( req, res, next ){
-  // POST to /users/:userId/follow   with body of user to follow;
+  // DELETE to /users/:userId/follow   with body of user to follow;
+
+  
 
   //remove the other user from the users following array
   //remove the user from the other users followers array
@@ -79,16 +81,16 @@ function userFollowCreate( req, res, next ){
       user2.followers.push(req.params.id);
       user2.save();
       //get the other user
-      return User.findById(req.params.id)
+      return User.findById(req.params.id);
     })
     .then(user => {
-      user.following.push(req.body.id)  // NOTE: is req.body.id still available
-      return user.save() // NOTE: may need to populate followers and programs here
+      user.following.push(req.body.id);  // NOTE: is req.body.id still available
+      return user.save(); // NOTE: may need to populate followers and programs here
     })
     .then(user => res.status(201).json(user))
     .catch(next);
-    //add the other user to the users following array
-    //add the user to the other users followers array
+  //add the other user to the users following array
+  //add the user to the other users followers array
 }
 
 function userFollowIndex( req, res, next ){
