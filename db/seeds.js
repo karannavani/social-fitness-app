@@ -539,7 +539,7 @@ const exerciseData = [
   {
     // user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model
     // adoptedFrom: String, //will have the program id
-    dayOne: {
+    1: {
       exerciseCompleted: true,
       time: 60,
       intensity: 'Medium'
