@@ -2,32 +2,28 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-
-// NOTE: Need to re-assign the tribe ENUMS to actual names
-// NOTE: need to  replace programId ref with actual exercise model name
-
 const userSchema = new mongoose.Schema({
 
   // Authentication Details
-  username: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  username: { type: String},
+  email: { type: String, unique: true },
+  password: { type: String},
 
   // Personal Details
-  firstName: { type: String, required: true },
-  surname: { type: String, required: true },
-  age: { type: Number, required: true },
-  height: { type: Number, required: true },
-  heightUnit: { type: String, required: true },
-  weight: { type: Number, required: true },
-  weightUnit: { type: String, required: true },
+  firstName: { type: String},
+  surname: { type: String},
+  age: { type: Number},
+  height: { type: Number},
+  heightUnit: { type: String},
+  weight: { type: Number},
+  weightUnit: { type: String},
 
   // Application
-  tribe: { type: String, required: true, enum: ['tribe1', 'tribe2', 'tribe3'] },
+  tribe: { type: String, enum: ['All Naturals', 'Inbetweeners', 'Gargantuans'] },
   dailyGrit: [ { date: String, grit: Number } ],
 
   // External Associations
-  exercisePrograms: [ { type: ObjectId, ref: 'exercise' } ],
+  exercisePrograms: [ { type: ObjectId, ref: 'Exercise' } ],
 
   // Social
   followers: [ { type: ObjectId, ref: 'User' } ],

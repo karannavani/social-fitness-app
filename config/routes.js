@@ -26,16 +26,25 @@ Router.route('/users/:id')
   .put(userController.update)
   .delete(userController.delete);
 
-Router.route('/users/:id/follow')
+Router.route('/users/:userId/follow')
   .post(userController.createFollow)
-  .delete(userController.deleteFollow); //// IDEA: will follow have its own ID?
+  .delete(userController.deleteFollow); // NOTE: will follow have its own ID?
 
 Router.route('/users/:id/grit')
   .post(userController.addUserGrit);
 
 // EXERCISE ROUTES
 Router.route('/exercises')
-  .get(exerciseController.index);
+  .get(exerciseController.index)
+  .post(exerciseController.create); // NOTE: also take care of adopt
+
+Router.route('/exercise/:id/')
+  .get(exerciseController.show)
+  .put(exerciseController.update)
+  .patch(exerciseController.updateDay)
+  .delete(exerciseController.delete);
+
+// Router.route('/exercise/:id/adopt')
 
 
 

@@ -1,44 +1,63 @@
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const exerciseSchema = new mongoose.Schema({
-  // user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model
-  adoptedFrom: String, //will have the program id
+  user: { type: ObjectId, ref: 'User' }, //references the user model
+  programAdoptedFrom: String, //will have the program id
+  startDate: String,
   dayOne: {
-    exerciseCompleted: Boolean,
+    rest: {type: Boolean, default: false },
+    date: String,
+    exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayTwo: {
-    exerciseCompleted: Boolean,
+    rest: {type: Boolean, default: false },
+    date: String,
+    exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayThree: {
-    exerciseCompleted: Boolean,
+    rest: {type: Boolean, default: false },
+    date: String,
+    exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayFour: {
-    exerciseCompleted: Boolean,
+    rest: {type: Boolean, default: false },
+    date: String,
+    exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayFive: {
-    exerciseCompleted: Boolean,
+    rest: {type: Boolean, default: false },
+    date: String,
+    exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   daySix: {
-    exerciseCompleted: Boolean,
+    rest: {type: Boolean, default: false },
+    date: String,
+    exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   daySeven: {
-    exerciseCompleted: Boolean,
+    rest: {type: Boolean, default: false },
+    date: String,
+    exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   daysLogged: [String] //if the activity for that day has been logged, push the date into this array
-});
+}, { timestamps: true });
+
+// LIFECYCLE HOOKS
+  //set the date for each day based on the start date prior to saving
 
 module.exports = mongoose.model('Exercise', exerciseSchema);
