@@ -11,7 +11,7 @@ class Header extends React.Component {
     return(
       <header className="navbar">
         <Link className="navbar-item" to="/dashboard">Dashboard</Link>
-        <Link className="navbar-item" to="/profile/:id">Profile</Link>
+        <Link className="navbar-item" to="/profile">Profile</Link>
         <Link className="navbar-item" to="/tribe/:tribeName">Tribe</Link>
       </header>
     );

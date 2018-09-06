@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   heightUnit: { type: String},
   weight: { type: Number},
   weightUnit: { type: String},
+  imageUrl: String,
 
   // Application
   tribe: { type: String, enum: ['All Naturals', 'Inbetweeners', 'Gargantuans'] },

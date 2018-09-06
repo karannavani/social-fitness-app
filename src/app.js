@@ -8,13 +8,17 @@ import './scss/style.scss';
 import Header from './components/Header';
 // import Footer from './components/Footer';
 
+import ProfileShow from './components/profile/Show';
+// import ProfileEdit from './components/profile/Edit';
+
 class App extends React.Component {
   render() {
     return(
       <main>
         <Header />
-        {/* <Switch>
-        </Switch> */}
+        <Switch>
+          <Route path='/profile' component={ProfileShow} />
+        </Switch>
         {/* <Footer /> */}
       </main>
     );
