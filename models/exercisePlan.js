@@ -5,43 +5,50 @@ const exercisePlanSchema = new mongoose.Schema({
   user: { type: ObjectId, ref: 'User' }, //references the user model
   exercisePlanAdoptedFrom: { type: ObjectId, ref: 'ExercisePlan' }, //will have the program id
   startDate: String,
-  dayOne: {
+  day1: {
+    day: Number,
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayTwo: {
+  day2: {
+    day: Number,
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayThree: {
+  day3: {
+    day: Number,
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayFour: {
+  day4: {
+    day: Number,
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayFive: {
+  day5: {
+    day: Number,
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  daySix: {
+  day6: {
+    day: Number,
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  daySeven: {
+  day7: {
+    day: Number,
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
