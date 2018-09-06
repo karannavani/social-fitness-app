@@ -1,6 +1,14 @@
 const User = require('../models/user');
 
 
+// for dev purposes to get random ID in insomnia
+function userIndex( req, res, next ){
+  User
+    .find()
+    .then(users => res.json(users))
+    .catch(next);
+}
+
 function userShow( req, res, next ){
 // GET to /users/:id
   User
@@ -15,7 +23,7 @@ function userShow( req, res, next ){
 }
 
 function userUpdate( req, res, next ){
-// PUT to /users/:id/edit
+// PUT to /users/:id
   User
     .findById(req.params.id)
     .then(user => user.set(req.body))
@@ -29,8 +37,17 @@ function userUpdate( req, res, next ){
   // EG: .then(event => Event.populate(event, { path: 'guests'}))
 }
 
+function userDelete( req, res, next ){
+  // DELETE /user/:id
+  User
+    .findById(req.params.id)
+    .then(user => user.remove())
+    .then(() => res.sendStatus(204))
+    .catch(next);
+}
+
 function userFollow( req, res, next ){
-  // PUT to /users/:id/follow   with body of user to follow;
+  // POST to /users/:id/follow   with body of user to follow;
 
   //add the other user to the users following array
   //add the user to another another users followers array
@@ -43,14 +60,16 @@ function userFollowIndex( req, res, next ){
 }
 
 function addUserGrit( req, res, next ){
-  // PUT /users/:id/grit
+  // POST /users/:id/grit
 }
 
 module.exports = {
   //dashboard
   //profile show
+  index: userIndex,
   show: userShow,
   update: userUpdate,
+  delete: userDelete,
   //follow
   follow: userFollow,
   //followingIndex
