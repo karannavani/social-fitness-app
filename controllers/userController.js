@@ -71,7 +71,6 @@ function userFollowDelete( req, res, next ){
       //got the followed user, filter out the user
       user2.followers = user2.followers.filter( follower =>{
         follower._id.equals(req.params.userId);
-
       } );
       user2.save();
 
