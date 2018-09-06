@@ -28,7 +28,16 @@ function exercisesUpdate(req, res, next) {
     .catch(next);
 }
 
+function exercisesPatch(req, res, next) {
+  Exercise.findById(req.params.id)
+    .then(exercise => exercise.set(req.body))
+    .then(exercise => exercise.save())
+    .then(exercise => res.json(exercise))
+    .catch(next);
+}
+
 function exercisesDelete(req, res, next) {
+  console.log('exercise controller fired');
   Exercise.findById(req.params.id)
     .then(exercise => exercise.remove())
     .then(() => res.sendStatus(204)) // NO CONTENT
@@ -40,5 +49,6 @@ module.exports = {
   show: exercisesShow,
   create: exercisesCreate,
   update: exercisesUpdate,
-  delete: exercisesDelete
+  delete: exercisesDelete,
+  updateDay: exercisesPatch
 };
