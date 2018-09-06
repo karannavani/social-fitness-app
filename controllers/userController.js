@@ -50,6 +50,16 @@ function userDelete( req, res, next ){
 //---------- APPLICATION-----------//
 function addUserGrit( req, res, next ){
   // POST /users/:id/grit
+  User
+    .findById(req.params.id)
+    .then(user => {
+      user.dailyGrit.push(req.body);
+      return user.save();
+    })
+    .then(user => res.json(user))
+    .catch(next);
+  // pushes an object into the daily grit array
+  // body needs to be an object containing a date and a grit number
 }
 
 //------------- SOCIAL ------------//
