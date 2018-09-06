@@ -9,11 +9,12 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbUri);
 
-app.use('/api', Router);
-app.use(errorHandler);
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+
+app.use('/api', Router);
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Express is running on port ${port}`));
 

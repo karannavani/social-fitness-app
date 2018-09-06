@@ -45,7 +45,7 @@ Router.route('/exercise/:id/')
   .patch(exerciseController.updateDay)
   .delete(exerciseController.delete);
 
-// Router.route('/exercise/:id/adopt')
+Router.route('/exercise/:id/adopt')
 
 
 
