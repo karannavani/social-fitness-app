@@ -14,7 +14,7 @@ function userShow( req, res, next ){
 // GET to /users/:id
   User
     .findById(req.params.id)
-    .populate('followers following exercisePrograms')
+    // .populate('followers following exercisePrograms')
     .then(user => res.json(user))
     .catch(next);
 

@@ -12,16 +12,17 @@ export default class ProfileShow extends React.Component{
   //  if not then show a follow button depending on if they are already following that user
 
   state={
-    userId: '5b914f7a983c9e72d2aa113a'
+    userId: '5b916f8b250d777bcb49ca9a'
   };
 
   componentDidMount(){
     axios.get(`/api/users/${this.state.userId}`)
-      .then(res => this.setState({user}))
+      .then(res => this.setState({user: res.data}));
       // .then(res => console.log('The user data is: ', res.data));
   }
 
   render(){
+    const { user } = this.state;
     return(
       <section>
         {/* HERO */}
@@ -32,7 +33,7 @@ export default class ProfileShow extends React.Component{
               <div className='columns' style={{border: '1px solid black'}}>
                 <div className='column is-full'>
                   <p className='title'>Personal Details</p>
-                  <p></p>
+                  <p>{user && user.username}</p>
                 </div>
               </div>
 
@@ -52,6 +53,7 @@ export default class ProfileShow extends React.Component{
           {/* map over an array of past exercise */}
         </section>
       </section>
+
     );
   }
 }
