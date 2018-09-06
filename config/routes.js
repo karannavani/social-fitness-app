@@ -8,7 +8,7 @@ const Router = express.Router();
 // CONTROLLERS
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
-const exerciseController = require('../controllers/exerciseController');
+const exercisePlanController = require('../controllers/exercisePlanController');
 
 
 // // AUTH ROUTES
@@ -29,21 +29,21 @@ Router.route('/users/:id')
 
 Router.route('/users/:userId/follow')
   .post(userController.createFollow)
-  .put(userController.deleteFollow); // NOTE: will follow have its own ID?
+  .delete(userController.deleteFollow); // NOTE: will follow have its own ID?
 
 Router.route('/users/:id/grit')
   .post(userController.createGrit);
 
 // EXERCISE ROUTES
-Router.route('/exercises')
-  .get(exerciseController.index)
-  .post(exerciseController.create); // NOTE: also take care of adopt
+Router.route('/exerciseplans')
+  .get(exercisePlanController.index)
+  .post(exercisePlanController.create); // NOTE: also take care of adopt
 
-Router.route('/exercises/:id')
-  .get(exerciseController.show)
-  .put(exerciseController.update)
-  .patch(exerciseController.updateDay)
-  .delete(exerciseController.delete);
+Router.route('/exerciseplans/:id')
+  .get(exercisePlanController.show)
+  .put(exercisePlanController.update)
+  .patch(exercisePlanController.updateDay)
+  .delete(exercisePlanController.delete);
 
 
 // Router.route('/exercise/:id/adopt');

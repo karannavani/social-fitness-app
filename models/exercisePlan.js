@@ -3,53 +3,46 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const exercisePlanSchema = new mongoose.Schema({
   user: { type: ObjectId, ref: 'User' }, //references the user model
-  programAdoptedFrom: String, //will have the program id
+  exercisePlanAdoptedFrom: { type: ObjectId, ref: 'ExercisePlan' }, //will have the program id
   startDate: String,
   dayOne: {
     rest: {type: Boolean, default: false },
-    date: String,
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayTwo: {
     rest: {type: Boolean, default: false },
-    date: String,
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayThree: {
     rest: {type: Boolean, default: false },
-    date: String,
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayFour: {
     rest: {type: Boolean, default: false },
-    date: String,
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   dayFive: {
     rest: {type: Boolean, default: false },
-    date: String,
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   daySix: {
     rest: {type: Boolean, default: false },
-    date: String,
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
   daySeven: {
     rest: {type: Boolean, default: false },
-    date: String,
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String

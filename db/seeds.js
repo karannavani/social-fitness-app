@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const User = require('../models/user');
-const Exercise = require('../models/exercise');
+const ExercisePlan = require('../models/exercisePlan');
 
 const { dbUri } = require('../config/environment');
 mongoose.Promise = require('bluebird');
@@ -112,13 +112,13 @@ const exerciseData = [
   }
 ];
 
-Exercise.collection.drop();
+ExercisePlan.collection.drop();
 User.collection.drop();
 
 User.create(userData)
   .then(users => {
     console.log(`Created ${users.length} new users`);
-    return Exercise.create(exerciseData);
+    return ExercisePlan.create(exerciseData);
   })
   .then(exercises => console.log(`created ${exercises.length} exercises`))
   .catch(err => console.log(err))
