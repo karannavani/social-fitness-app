@@ -1,8 +1,33 @@
 const mongoose = require('mongoose');
+
+
+const User = require('../models/user');
 const Exercise = require('../models/exercise');
+
 const { dbUri } = require('../config/environment');
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbUri);
+
+const userData= [
+  {
+    username: 'Rennzie',
+    email: 'rnnsea001@gmail.com',
+    password: 'pass',
+    tribe: 'All Naturals'
+  },
+  {
+    username: 'Knevani',
+    email: 'kknevani@gmail.com@gmail.com',
+    password: 'pass',
+    tribe: 'Inbetweeners'
+  },
+  {
+    username: 'Trimhall',
+    email: 'tah.developer@gmail.com',
+    password: 'pass',
+    tribe: 'Gargantuans'
+  }
+];
 
 const exerciseData = [
   {
@@ -88,8 +113,13 @@ const exerciseData = [
 ];
 
 Exercise.collection.drop();
+User.collection.drop();
 
-Exercise.create(exerciseData)
+User.create(userData)
+  .then(users => {
+    console.log(`Created ${users.length} new users`);
+    return Exercise.create(exerciseData);
+  })
   .then(exercises => console.log(`created ${exercises.length} exercises`))
   .catch(err => console.log(err))
   .finally(() => mongoose.connection.close());
