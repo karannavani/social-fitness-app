@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
   dailyGrit: [ { date: String, grit: Number } ],
 
   // External Associations
-  exercisePrograms: [ { type: ObjectId, ref: 'Exercise' } ],
+  exercisePlan: [ { type: ObjectId, ref: 'ExercisePlan' } ],
 
   // Social
   followers: [ { type: ObjectId, ref: 'User' } ],

@@ -1,54 +1,54 @@
-const Exercise = require('../models/exercise');
+const ExercisePlan = require('../models/exercisePlan');
 
-function exercisesIndex(req, res, next) {
-  Exercise.find()
+function exercisePlanIndex(req, res, next) {
+  ExercisePlan.find()
     .populate('user')
-    .then(exercises => res.json(exercises))
+    .then(exercisePlan => res.json(exercisePlan))
     .catch(next);
 }
 
-function exercisesShow(req, res, next) {
-  Exercise.findById(req.params.id)
+function exercisePlanShow(req, res, next) {
+  ExercisePlan.findById(req.params.id)
     .populate('user')
     .then(exercise => res.json(exercise))
     .catch(next);
 }
 
-function exercisesCreate(req, res, next) {
-  Exercise.create(req.body)
+function exercisePlanCreate(req, res, next) {
+  ExercisePlan.create(req.body)
     .then(exercise => res.json(exercise))
     .catch(next);
 }
 
-function exercisesUpdate(req, res, next) {
-  Exercise.findById(req.params.id)
+function exercisePlanUpdate(req, res, next) {
+  ExercisePlan.findById(req.params.id)
     .then(exercise => exercise.set(req.body))
     .then(exercise => exercise.save())
     .then(exercise => res.json(exercise))
     .catch(next);
 }
 
-function exercisesPatch(req, res, next) {
-  Exercise.findById(req.params.id)
+function exercisePlanPatch(req, res, next) {
+  ExercisePlan.findById(req.params.id)
     .then(exercise => exercise.set(req.body))
     .then(exercise => exercise.save())
     .then(exercise => res.json(exercise))
     .catch(next);
 }
 
-function exercisesDelete(req, res, next) {
+function exercisePlanDelete(req, res, next) {
   console.log('exercise controller fired');
-  Exercise.findById(req.params.id)
+  ExercisePlan.findById(req.params.id)
     .then(exercise => exercise.remove())
     .then(() => res.sendStatus(204)) // NO CONTENT
     .catch(next);
 }
 
 module.exports = {
-  index: exercisesIndex,
-  show: exercisesShow,
-  create: exercisesCreate,
-  update: exercisesUpdate,
-  delete: exercisesDelete,
-  updateDay: exercisesPatch
+  index: exercisePlanIndex,
+  show: exercisePlanShow,
+  create: exercisePlanCreate,
+  update: exercisePlanUpdate,
+  delete: exercisePlanDelete,
+  updateDay: exercisePlanPatch
 };

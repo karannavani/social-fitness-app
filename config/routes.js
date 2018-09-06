@@ -46,7 +46,7 @@ Router.route('/exercises/:id')
   .delete(exerciseController.delete);
 
 
-Router.route('/exercise/:id/adopt');
+// Router.route('/exercise/:id/adopt');
 
 
 
