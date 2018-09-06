@@ -65,11 +65,28 @@ function addUserGrit( req, res, next ){
 //------------- SOCIAL ------------//
 function userFollowDelete( req, res, next ){
   // DELETE to /users/:userId/follow   with body of user to follow;
+  User
+    .findById( req.body.id )
+    .then(user2 => {
+      //got the followed user, filter out the user
+      user2.followers = user2.followers.filter( follower =>{
+        follower._id.equals(req.params.userId);
 
-  
+      } );
+      user2.save();
 
-  //remove the other user from the users following array
+      return User.findById(req.params.userId);
+    })
+    .then( user => {
+      user.following = user.following.filter(followed => !followed._id.equals(req.body.id));
+      return user.save();
+    })
+    .then(user => res.json(user))
+    .catch(next);
+
+
   //remove the user from the other users followers array
+  //remove the other user from the users following array
 }
 
 function userFollowCreate( req, res, next ){
@@ -78,10 +95,10 @@ function userFollowCreate( req, res, next ){
     .findById( req.body.id )
     .then( user2 => {
       //add user to
-      user2.followers.push(req.params.id);
+      user2.followers.push(req.params.userId);
       user2.save();
       //get the other user
-      return User.findById(req.params.id);
+      return User.findById(req.params.userId);
     })
     .then(user => {
       user.following.push(req.body.id);  // NOTE: is req.body.id still available
