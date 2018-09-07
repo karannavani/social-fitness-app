@@ -9,7 +9,7 @@ const Router = express.Router();
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const exercisePlanController = require('../controllers/exercisePlanController');
-
+const tribeController = require('../controllers/tribeController');
 
 // // AUTH ROUTES
 Router.route('/login')
@@ -44,6 +44,9 @@ Router.route('/exerciseplans/:id')
   .put(exercisePlanController.update)
   .patch(exercisePlanController.updateDay)
   .delete(exercisePlanController.delete);
+
+Router.route('/tribes/:tribeName')
+  .get(tribeController.index);
 
 
 // Router.route('/exercise/:id/adopt');
