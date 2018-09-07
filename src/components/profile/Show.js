@@ -25,8 +25,6 @@ export default class UserShow extends React.Component{
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }
 
-
-
   render(){
     const { user } = this.state;
     return(

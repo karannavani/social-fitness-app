@@ -23,12 +23,12 @@ export default class AuthLogin extends React.Component{
         console.log('login response is', res.data);
         const token = res.data.token;
         Auth.setToken(token);
-        // Flash.setMessage('success', res.data.messages );
+        Flash.setMessage('success', res.data.messages );
         this.props.history.push('/dashboard');
       })
       .catch(err =>{
         console.log('login err is ===>',err.response);
-        // Flash.setMessage('danger', 'Invalid email/password');
+        Flash.setMessage('danger', 'Invalid email/password');
         console.log('flash messages is', Flash.getMessages());
         this.props.history.push(this.props.location.pathname);
       });

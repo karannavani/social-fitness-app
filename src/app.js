@@ -8,6 +8,7 @@ import './scss/style.scss';
 //partials
 import Header from './components/Header';
 // import Footer from './components/Footer';
+import FlashMessages from './components/common/FlashMessages';
 
 //Auth
 import AuthLogin from './components/auth/Login';
@@ -25,6 +26,7 @@ class App extends React.Component {
     return(
       <main>
         <Header />
+        <FlashMessages />
         {/* <Tribe /> */}
         {/* <Switch>
         </Switch> */}
