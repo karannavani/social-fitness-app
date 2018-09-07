@@ -24,7 +24,7 @@ export default class AuthLogin extends React.Component{
         const token = res.data.token;
         Auth.setToken(token);
         // Flash.setMessage('success', res.data.messages );
-        this.props.history.push(`/profile/${Auth.currentUserId()}`);
+        this.props.history.push('/dashboard');
       })
       .catch(err =>{
         console.log('login err is ===>',err.response);

@@ -3,10 +3,12 @@ import { Link, withRouter } from 'react-router-dom';
 import Auth from '../lib/Auth';
 
 class Header extends React.Component {
+
   handleLogout = () => {
     Auth.removeToken();
     this.props.history.push('/login');
   }
+
   render() {
     return(
       <header className="navbar">
@@ -15,7 +17,7 @@ class Header extends React.Component {
         <Link className="navbar-item" to="/tribe/:tribeName">Tribe</Link>
         {!Auth.isAuthenticated() && <Link className="navbar-item" to="/login">Log In</Link>}
         {Auth.isAuthenticated() &&
-          <a onClick={ this.handleLogOut } className="navbar-item" >Log Out</a>}
+          <a onClick={ this.handleLogout } className="navbar-item" >Log Out</a>}
       </header>
     );
   }
