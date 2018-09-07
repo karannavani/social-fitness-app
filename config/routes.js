@@ -29,7 +29,7 @@ Router.route('/users/:id')
 
 Router.route('/users/:userId/follow')
   .post(userController.createFollow)
-  .delete(userController.deleteFollow); // NOTE: will follow have its own ID?
+  .put(userController.deleteFollow); // NOTE: will follow have its own ID?
 
 Router.route('/users/:id/grit')
   .post(userController.createGrit);

@@ -13,7 +13,7 @@ class Header extends React.Component {
     return(
       <header className="navbar">
         <Link className="navbar-item" to="/dashboard">Dashboard</Link>
-        <Link className="navbar-item" to="/profile">Profile</Link>
+        {Auth.isAuthenticated() && <Link className="navbar-item" to={`/profile/${Auth.currentUserId()}`}>Profile</Link>}
         <Link className="navbar-item" to="/tribe/:tribeName">Tribe</Link>
         {!Auth.isAuthenticated() && <Link className="navbar-item" to="/login">Log In</Link>}
         {Auth.isAuthenticated() &&

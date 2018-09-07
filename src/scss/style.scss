@@ -8,6 +8,7 @@
   // margin-right: auto;
   margin: auto;
 }
+
 .program-card-rest {
   background: linear-gradient(90deg, #d53369 0%, #daae51 100%);  // margin-right: auto;
   margin: auto;
@@ -45,4 +46,17 @@ input.programEdit  {
 
 .upcomingDetails {
   margin-right: 10px;
+}
+
+.tribeAside {
+  background-color: #777;
+}
+
+.dashAsideContainer {
+  background: #0f2027;
+  background: -webkit-linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  height: 270px;
+  margin-top: 10px;
+  color: white;
 }

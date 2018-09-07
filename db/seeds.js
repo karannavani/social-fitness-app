@@ -10,12 +10,7 @@ mongoose.connect(dbUri);
 const today = moment().unix();
 const dayInSeconds = 86400;
 
-const tribeNames = [
-  'All Naturals', 'Inbetweeners', 'Gargantuans',
-  'All Naturals', 'Inbetweeners', 'Gargantuans',
-  'All Naturals', 'Inbetweeners', 'Gargantuans',
-  'All Naturals', 'Inbetweeners', 'Gargantuans'
-];
+
 
 //////// NOTE: make sure to increase number of ids so can increase the number of seeds
 const userIds = [
@@ -30,27 +25,9 @@ const userIds = [
   '5b91752666708bc8b1622754', '5b91752666708bc8b1622755', '5b91752666708bc8b1622756', '5b91752666708bc8b1622757', '5b91752666708bc8b1622758',
   '5b91752666708bc8b1622759', '5b91752666708bc8b162275a', '5b91752666708bc8b162275b', '5b91752666708bc8b162275c', '5b91752666708bc8b162275d',
   '5b91752666708bc8b162275e', '5b91752666708bc8b162275f', '5b91752666708bc8b1622760', '5b91752666708bc8b1622761', '5b91752666708bc8b1622762',
-  '5b91752666708bc8b1622763', '5b91752666708bc8b1622764', '5b91752666708bc8b1622765', '5b91752666708bc8b1622766', '5b91752666708bc8b1622767',
-  '5b91752666708bc8b1622768', '5b91752666708bc8b1622769'
-]; //30 ids
+  '5b91752666708bc8b1622763', '5b91752666708bc8b1622764', '5b91752666708bc8b1622765', '5b91752666708bc8b1622766', '5b91752666708bc8b1622767'
 
-const exerciseIds = [
-  '5b91752666708bc8b1622728', '5b91752666708bc8b1622729', '5b91752666708bc8b162272a', '5b91752666708bc8b162272b', '5b91752666708bc8b162272c',
-  '5b91752666708bc8b162272d', '5b91752666708bc8b162272e', '5b91752666708bc8b162272f', '5b91752666708bc8b1622730', '5b91752666708bc8b1622731',
-  '5b91752666708bc8b1622732', '5b91752666708bc8b1622733', '5b91752666708bc8b1622734', '5b91752666708bc8b1622735', '5b91752666708bc8b1622736',
-  '5b91752666708bc8b1622737', '5b91752666708bc8b1622738', '5b91752666708bc8b1622739', '5b91752666708bc8b162273a', '5b91752666708bc8b162273b',
-  '5b91752666708bc8b162273c', '5b91752666708bc8b162273d', '5b91752666708bc8b162273e', '5b91752666708bc8b162273f', '5b91752666708bc8b1622788',
-  '5b91752666708bc8b1622740', '5b91752666708bc8b1622741', '5b91752666708bc8b1622742', '5b91752666708bc8b1622743', '5b91752666708bc8b1622744',
-  '5b91752666708bc8b1622745', '5b91752666708bc8b1622746', '5b91752666708bc8b1622747', '5b91752666708bc8b1622748', '5b91752666708bc8b1622749',
-  '5b91752666708bc8b162276a', '5b91752666708bc8b162276b', '5b91752666708bc8b162276c', '5b91752666708bc8b162276d', '5b91752666708bc8b162276e',
-  '5b91752666708bc8b162276f', '5b91752666708bc8b1622770', '5b91752666708bc8b1622771', '5b91752666708bc8b1622772', '5b91752666708bc8b1622773',
-  '5b91752666708bc8b1622774', '5b91752666708bc8b1622775', '5b91752666708bc8b1622776', '5b91752666708bc8b1622777', '5b91752666708bc8b1622778',
-  '5b91752666708bc8b1622779', '5b91752666708bc8b162277a', '5b91752666708bc8b162277b', '5b91752666708bc8b162277c', '5b91752666708bc8b162277d',
-  '5b91752666708bc8b162277e', '5b91752666708bc8b162277f', '5b91752666708bc8b1622780', '5b91752666708bc8b1622781', '5b91752666708bc8b1622782',
-  '5b91752666708bc8b1622783', '5b91752666708bc8b1622784', '5b91752666708bc8b1622785', '5b91752666708bc8b1622786', '5b91752666708bc8b1622787',
-  '5b91752666708bc8b1622789'
-];
-
+]; //60 ids
 
 function randomNumber(){
   return Math.floor(Math.random() * 10000000000000);
@@ -60,7 +37,18 @@ function randomNumber(){
 ////////////----------CREATE  USERS-----------///////////////////////
 /////////////////////////////////////////////////////////////////////
 
+function randomUserId(){
+  const randomIndex = Math.floor(Math.random() * userIds.length/5);
+  return userIds[randomIndex];
+}
+
 function randomTribeName(){
+  const tribeNames = [
+    'All Naturals', 'Inbetweeners', 'Gargantuans',
+    'All Naturals', 'Inbetweeners', 'Gargantuans',
+    'All Naturals', 'Inbetweeners', 'Gargantuans',
+    'All Naturals', 'Inbetweeners', 'Gargantuans'
+  ];
   const randomIndex = Math.floor(Math.random() * tribeNames.length);
   return tribeNames[randomIndex];
 }
@@ -79,7 +67,7 @@ function randomWeight(){
 
 function addOtherUser(){
   const otherUserData = [];
-  for(let i = 3; i < userIds.length - 3; i++ ){
+  for(let i = 3; i < userIds.length; i++ ){
     otherUserData.push(
       {
         _id: userIds[i],
@@ -129,9 +117,82 @@ function addGrit(){
 /////////////////////////////////////////////////////////////////////
 ////////////-------CREATE EXERCISE PLAN-------///////////////////////
 /////////////////////////////////////////////////////////////////////
+const exerciseIds = [
 
-// NOTE: talk to Karan about saving only unix time dates as numbers then formatting them where necessary
-// NOTE: need to have historircal exercise plans for users. start date was > days since today minimum
+  '5b91752666708bc8b1622728', '5b91752666708bc8b1622729', '5b91752666708bc8b162272a', '5b91752666708bc8b162272b', '5b91752666708bc8b162272c',
+  '5b91752666708bc8b162272d', '5b91752666708bc8b162272e', '5b91752666708bc8b162272f', '5b91752666708bc8b1622730', '5b91752666708bc8b1622731',
+  '5b91752666708bc8b1622732', '5b91752666708bc8b1622733', '5b91752666708bc8b1622734', '5b91752666708bc8b1622735', '5b91752666708bc8b1622736',
+  '5b91752666708bc8b1622737', '5b91752666708bc8b1622738', '5b91752666708bc8b1622739', '5b91752666708bc8b162273a', '5b91752666708bc8b162273b',
+  '5b91752666708bc8b162273c', '5b91752666708bc8b162273d', '5b91752666708bc8b162273e', '5b91752666708bc8b162273f', '5b91752666708bc8b1622788',
+  '5b91752666708bc8b1622740', '5b91752666708bc8b1622741', '5b91752666708bc8b1622742', '5b91752666708bc8b1622743', '5b91752666708bc8b1622744',
+  '5b91752666708bc8b1622745', '5b91752666708bc8b1622746', '5b91752666708bc8b1622747', '5b91752666708bc8b1622748', '5b91752666708bc8b1622749',
+  '5b91752666708bc8b162276a', '5b91752666708bc8b162276b', '5b91752666708bc8b162276c', '5b91752666708bc8b162276d', '5b91752666708bc8b162276e',
+  '5b91752666708bc8b162276f', '5b91752666708bc8b1622770', '5b91752666708bc8b1622771', '5b91752666708bc8b1622772', '5b91752666708bc8b1622773',
+  '5b91752666708bc8b1622774', '5b91752666708bc8b1622775', '5b91752666708bc8b1622776', '5b91752666708bc8b1622777', '5b91752666708bc8b1622778',
+  '5b91752666708bc8b1622779', '5b91752666708bc8b162277a', '5b91752666708bc8b162277b', '5b91752666708bc8b162277c', '5b91752666708bc8b162277d',
+  '5b91752666708bc8b162277e', '5b91752666708bc8b162277f', '5b91752666708bc8b1622780', '5b91752666708bc8b1622781', '5b91752666708bc8b1622782',//60 current length of user id array
+
+  '5b91752666708bc8b1622768', '5b91752666708bc8b1622769', '5b91752666708bc8b1622783', '5b91752666708bc8b1622784', '5b91752666708bc8b1622785',
+  '5b91752666708bc8b1622786', '5b91752666708bc8b1622787', '5b91752666708bc8b1622789', '6b91752666708bc8b1622784', '6b91752666708bc8b1622785',
+  '5b91752677708bc8b1622728', '5b91752676708bc8b1622729', '5b91752766708bc8b162272a', '5b91752676708bc8b162272b', '5b91752676708bc8b162272c',
+  '5b91752677708bc8b162272d', '5b91752676708bc8b162272e', '5b91752766708bc8b162272f', '5b91752676708bc8b1622730', '5b91752676708bc8b1622731',
+  '5b91752677708bc8b1622732', '5b91752676708bc8b1622733', '5b91752766708bc8b1622734', '5b91752676708bc8b1622735', '5b91752676708bc8b1622736',
+  '5b91752677708bc8b1622737', '5b91752676708bc8b1622738', '5b91752766708bc8b1622739', '5b91752676708bc8b162273a', '5b91752676708bc8b162273b',
+  '5b91752677708bc8b162273c', '5b91752676708bc8b162273d', '5b91752766708bc8b162273e', '5b91752676708bc8b162273f', '5b91752676708bc8b1622788',
+  '5b91752677708bc8b1622740', '5b91752676708bc8b1622741', '5b91752766708bc8b1622742', '5b91752676708bc8b1622743', '5b91752676708bc8b1622744',
+  '5b91752677708bc8b1622745', '5b91752676708bc8b1622746', '5b91752766708bc8b1622747', '5b91752676708bc8b1622748', '5b91752676708bc8b1622749',
+  '5b91752677708bc8b162276a', '5b91752676708bc8b162276b', '5b91752766708bc8b162276c', '5b91752676708bc8b162276d', '5b91752676708bc8b162276e',
+  '5b91752677708bc8b162276f', '5b91752676708bc8b1622770', '5b91752766708bc8b1622771', '5b91752676708bc8b1622772', '5b91752676708bc8b1622773',
+  '5b91752677708bc8b1622774', '5b91752676708bc8b1622775', '5b91752766708bc8b1622776', '5b91752676708bc8b1622777', '5b91752676708bc8b1622778',
+  '5b91752677708bc8b1622779', '5b91752676708bc8b162277a', '5b91752766708bc8b162277b', '5b91752676708bc8b162277c', '5b91752676708bc8b162277d',
+  '5b91752677708bc8b162277e', '5b91752676708bc8b162277f', '5b91752766708bc8b1622780', '5b91752676708bc8b1622781', '5b91752676708bc8b1622782',
+  '5b91752677708bc8b1622768', '5b91752676708bc8b1622769', '5b91752766708bc8b1622783', '5b91752676708bc8b1622784', '5b91752676708bc8b1622785',
+  '5b91752677708bc8b1622786', '5b91752676708bc8b1622787', '5b91752766708bc8b1622789', '6b91752676708bc8b1622784', '6b91752676708bc8b1622785',
+  '5b917526a7708bc8b1622728', '5b91752676708bb8b1622729', '5b91752767708bc8b162272a', '5b9175a676708bc8b162272c',
+  '5b917526a7a08bc8b162272d', '5b91752676708bb8b162272e', '5b91752767708bc8b162272f', '5b9175a676708bc8b1622730', '5b917526767a8bc8b1622731',
+  '5b917526a7708bc8b1622732', '5b91752676708bb8b1622733', '5b91752767708bc8b1622734', '5b9175a676708bc8b1622735', '5b917526767a8bc8b1622736',
+  '5b917526a7708bc8b1622737', '5b91752676708bb8b1622738', '5b91752767708bc8b1622739', '5b9175a676708bc8b162273a', '5b917526767a8bc8b162273b',
+  '5b917526a7708bc8b162273c', '5b91752676708bb8b162273d', '5b91752767708bc8b162273e', '5b9175a676708bc8b162273f', '5b917526767a8bc8b1622788',
+  '5b917526a7708bc8b1622740', '5b91752676708bb8b1622741', '5b91752767708bc8b1622742', '5b9175a676708bc8b1622743', '5b917526767a8bc8b1622744',
+  '5b917526a7708bc8b1622745', '5b91752676708bb8b1622746', '5b91752767708bc8b1622747', '5b9175a676708bc8b1622748', '5b917526767a8bc8b1622749',
+  '5b917526a7708bc8b162276a', '5b91752676708bb8b162276b', '5b91752767708bc8b162276c', '5b9175a676708bc8b162276d', '5b917526767a8bc8b162276e',
+  '5b917526a7708bc8b162276f', '5b91752676708bb8b1622770', '5b91752767708bc8b1622771', '5b9175a676708bc8b1622772', '5b917526767a8bc8b1622773',
+  '5b917526a7708bc8b1622774', '5b91752676708bb8b1622775', '5b91752767708bc8b1622776', '5b9175a676708bc8b1622777', '5b917526767a8bc8b1622778',
+  '5b917526a7708bc8b1622779', '5b91752676708bb8b162277a', '5b91752767708bc8b162277b', '5b9175a676708bc8b162277c', '5b917526767a8bc8b162277d',
+  '5b917526a7708bc8b162277e', '5b91752676708bb8b162277f', '5b91752767708bc8b1622780', '5b9175a676708bc8b1622781', '5b917526767a8bc8b1622782',
+  '5b917526a7708bc8b1622768', '5b91752676708bb8b1622769', '5b91752767708bc8b1622783', '5b9175a676708bc8b1622784', '5b917526767a8bc8b1622785',
+  '5b917526a7708bc8b1622786', '5b91752676708bb8b1622787', '5b91752767708bc8b1622789', '6b9175a676708bc8b1622784', '6b917526767a8bc8b1622785',
+  '5b917536a6708bc8b1622768', '6b91752666808bb8b1622769', '5b91752667808bc8b1622783', '5b9175a6668a8bc8b1622784', '5b017526867a8bc8b1622785',
+  '5b917536a6708bc8b1622786', '6b91752666808bb8b1622787', '5b91752667808bc8b1622789', '6b9175a6668a8bc8b1622784', '6b017526867a8bc8b1622785',
+  '5b917536a7708bc8b1622728', '6b91752676808bb8b1622729', '5b91752667808bc8b162272a', '5b9175a6768a8bc8b162272b', '5b017526867a8bc8b162272c',
+  '5b917536a7708bc8b162272d', '6b91752676808bb8b162272e', '5b91752667808bc8b162272f', '5b9175a6768a8bc8b1622730', '5b017526867a8bc8b1622731',
+  '5b917536a7708bc8b1622732', '6b91752676808bb8b1622733', '5b91752667808bc8b1622734', '5b9175a6768a8bc8b1622735', '5b017526867a8bc8b1622736',
+  '5b917536a7708bc8b1622737', '6b91752676808bb8b1622738', '5b91752667808bc8b1622739', '5b9175a6768a8bc8b162273a', '5b017526867a8bc8b162273b',
+  '5b917536a7708bc8b162273c', '6b91752676808bb8b162273d', '5b91752667808bc8b162273e', '5b9175a6768a8bc8b162273f', '5b017526867a8bc8b1622788',
+  '5b917536a7708bc8b1622740', '6b91752676808bb8b1622741', '5b91752667808bc8b1622742', '5b9175a6768a8bc8b1622743', '5b017526867a8bc8b1622744',
+  '5b917536a7708bc8b1622745', '6b91752676808bb8b1622746', '5b91752667808bc8b1622747', '5b9175a6768a8bc8b1622748', '5b017526867a8bc8b1622749',
+  '5b917536a7708bc8b162276a', '6b91752676808bb8b162276b', '5b91752667808bc8b162276c', '5b9175a6768a8bc8b162276d', '5b017526867a8bc8b162276e',
+  '5b927536a7708bc8b162276f', '6b91762676808bb8b1622770', '5b91752667818bc8b1622771', '5b9175a6768a8ba8b1622772', '5b018526867a8bc8b1622773',
+  '5b927536a7708bc8b1622774', '6b91762676808bb8b1622775', '5b91752667818bc8b1622776', '5b9175a6768a8ba8b1622777', '5b018526867a8bc8b1622778',
+  '5b927536a7708bc8b1622779', '6b91762676808bb8b162277a', '5b91752667818bc8b162277b', '5b9175a6768a8ba8b162277c', '5b018526867a8bc8b162277d',
+  '5b927536a7708bc8b162277e', '6b91762676808bb8b162277f', '5b91752667818bc8b1622780', '5b9175a6768a8ba8b1622781', '5b018526867a8bc8b1622782',
+  '5b927536a7708bc8b1622768', '6b91762676808bb8b1622769', '5b91752667818bc8b1622783', '5b9175a6768a8ba8b1622784', '5b018526867a8bc8b1622785',
+  '5b027526a7708bc8b1622786', '5b91762676808bb8b1622787', '5b9175a767818bc8b1622789', '6b9175a676809ba8b1622784', '6b918526867a8bc8c1622785',
+  '5b927526a7708bc8b1622728', '5b91762676808bb8b1622729', '5b9175a767818bc8b162272a', '5b9175a676809ba8b162272b', '5b918526867a8bc8c162272c',
+  '5b927526a7708bc8b162272d', '5b91762676808bb8b162272e', '5b9175a767818bc8b162272f', '5b9175a676809ba8b1622730', '5b918526867a8bc8c1622731',
+  '5b927526a7708bc8b1622732', '5b91762676808bb8b1622733', '5b9175a767818bc8b1622734', '5b9175a676809ba8b1622735', '5b918526867a8bc8c1622736',
+  '5b927526a7708bc8b1622737', '5b91762676808bb8b1622738', '5b9175a767808bc8b1622739', '5b9175a676809bc8b162273a', '5b917526867a8bc8c162273b',
+  '5b927526a7708bc8b162273c', '5b91762676808bb8b162273d', '5b9175a767808bc8b162273e', '5b9175a676809bc8b162273f', '5b917526867a8bc8c1622788',
+  '5b927526a7708bc8b1622740', '5b91762676808bb8b1622741', '5b9175a767808bc8b1622742', '5b9175a676809bc8b1622743', '5b917526867a8bc8c1622744',
+  '5b927526a7708bc8b1622745', '5b91762676808bb8b1622746', '5b9175a767808bc8b1622747', '5b9175a676809bc8b1622748', '5b917526867a8bc8c1622749',
+  '5b927526a7708bc8b162276a', '5b91762676808bb8b162276b', '5b9175a767808bc8b162276c', '5b9175a676809bc8b162276d', '5b917526867a8bc8c162276e',
+  '5b927526a7708bc8b162276f', '5b91762676808bb8b1622770', '5b9175a767808bc8b1622771', '5b9175a676809bc8b1622772', '5b917526867a8bc8c1622773',
+  '5b927526a7708bc8b1622774', '5b91762676808bb8b1622775', '5b9175a767808bc8b1622776', '5b9175a676809bc8b1622777', '5b917526867a8bc8c1622778',
+  '5b927526a7708bc8b1622779', '5b91762676808bb8b162277a', '5b9175a767808bc8b162277b', '5b9175a676809bc8b162277c', '5b917526867a8bc8c162277d',
+  '5b927526a7708bc8b162277e', '5b91762676808bb8b162277f', '5b9175a767808bc8b1622780', '5b9175a676809bc8b1622781', '5b917526867a8bc8c1622782',
+  '5b927526a7708bc8b1622768', '5b91762676808bb8b1622769', '5b9175a767808bc8b1622783', '5b9175a676809bc8b1622784', '5b917526867a8bc8c1622785',
+  '5b927526a7708bc8b1622786', '5b91772676808bb8b1622787', '5b9175a767808bc8b1622789', '6b9175a676809bc8b1622784', '6b917526867a8bc8c1622785'
+];//60 ids
 
 function randomExerciseTime(){
   return Math.floor(Math.random() * 60) + 20;
@@ -170,7 +231,8 @@ function createExerciseDay(){
   }
 }
 
-function createExercisePlan(){
+//ensures all users have a current program
+function createActiveExercisePlan(){
   const plan = [];
   for(let i = 0; i < userIds.length; i++ ) {
     plan.push({
@@ -183,13 +245,106 @@ function createExercisePlan(){
       day7: createExerciseDay(),
       _id: exerciseIds[i],
       user: userIds[i],
-      exercisePlanAdoptedFrom: userIds[i + 1],
       startDate: today
     });
   }
 
   return plan;
 }
+
+/////////////////////////////////////////////////////////////////////
+////////////--CREATE HISTORIC EXERCISE PLAN---///////////////////////
+/////////////////////////////////////////////////////////////////////
+
+// BUG: these do not generate dates
+
+function getDates(startDate, stopDate) {
+  const dateArray = [];
+  const stopperDate = moment().subtract(stopDate, 'years');
+  let currentDate = moment().subtract(startDate, 'years');
+
+  while ( stopperDate <= currentDate) {
+    dateArray.push( moment(currentDate).unix() );
+    currentDate = moment(currentDate).subtract(1, 'days');
+  }
+  return dateArray;
+}
+
+const randomOrigionalStartDatesArray = getDates( 0.5, 1);
+const randomAdoptedStartDatesArray = getDates( 0.2, 0.7 );
+
+function randomStartDate(dateArray){
+  const randomIndex =  Math.floor(Math.random() * dateArray.length);
+  return dateArray[randomIndex];
+}
+
+function randomExerciseCompleted(){
+  const exerciseCompleted = [ true, true, true, false, true, true, false];
+  const randomIndex =  Math.floor(Math.random() * exerciseCompleted.length);
+
+  return exerciseCompleted[randomIndex];
+}
+
+function randomExerciseId(){
+  const randomIndex =  Math.floor(Math.random() * userIds.length + 50) + userIds.length;
+  return exerciseIds[randomIndex];
+}
+
+function createHistoricExerciseDay(){
+  const rest = restDay();
+  if(rest){
+    return { rest: true, exerciseCompleted: true };
+  }else{
+    return {
+      rest: false,
+      exerciseCompleted: randomExerciseCompleted(),
+      time: randomExerciseTime(),
+      intensity: randomExerciseItensity()
+    };
+  }
+}
+
+function createOrigionalHistoricExercisePlans(){
+  const plan = [];
+  for(let i = userIds.length; i < userIds.length + 50; i++ ) {
+    plan.push({
+      day1: createHistoricExerciseDay(),
+      day2: createHistoricExerciseDay(),
+      day3: createHistoricExerciseDay(),
+      day4: createHistoricExerciseDay(),
+      day5: createHistoricExerciseDay(),
+      day6: createHistoricExerciseDay(),
+      day7: createHistoricExerciseDay(),
+      _id: exerciseIds[i],
+      user: randomUserId(),
+      startDate: randomStartDate(randomOrigionalStartDatesArray)
+    });
+  }
+  return plan;
+}
+
+//
+function createAdoptedHistoricExercisePlans(){
+  const plan = [];
+  for(let i = userIds.length + 50; i < exerciseIds.length; i++ ) {
+    plan.push({
+      day1: createHistoricExerciseDay(),
+      day2: createHistoricExerciseDay(),
+      day3: createHistoricExerciseDay(),
+      day4: createHistoricExerciseDay(),
+      day5: createHistoricExerciseDay(),
+      day6: createHistoricExerciseDay(),
+      day7: createHistoricExerciseDay(),
+      _id: exerciseIds[i],
+      user: randomUserId(),
+      exercisePlanAdoptedFrom: randomExerciseId(), // NOTE: this should always be the original program id
+      startDate: randomStartDate(randomAdoptedStartDatesArray)
+    });
+  }
+  return plan;
+}
+
+
 
 /////////////////////////////////////////////////////////////////////
 ////////////--------------DATA----------------///////////////////////
@@ -250,7 +405,7 @@ const primaryUserData= [
     heightUnit: 'cm\'s',
     weight: 85,
     weightUnit: 'kg\'s',
-    imageUrl: 'https://i0.wp.com/ebus.ca/wp-content/uploads/2017/08/profile-placeholder.jpg?ssl=1',
+    imageUrl: 'https://media.licdn.com/dms/image/C5603AQEprR3HW3VtTg/profile-displayphoto-shrink_200_200/0?e=1541635200&v=beta&t=dyjePRARTWJeHefh8F_M-DCHseC-rRs777WRVHYrdTs',
     followers: [userIds[0], userIds[1], userIds[3], userIds[4], userIds[5], userIds[6],
       userIds[7], userIds[8], userIds[9], userIds[10], userIds[11], userIds[12], userIds[13],
       userIds[14], userIds[15], userIds[16], userIds[17], userIds[18], userIds[19], userIds[20],
@@ -265,7 +420,11 @@ const otherUserData = addOtherUser();
 
 const userData = [ ...primaryUserData, ...otherUserData ];
 
-const exerciseData = createExercisePlan();
+const activeExercisePlans = createActiveExercisePlan();
+const origionalHistoricExercisePlans = createOrigionalHistoricExercisePlans();
+const adoptedHistoricExercisePlans = createAdoptedHistoricExercisePlans();
+
+const exerciseData = [...activeExercisePlans, ...origionalHistoricExercisePlans, ...adoptedHistoricExercisePlans];
 
 
 ////////////------SEED PROMISE CHAIN----------///////////////////////

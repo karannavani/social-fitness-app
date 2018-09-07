@@ -65,22 +65,22 @@ function addUserGrit( req, res, next ){
 //------------- SOCIAL ------------//
 function userFollowDelete( req, res, next ){
   // DELETE to /users/:userId/follow   with body of user to follow;
+  //REQ.BODY IS THE FOLLOWED USER
+  //REQ.PARAMS.ID IS THE USER
+  console.log('the req.body is: ', req.body);
   User
-    .findById( req.body.id )
+    .findById(req.params.userId)
+    .then( user => {
+      user.following = user.following.filter(followed => followed._id.toString() !== req.body.id );
+      user.save();
+      return User.findById( req.body.id );
+    })
     .then(user2 => {
       //got the followed user, filter out the user
-      user2.followers = user2.followers.filter( follower =>{
-        follower._id.equals(req.params.userId);
-      } );
-      user2.save();
-
-      return User.findById(req.params.userId);
+      user2.followers = user2.followers.filter(follower => follower._id.toString() !== req.params.userId );
+      return user2.save();
     })
-    .then( user => {
-      user.following = user.following.filter(followed => !followed._id.equals(req.body.id));
-      return user.save();
-    })
-    .then(user => res.json(user))
+    .then(user2 => res.json(user2))
     .catch(next);
 
 
@@ -91,19 +91,19 @@ function userFollowDelete( req, res, next ){
 function userFollowCreate( req, res, next ){
   // POST to /users/:userId/follow   with body of user to follow;
   User
-    .findById( req.body.id )
+    .findById(req.params.userId)
+    .then(user => {
+      user.following.push(req.body.id);  // NOTE: is req.body.id still available
+      user.save(); // NOTE: may need to populate followers and programs here
+      return User.findById( req.body.id );
+    })
     .then( user2 => {
       //add user to
       user2.followers.push(req.params.userId);
-      user2.save();
+      return user2.save();
       //get the other user
-      return User.findById(req.params.userId);
     })
-    .then(user => {
-      user.following.push(req.body.id);  // NOTE: is req.body.id still available
-      return user.save(); // NOTE: may need to populate followers and programs here
-    })
-    .then(user => res.status(201).json(user))
+    .then(user2 => res.status(201).json(user2))
     .catch(next);
   //add the other user to the users following array
   //add the user to the other users followers array

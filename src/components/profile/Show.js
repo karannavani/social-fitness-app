@@ -4,26 +4,64 @@ import React from 'react';
 //dependancies
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Auth from '../../lib/Auth';
+import _ from 'lodash';
 
 export default class UserShow extends React.Component{
-  //get user data from API
-  //put data on state which will update the display
-  //determine if the logged in user is the current USER
-  //  if so then show an edit profile form
-  //  if not then show a follow button depending on if they are already following that user
-
-  state={
-    userId: '5b91752666708bc8b1622705'
-  };
+  state={};
 
   componentDidMount(){
-    axios.get(`/api/users/${this.state.userId}`)
+    const userId = this.props.match.params.id
+    axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
+
+    axios.get('/api/exerciseplans')
+      .then(res => {
+        const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
+        console.log('all the users exercise plans are ', usersExercisePlans);
+        const sortedUserExercisePlans = this.leadersSort(usersExercisePlans);
+        console.log('the sorted exercise plans are ', sortedUserExercisePlans);
+      });
   }
+
+  leadersSort = (dataArray) => {
+    return _.orderBy(dataArray, ['startDate'], 'desc');
+  }
+  // componentDidUpdate(){
+  //   console.log('This is the users page=======> ', this.isUsersPage());
+  //   console.log('The user is following this page=======> ', this.isFollowing());
+  // }
 
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }
+
+  //returns true if the current user is viewing their own profile
+  isUsersPage = () => {
+    if(Auth.currentUserId() === (this.props.match.params.id)) return true;
+    return false;
+  }
+
+  // returns true if viewer (logged in user) is following the displayed user
+  isFollowing = () => {
+    return this.state.user.followers.includes(Auth.currentUserId());
+  }
+
+  // NOTE: might have a case where clicking fast will allow user to unfollow twice.
+  handleUnFollow = () =>{
+    axios.put(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
+      .then(res => {
+        this.setState({ user: res.data });
+      });
+  }
+
+  handleFollow = () =>{
+    axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
+      .then(res => {
+        this.setState({ user: res.data });
+      });
+  }
+
 
   render(){
     const { user } = this.state;
@@ -53,7 +91,21 @@ export default class UserShow extends React.Component{
                   </div>
 
                   <div className=" column is-1">
-                    <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info">Edit Profile</Link>
+                    {this.isUsersPage() ?
+                      <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info"><i className="far fa-edit"></i>Profile</Link>
+                      :
+                      <div>
+                        {this.isFollowing() ?
+                          <button
+                            onClick={ this.handleUnFollow }
+                            className="button is-rounded is-info"><i className="fas fa-sm fa-minus"></i>  Unfollow</button>
+                          :
+                          <button
+                            onClick={ this.handleFollow }
+                            className="button is-rounded is-info"><i className="fas fa-sm fa-plus"></i>  Follow</button>
+                        }
+                      </div>
+                    }
                   </div>
 
                 </section>
