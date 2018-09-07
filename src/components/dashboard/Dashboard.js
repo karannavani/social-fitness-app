@@ -57,8 +57,11 @@ class Dashboard extends React.Component {
           <div className="card program-card">
             <div className="card-content">
               <h3 className="title is-3 white">{'Today\'s Plan'}</h3>
-              {programToday && Object.keys(programToday).map(field =>
-                <h4 key={field} className="title is-4 white">{field} – {programToday[field]}</h4>)
+              {programToday &&
+                <div>
+                  <h4 key={programToday.time} className="title is-4 white"><i className="fas fa-stopwatch"></i> {programToday.time} mins</h4>
+                  <h4 key={programToday.intensity} className="title is-4 white"><i className="fas fa-fire"></i> {programToday.intensity}</h4>
+                </div>
               }
             </div>
           </div>
