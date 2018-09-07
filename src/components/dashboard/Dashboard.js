@@ -7,6 +7,7 @@ import EditProgram from './cards/EditProgram';
 import PrimaryCard from './cards/PrimaryCard';
 import GreenCard from './cards/GreenCard';
 import RedCard from './cards/RedCard';
+import UpcomingCard from './cards/UpcomingCard';
 
 
 class Dashboard extends React.Component {
@@ -107,7 +108,6 @@ class Dashboard extends React.Component {
     const programToday = this.state.programToday;
     const programTomorrow = this.state.programTomorrow;
     const rest = this.state.rest;
-    const tomorrowRest = this.state.tomorrowRest;
     const editProgram = this.state.editProgram;
     console.log('rest is', rest);
 
@@ -146,6 +146,23 @@ class Dashboard extends React.Component {
                   <RedCard programDay = {this.state.programDay} />
                 }
               </div>
+            }
+
+            {programToday && this.state.programToday.exerciseCompleted !== null && programTomorrow &&
+            <div>
+              {this.state.tomorrowRest &&
+                <div className="card program-card">
+                  <div className="card-content">
+                    <h5 key="0" className="title is-5">Upcoming tomorrow:</h5>
+                    <h5 key="1" className="title is-5">Well deserved rest</h5>
+                  </div>
+                </div>
+              }
+              {!this.state.tomorrowRest &&
+                <UpcomingCard programTomorrow = {this.state.programTomorrow} />
+              }
+
+            </div>
             }
 
           </div>
