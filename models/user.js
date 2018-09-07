@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
 
   // Application
   tribe: { type: String, enum: ['All Naturals', 'Inbetweeners', 'Gargantuans'] },
-  dailyGrit: [ { date: String, grit: Number } ],
+  dailyGrit: [ { date: Number, grit: Number } ],
 
   // External Associations
   exercisePlan: [ { type: ObjectId, ref: 'ExercisePlan' } ],
@@ -39,7 +39,6 @@ userSchema.set('toJSON', { virtuals: true });
 // PLUGINS
 //throw validation error when duplicate emails are creates
 userSchema.plugin(require('mongoose-unique-validator'));
-
 
 // VIRTUALS
 // grit
