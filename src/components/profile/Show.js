@@ -2,9 +2,10 @@
 import React from 'react';
 
 //dependancies
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-export default class ProfileShow extends React.Component{
+export default class UserShow extends React.Component{
   //get user data from API
   //put data on state which will update the display
   //determine if the logged in user is the current USER
@@ -23,6 +24,8 @@ export default class ProfileShow extends React.Component{
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }
+
+
 
   render(){
     const { user } = this.state;
@@ -52,7 +55,7 @@ export default class ProfileShow extends React.Component{
                   </div>
 
                   <div className=" column is-1">
-                    <button className="button is-info"> Edit Profile</button>
+                    <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info">Edit Profile</Link>
                   </div>
 
                 </section>

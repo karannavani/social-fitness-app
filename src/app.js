@@ -10,8 +10,8 @@ import Dashboard from './components/dashboard/Dashboard.js';
 import Tribe from './components/tribe/Tribe';
 // import Footer from './components/Footer';
 
-import ProfileShow from './components/profile/Show';
-// import ProfileEdit from './components/profile/Edit';
+import UserShow from './components/profile/Show';
+import UserEdit from './components/profile/Edit';
 
 class App extends React.Component {
   render() {
@@ -23,7 +23,12 @@ class App extends React.Component {
         </Switch> */}
         <Switch>
           <Route path='/tribe/:tribeName' component={Tribe} />
-          <Route path='/profile' component={ProfileShow} />
+
+          {/* user */}
+          <Route exact path='/profile' component={UserShow} />
+          <Route path='/profile/:id' component={UserShow} />
+          <Route path='/users/:id/edit' component={UserEdit} />
+
           <Route path='/dashboard' component={Dashboard} />
         </Switch>
         {/* <Footer /> */}
