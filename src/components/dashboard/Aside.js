@@ -109,6 +109,8 @@ class Aside extends React.Component {
       <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
         <div className="program-div">
 
+          {/* **************CARDS LOGIC************** */}
+          
           {/* main card which displays today's exercise */}
           {programToday && !rest && exerciseCompleted === null &&
             <TodayCard
@@ -150,6 +152,7 @@ class Aside extends React.Component {
             </div>
           }
 
+          {/* **************CARDS LOGIC************** */}
 
         </div>
       </div>
