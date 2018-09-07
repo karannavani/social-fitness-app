@@ -6,6 +6,7 @@ import './scss/style.scss';
 
 //Components
 import Header from './components/Header';
+import Dashboard from './components/dashboard/Dashboard.js';
 // import Footer from './components/Footer';
 
 import ProfileShow from './components/profile/Show';
@@ -18,6 +19,7 @@ class App extends React.Component {
         <Header />
         <Switch>
           <Route path='/profile' component={ProfileShow} />
+          <Route path='/dashboard' component={Dashboard} />
         </Switch>
         {/* <Footer /> */}
       </main>
