@@ -8,6 +8,7 @@ import PrimaryCard from './cards/PrimaryCard';
 import GreenCard from './cards/GreenCard';
 import RedCard from './cards/RedCard';
 import UpcomingCard from './cards/UpcomingCard';
+import UpcomingRestCard from './cards/UpcomingRestCard';
 
 
 class Dashboard extends React.Component {
@@ -109,6 +110,7 @@ class Dashboard extends React.Component {
     const programTomorrow = this.state.programTomorrow;
     const rest = this.state.rest;
     const editProgram = this.state.editProgram;
+    const {exerciseCompleted} = this.state.programToday || [];
     console.log('rest is', rest);
 
     return(
@@ -116,11 +118,12 @@ class Dashboard extends React.Component {
         <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
           <div className="program-div">
 
-            {programToday && !rest && this.state.programToday.exerciseCompleted === null &&
+            {programToday && !rest && exerciseCompleted === null &&
               <div className="card program-card">
                 <div className="card-content">
                   <h3 key="0" className="title is-3 white">{this.state.programDay}</h3>
                   <h4 className="title is-4 white">{'Today\'s Plan:'}</h4>
+
                   {editProgram ?
                     <EditProgram
                       programToday = {this.state.programToday}
@@ -139,24 +142,30 @@ class Dashboard extends React.Component {
 
             {programToday && !rest &&
               <div>
-                {this.state.programToday.exerciseCompleted &&
+                {exerciseCompleted &&
                   <GreenCard programDay = {this.state.programDay} />
                 }
-                {this.state.programToday.exerciseCompleted === false &&
+                {exerciseCompleted === false &&
                   <RedCard programDay = {this.state.programDay} />
                 }
               </div>
             }
 
-            {programToday && this.state.programToday.exerciseCompleted !== null && programTomorrow &&
-            <div>
-              {this.state.tomorrowRest &&
-                <div className="card program-card">
+            {programToday && exerciseCompleted && rest &&
+              <div>
+                <div className="card program-card-rest">
                   <div className="card-content">
-                    <h5 key="0" className="title is-5">Upcoming tomorrow:</h5>
-                    <h5 key="1" className="title is-5">Well deserved rest</h5>
+                    <h3 key="0" className="title is-3 white">{this.state.programDay}</h3>
+                    <h4 className="subtitle is-4 white">{'It\'s your rest day, take it easy!'}</h4>
                   </div>
                 </div>
+              </div>
+            }
+            
+            {programToday && exerciseCompleted !== null && programTomorrow &&
+            <div>
+              {this.state.tomorrowRest &&
+                <UpcomingRestCard />
               }
               {!this.state.tomorrowRest &&
                 <UpcomingCard programTomorrow = {this.state.programTomorrow} />
@@ -164,6 +173,7 @@ class Dashboard extends React.Component {
 
             </div>
             }
+
 
           </div>
         </div>
