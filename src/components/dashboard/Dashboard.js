@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
 
         if (date === today) {
           console.log('program for today is', value);
-          this.setState({ programToday: value });
+          this.setState({ programToday: value, programDay: `Day ${i+1}` });
         }
 
       }
@@ -54,16 +54,22 @@ class Dashboard extends React.Component {
     return(
       <div className="columns">
         <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
-          <div className="card program-card">
-            <div className="card-content">
-              <h3 className="title is-3 white">{'Today\'s Plan'}</h3>
-              {programToday &&
-                <div>
+          <div>
+            {programToday &&
+              <div className="card program-card">
+                <div className="card-content">
+                  <h3 key="0" className="title is-3 white">{this.state.programDay}</h3>
+                  <h4 className="title is-4 white">{'Today\'s Plan:'}</h4>
                   <h4 key={programToday.time} className="title is-4 white"><i className="fas fa-stopwatch"></i> {programToday.time} mins</h4>
                   <h4 key={programToday.intensity} className="title is-4 white"><i className="fas fa-fire"></i> {programToday.intensity}</h4>
+                  <footer className="card-footer">
+                    <a href="#" className="card-footer-item"><i className="fas fa-check"></i></a>
+                    <a href="#" className="card-footer-item"><i className="fas fa-pencil-alt"></i></a>
+                    <a href="#" className="card-footer-item"><i className="fas fa-step-forward"></i></a>
+                  </footer>
                 </div>
-              }
-            </div>
+              </div>
+            }
           </div>
         </div>
         <div className="column is-10" style={{ backgroundColor: '#F5F5F5', height: '100vh', overflow: 'auto'}}>
