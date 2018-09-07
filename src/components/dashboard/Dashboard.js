@@ -83,6 +83,9 @@ class Dashboard extends React.Component {
       <div className="columns">
         <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
           <div className="program-div">
+
+            {/* if today is not a rest day */}
+
             {programToday && !rest && !this.state.programToday.exerciseCompleted &&
               <div className="card program-card">
                 <div className="card-content">
@@ -99,9 +102,8 @@ class Dashboard extends React.Component {
               </div>
             }
 
-
-
-            {programToday && this.state.programToday.exerciseCompleted && programTomorrow && tomorrowRest &&
+            {/* if today is not a rest day and is completed and tomorrow is a rest day */}
+            {programToday && !rest && this.state.programToday.exerciseCompleted && programTomorrow && tomorrowRest &&
                 <div>
                   <div className="card program-card-completed">
                     <div className="card-content">
@@ -117,6 +119,7 @@ class Dashboard extends React.Component {
                 </div>
             }
 
+            {/* if today not a rest day and is completed and tomorrow is not a rest day */}
             {programToday && !rest && this.state.programToday.exerciseCompleted && programTomorrow && !tomorrowRest &&
               <div>
                 <div className="card program-card-completed">
@@ -136,11 +139,31 @@ class Dashboard extends React.Component {
               </div>
             }
 
+            {/* if today is a rest day tomorrow is not */}
 
+            {programToday && rest && !tomorrowRest &&
+              <div>
+                <div className="card program-card-rest">
+                  <div className="card-content">
+                    <h3 key="0" className="title is-3 white">{this.state.programDay}</h3>
+                    <h4 className="subtitle is-4 white">{'It\'s your rest day, take it easy!'}</h4>
+                  </div>
+                </div>
+                <div className="card program-card">
+                  <div className="card-content">
+                    <h5 key="1" className="title is-5">Upcoming tomorrow:</h5>
+                    <p>
+                      <span className="title is-5 upcomingDetails"><i className="fas fa-stopwatch fas-regular"></i> {programTomorrow.time} mins</span>
+                      <span className="title is-5 upcomingDetails"><i className="fas fa-fire fas-regular"></i> {programTomorrow.intensity}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            }
 
+            {/* if today is a rest day tomorrow is also a rest day */}
 
-
-            {programToday && rest && programTomorrow &&
+            {programToday && rest && tomorrowRest &&
               <div>
                 <div className="card program-card-rest">
                   <div className="card-content">
@@ -151,14 +174,12 @@ class Dashboard extends React.Component {
                 <div className="card program-card">
                   <div className="card-content">
                     <h5 key="0" className="title is-5">Upcoming tomorrow:</h5>
-                    <p>
-                      <span className="title is-5 upcomingDetails"><i className="fas fa-stopwatch fas-regular"></i> {programTomorrow.time} mins</span>
-                      <span className="title is-5 upcomingDetails"><i className="fas fa-fire fas-regular"></i> {programTomorrow.intensity}</span>
-                    </p>
+                    <h5 key="1" className="title is-5">Well deserved rest</h5>
                   </div>
                 </div>
               </div>
             }
+
           </div>
         </div>
         <div className="column is-10" style={{ backgroundColor: '#F5F5F5', height: '100vh', overflow: 'auto'}}>
