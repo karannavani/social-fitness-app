@@ -2,43 +2,43 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const exercisePlanSchema = new mongoose.Schema({
-  dayOne: {
+  day1: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayTwo: {
+  day2: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayThree: {
+  day3: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayFour: {
+  day4: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  dayFive: {
+  day5: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  daySix: {
+  day6: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
     intensity: String
   },
-  daySeven: {
+  day7: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,

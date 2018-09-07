@@ -109,7 +109,7 @@ function addOtherUser(){
 ////////////----------CREATE  GRIT------------///////////////////////
 /////////////////////////////////////////////////////////////////////
 function randomDailyGrit(){
-  return Math.floor(Math.random() * 50);
+  return Math.floor(Math.random() * 60);
 }
 
 // NOTE: grit date should go backwards in time one day per cycle [DONE]
@@ -150,7 +150,7 @@ function randomExerciseItensity(){
 }
 
 function restDay(){
-  const rest = [ true, true, false, false, false, false];
+  const rest = [ false, true, false, false, true, false, false];
   const randomIndex =  Math.floor(Math.random() * rest.length);
 
   return rest[randomIndex];
@@ -160,11 +160,11 @@ function restDay(){
 function createExerciseDay(){
   const rest = restDay();
   if(rest){
-    return { rest: true };
+    return { rest: true, exerciseCompleted: true };
   }else{
     return {
       rest: false,
-      exerciseCompleted: true,
+      exerciseCompleted: null,
       time: randomExerciseTime(),
       intensity: randomExerciseItensity()
     };
@@ -175,13 +175,13 @@ function createExercisePlan(){
   const plan = [];
   for(let i = 0; i < userIds.length; i++ ) {
     plan.push({
-      dayOne: createExerciseDay(),
-      dayTwo: createExerciseDay(),
-      dayThree: createExerciseDay(),
-      dayFour: createExerciseDay(),
-      dayFive: createExerciseDay(),
-      daySix: createExerciseDay(),
-      daySeven: createExerciseDay(),
+      day1: createExerciseDay(),
+      day2: createExerciseDay(),
+      day3: createExerciseDay(),
+      day4: createExerciseDay(),
+      day5: createExerciseDay(),
+      day6: createExerciseDay(),
+      day7: createExerciseDay(),
       _id: exerciseIds[i],
       user: userIds[i],
       exercisePlanAdoptedFrom: userIds[i + 1],
