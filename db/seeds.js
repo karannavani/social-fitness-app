@@ -150,7 +150,7 @@ function randomExerciseItensity(){
 }
 
 function restDay(){
-  const rest = [ true, true, false, false, false, false];
+  const rest = [ true, false, false, true, false, false];
   const randomIndex =  Math.floor(Math.random() * rest.length);
 
   return rest[randomIndex];
@@ -159,11 +159,11 @@ function restDay(){
 function createExerciseDay(){
   const rest = restDay();
   if(rest){
-    return { rest: true };
+    return { rest: true, exerciseCompleted: true };
   }else{
     return {
       rest: false,
-      exerciseCompleted: false,
+      exerciseCompleted: null,
       time: randomExerciseTime(),
       intensity: randomExerciseItensity()
     };

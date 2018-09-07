@@ -76,6 +76,7 @@ class Dashboard extends React.Component {
     const programToday = this.state.programToday;
     const programTomorrow = this.state.programTomorrow;
     const rest = this.state.rest;
+    const tomorrowRest = this.state.tomorrowRest;
     console.log('rest is', rest);
 
     return(
@@ -98,7 +99,25 @@ class Dashboard extends React.Component {
               </div>
             }
 
-            {programToday && !rest && this.state.programToday.exerciseCompleted && programTomorrow &&
+
+
+            {programToday && this.state.programToday.exerciseCompleted && programTomorrow && tomorrowRest &&
+                <div>
+                  <div className="card program-card-completed">
+                    <div className="card-content">
+                      <h4 key="0" className="title is-4">{this.state.programDay} - Nailed it</h4>
+                    </div>
+                  </div>
+                  <div className="card program-card">
+                    <div className="card-content">
+                      <h5 key="0" className="title is-5">Upcoming tomorrow:</h5>
+                      <h5 key="1" className="title is-5">Well deserved rest</h5>
+                    </div>
+                  </div>
+                </div>
+            }
+
+            {programToday && !rest && this.state.programToday.exerciseCompleted && programTomorrow && !tomorrowRest &&
               <div>
                 <div className="card program-card-completed">
                   <div className="card-content">
@@ -107,7 +126,7 @@ class Dashboard extends React.Component {
                 </div>
                 <div className="card program-card">
                   <div className="card-content">
-                    <h5 key="0" className="title is-5">Upcoming tomorrow:</h5>
+                    <h5 key="1" className="title is-5">Upcoming tomorrow:</h5>
                     <p>
                       <span className="title is-5 upcomingDetails"><i className="fas fa-stopwatch fas-regular"></i> {programTomorrow.time} mins</span>
                       <span className="title is-5 upcomingDetails"><i className="fas fa-fire fas-regular"></i> {programTomorrow.intensity}</span>
@@ -116,6 +135,10 @@ class Dashboard extends React.Component {
                 </div>
               </div>
             }
+
+
+
+
 
             {programToday && rest && programTomorrow &&
               <div>
