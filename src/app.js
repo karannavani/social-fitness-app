@@ -7,6 +7,7 @@ import './scss/style.scss';
 //Components
 import Header from './components/Header';
 import Dashboard from './components/dashboard/Dashboard.js';
+import Tribe from './components/tribe/Tribe';
 // import Footer from './components/Footer';
 
 import ProfileShow from './components/profile/Show';
@@ -17,7 +18,11 @@ class App extends React.Component {
     return(
       <main>
         <Header />
+        {/* <Tribe /> */}
+        {/* <Switch>
+        </Switch> */}
         <Switch>
+          <Route path='/tribe/:tribeName' component={Tribe} />
           <Route path='/profile' component={ProfileShow} />
           <Route path='/dashboard' component={Dashboard} />
         </Switch>
