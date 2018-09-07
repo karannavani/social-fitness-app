@@ -4,12 +4,19 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import 'bulma/css/bulma.css'; //Needs to change when Heroku-ing
 import './scss/style.scss';
 
-//Components
+//COMPONENTS
+//partials
 import Header from './components/Header';
-import Dashboard from './components/dashboard/Dashboard.js';
-import Tribe from './components/tribe/Tribe';
 // import Footer from './components/Footer';
 
+//Auth
+import AuthLogin from './components/auth/Login';
+
+//dash - tribe
+import Dashboard from './components/dashboard/Dashboard.js';
+import Tribe from './components/tribe/Tribe';
+
+//user
 import UserShow from './components/profile/Show';
 import UserEdit from './components/profile/Edit';
 
@@ -22,6 +29,9 @@ class App extends React.Component {
         {/* <Switch>
         </Switch> */}
         <Switch>
+
+          <Route path='/login' component={AuthLogin} />
+
           <Route path='/tribe/:tribeName' component={Tribe} />
 
           {/* user */}
