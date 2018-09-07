@@ -53,13 +53,17 @@ class Dashboard extends React.Component {
     const programToday = this.state.programToday;
     return(
       <div className="columns">
-        <div className="column is-3" style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
-          <h3 className="title is-3 white">{'Today\'s Plan'}</h3>
-          {programToday && Object.keys(programToday).map(field =>
-            <h4 key={field} className="title is-4 white">{field} – {programToday[field]}</h4>)
-          }
+        <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
+          <div className="card program-card">
+            <div className="card-content">
+              <h3 className="title is-3 white">{'Today\'s Plan'}</h3>
+              {programToday && Object.keys(programToday).map(field =>
+                <h4 key={field} className="title is-4 white">{field} – {programToday[field]}</h4>)
+              }
+            </div>
+          </div>
         </div>
-        <div className="column is-9" style={{ backgroundColor: '#F5F5F5', height: '100vh', overflow: 'auto'}}>
+        <div className="column is-10" style={{ backgroundColor: '#F5F5F5', height: '100vh', overflow: 'auto'}}>
 
         </div>
       </div>
