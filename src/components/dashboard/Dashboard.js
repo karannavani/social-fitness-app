@@ -6,6 +6,7 @@ import moment from 'moment';
 import EditProgram from './cards/EditProgram';
 import PrimaryCard from './cards/PrimaryCard';
 import GreenCard from './cards/GreenCard';
+import RedCard from './cards/RedCard';
 
 
 class Dashboard extends React.Component {
@@ -66,6 +67,7 @@ class Dashboard extends React.Component {
         this.setState({programToday: newProgramState}, () => {
           console.log('updated program is', this.state.programToday);
         });
+        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {day1: this.state.programToday});
         return console.log('clicked skip');
     }
   }
@@ -135,8 +137,15 @@ class Dashboard extends React.Component {
               </div>
             }
 
-            {programToday && !rest && this.state.programToday.exerciseCompleted &&
-              <GreenCard programDay = {this.state.programDay} />
+            {programToday && !rest &&
+              <div>
+                {this.state.programToday.exerciseCompleted &&
+                  <GreenCard programDay = {this.state.programDay} />
+                }
+                {this.state.programToday.exerciseCompleted === false &&
+                  <RedCard programDay = {this.state.programDay} />
+                }
+              </div>
             }
 
           </div>
