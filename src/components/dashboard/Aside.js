@@ -13,15 +13,15 @@ import UpcomingRestCard from './cards/UpcomingRestCard';
 
 class Aside extends React.Component {
   state = {
-    editProgram: false
+    editProgram: false // this is linked to the edit button on the exercise card
   }
   //
-  componentDidMount() { // sets all films onto the state
+  componentDidMount() {
     axios.get('/api/users/')
       .then(res => this.setState({ users: res.data[0], exerciseId: res.data[0].exercisePlan[0] }, () => this.getExercise()));
   }
 
-  getExercise = () => {
+  getExercise = () => { // sets the exercises from the current plan on the state
     axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
       .then(res => this.setState({ exercises: res.data }, () => {
         console.log('exercises are', this.state.exercises);
@@ -30,13 +30,13 @@ class Aside extends React.Component {
       ));
   }
 
-  handleEdit = ({ target: { name, value } }) => {
+  handleEdit = ({ target: { name, value } }) => { // handles exercise edit for that day
     const newState = this.state.programToday;
     newState[name] = value;
     this.setState({programToday: newState});
   }
 
-  handleEditSubmit = ({target: {id}}) => {
+  handleEditSubmit = ({target: {id}}) => { // saves the edit to the exercise db or cancels it
 
     if (id === 'complete') {
       this.setState({ editProgram: false });
@@ -44,13 +44,12 @@ class Aside extends React.Component {
     } else if (id === 'skip') {
       this.setState({ editProgram: false });
     }
-    return console.log('clicked complete');
   }
 
-  handleProgramClick = ({target: {id} }) => {
-    console.log(id);
+  handleProgramClick = ({target: {id} }) => { // allows user to complete, edit and skip days
     const newProgramState = this.state.programToday;
     switch (id) {
+
       case ('complete'):
         newProgramState.exerciseCompleted = true;
         this.setState({programToday: newProgramState}, () => {
@@ -73,31 +72,28 @@ class Aside extends React.Component {
     }
   }
 
-
   getProgram = () => {
 
-    moment.locale('en-gb');
-
-    const startDate = this.state.exercises.startDate;
-
+    const { exercises: { startDate } } = this.state; // getting startDate of the exercise
     const today = moment().unix();
     const tomorrow = moment(today).add(1, 'days');
-    // console.log('start date is', startDate);
 
     for (let i = 1; i < 8; i++) {
 
+      // generate 7 dates from the start date – these are the program dates
       const date = moment(startDate).add(i-1, 'days');
-      // console.log('prog date is', date);
+
+      // if a program date matches today's date, get the program at that index and set it as today's program
       if (moment.unix(date).format('DD/MM/YYYY') === moment.unix(today).format('DD/MM/YYYY')) {
         console.log(moment.unix(date).format('DD/MM/YYYY'));
-        console.log('today is found');
         const value = this.state.exercises[`day${i}`];
         console.log('program for today is', value);
-        this.setState({ programToday: value, programDay: `Day ${i-1}`, rest: value.rest });
+        this.setState({ programToday: value, programDay: `Day ${i}`, rest: value.rest });
 
+      // saving the workout of the next day to the state
       } else if (moment.unix(date).format('DD/MM/YYYY') === moment.unix(tomorrow).format('DD/MM/YYYY') ) {
         const value = this.state.exercises[`day${i}`];
-        this.setState({ programTomorrow: value, programDay: `Day ${i-1}`, tomorrowRest: value.rest });
+        this.setState({ programTomorrow: value, tomorrowRest: value.rest });
       }
 
     }
@@ -157,8 +153,6 @@ class Aside extends React.Component {
 
         </div>
       </div>
-
-
 
     );
   }
