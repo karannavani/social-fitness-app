@@ -16,10 +16,10 @@ export default class UserShow extends React.Component{
       .then(res => this.setState({user: res.data}));
   }
 
-  componentDidUpdate(){
-    console.log('This is the users page=======> ', this.isUsersPage());
-    console.log('The user is following this page=======> ', this.isFollowing());
-  }
+  // componentDidUpdate(){
+  //   console.log('This is the users page=======> ', this.isUsersPage());
+  //   console.log('The user is following this page=======> ', this.isFollowing());
+  // }
 
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
@@ -29,6 +29,8 @@ export default class UserShow extends React.Component{
   //  if they are following, render an unfollow button.
   //  if no then render a follow button
 
+
+
   //returns true if the current user is viewing their own profile
   isUsersPage = () => {
     if(Auth.currentUserId() === (this.props.match.params.id)) return true;
@@ -37,9 +39,22 @@ export default class UserShow extends React.Component{
 
   // returns true if viewer (logged in user) is following the displayed user
   isFollowing = () => {
-    //see if following array includes the visited users id
-    console.log('the displayed user id is: ', this.props.match.params.id);
     return this.state.user.followers.includes(Auth.currentUserId());
+  }
+
+  // NOTE: might have a case where clicking fast will allow user to unfollow twice.
+  handleUnFollow = () =>{
+    axios.put(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
+      .then(res => {
+        this.setState({ user: res.data });
+      });
+  }
+
+  handleFollow = () =>{
+    axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
+      .then(res => {
+        this.setState({ user: res.data });
+      });
   }
 
 
@@ -70,15 +85,23 @@ export default class UserShow extends React.Component{
                     </div>
                   </div>
 
-                  {this.isUsersPage() ?
-                    <div className=" column is-1">
+                  <div className=" column is-1">
+                    {this.isUsersPage() ?
                       <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info">Edit Profile</Link>
-                    </div>
-                    :
-                    <div className=" column is-1">
-                      <button className="button is-rounded is-success">Follow</button>
-                    </div>
-                  }
+                      :
+                      <div>
+                        {this.isFollowing() ?
+                          <button
+                            onClick={ this.handleUnFollow }
+                            className="button is-rounded is-warning">Un Follow</button>
+                          :
+                          <button
+                            onClick={ this.handleFollow }
+                            className="button is-rounded is-success">Follow</button>
+                        }
+                      </div>
+                    }
+                  </div>
 
                 </section>
 
