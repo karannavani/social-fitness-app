@@ -163,7 +163,7 @@ function createExerciseDay(){
   }else{
     return {
       rest: false,
-      exerciseCompleted: true,
+      exerciseCompleted: false,
       time: randomExerciseTime(),
       intensity: randomExerciseItensity()
     };
@@ -174,13 +174,13 @@ function createExercisePlan(){
   const plan = [];
   for(let i = 0; i < userIds.length; i++ ) {
     plan.push({
-      dayOne: createExerciseDay(),
-      dayTwo: createExerciseDay(),
-      dayThree: createExerciseDay(),
-      dayFour: createExerciseDay(),
-      dayFive: createExerciseDay(),
-      daySix: createExerciseDay(),
-      daySeven: createExerciseDay(),
+      day1: createExerciseDay(),
+      day2: createExerciseDay(),
+      day3: createExerciseDay(),
+      day4: createExerciseDay(),
+      day5: createExerciseDay(),
+      day6: createExerciseDay(),
+      day7: createExerciseDay(),
       _id: exerciseIds[i],
       user: userIds[i],
       exercisePlanAdoptedFrom: userIds[i + 1],

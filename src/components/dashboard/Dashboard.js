@@ -20,6 +20,18 @@ class Dashboard extends React.Component {
       ));
   }
 
+  handleProgramClick = ({target: {id} }) => {
+    console.log(id);
+    switch (id) {
+      case ('complete'):
+        return console.log('clicked complete');
+      case ('edit'):
+        return console.log('clicked edit');
+      case ('skip'):
+        return console.log('clicked skip');
+    }
+  }
+
 
   getProgram = () => {
 
@@ -39,10 +51,11 @@ class Dashboard extends React.Component {
 
         if (date === today) {
           console.log('program for today is', value);
-          this.setState({ programToday: value, programDay: `Day ${i+1}` });
+          this.setState({ programToday: value, programDay: `Day ${i+1}`, rest: value.rest });
         }
 
       }
+      // console.log(Object.values(programToday));
     });
   }
 
@@ -51,11 +64,13 @@ class Dashboard extends React.Component {
 
   render() {
     const programToday = this.state.programToday;
+    const rest = this.state.rest;
+
     return(
       <div className="columns">
         <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
-          <div>
-            {programToday &&
+          <div className="program-div">
+            {programToday && !rest &&
               <div className="card program-card">
                 <div className="card-content">
                   <h3 key="0" className="title is-3 white">{this.state.programDay}</h3>
@@ -63,9 +78,9 @@ class Dashboard extends React.Component {
                   <h4 key={programToday.time} className="title is-4 white"><i className="fas fa-stopwatch"></i> {programToday.time} mins</h4>
                   <h4 key={programToday.intensity} className="title is-4 white"><i className="fas fa-fire"></i> {programToday.intensity}</h4>
                   <footer className="card-footer">
-                    <a href="#" className="card-footer-item"><i className="fas fa-check"></i></a>
-                    <a href="#" className="card-footer-item"><i className="fas fa-pencil-alt"></i></a>
-                    <a href="#" className="card-footer-item"><i className="fas fa-step-forward"></i></a>
+                    <a onClick={this.handleProgramClick} className="card-footer-item"><i id="complete" className="fas fa-check"></i></a>
+                    <a onClick={this.handleProgramClick} className="card-footer-item"><i id="edit" className="fas fa-pencil-alt"></i></a>
+                    <a onClick={this.handleProgramClick} className="card-footer-item"><i id="skip" className="fas fa-step-forward"></i></a>
                   </footer>
                 </div>
               </div>
