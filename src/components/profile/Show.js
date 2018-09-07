@@ -1,21 +1,32 @@
 // USER PROFILE SHOW
 import React from 'react';
-//5b91752666708bc8b1622706
-
 
 //dependancies
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Auth from '../../lib/Auth';
+import _ from 'lodash';
 
 export default class UserShow extends React.Component{
   state={};
 
   componentDidMount(){
-    axios.get(`/api/users/${this.props.match.params.id}`)
+    const userId = this.props.match.params.id
+    axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
+
+    axios.get('/api/exerciseplans')
+      .then(res => {
+        const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
+        console.log('all the users exercise plans are ', usersExercisePlans);
+        const sortedUserExercisePlans = this.leadersSort(usersExercisePlans);
+        console.log('the sorted exercise plans are ', sortedUserExercisePlans);
+      });
   }
 
+  leadersSort = (dataArray) => {
+    return _.orderBy(dataArray, ['startDate'], 'desc');
+  }
   // componentDidUpdate(){
   //   console.log('This is the users page=======> ', this.isUsersPage());
   //   console.log('The user is following this page=======> ', this.isFollowing());
@@ -24,12 +35,6 @@ export default class UserShow extends React.Component{
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }
-  //determine if user is looking at there own page
-  //if not then show them a follow/unfollow button depending on if they follow one another
-  //  if they are following, render an unfollow button.
-  //  if no then render a follow button
-
-
 
   //returns true if the current user is viewing their own profile
   isUsersPage = () => {

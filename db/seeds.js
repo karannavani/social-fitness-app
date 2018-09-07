@@ -38,7 +38,7 @@ function randomNumber(){
 /////////////////////////////////////////////////////////////////////
 
 function randomUserId(){
-  const randomIndex = Math.floor(Math.random() * userIds.length);
+  const randomIndex = Math.floor(Math.random() * userIds.length/5);
   return userIds[randomIndex];
 }
 
@@ -256,19 +256,22 @@ function createActiveExercisePlan(){
 ////////////--CREATE HISTORIC EXERCISE PLAN---///////////////////////
 /////////////////////////////////////////////////////////////////////
 
+// BUG: these do not generate dates
+
 function getDates(startDate, stopDate) {
   const dateArray = [];
-  const stopperDate = moment(stopDate);
-  let currentDate = moment(startDate);
-  while (currentDate <= stopperDate) {
+  const stopperDate = moment().subtract(stopDate, 'years');
+  let currentDate = moment().subtract(startDate, 'years');
+
+  while ( stopperDate <= currentDate) {
     dateArray.push( moment(currentDate).unix() );
-    currentDate = moment(currentDate).add(1, 'days');
+    currentDate = moment(currentDate).subtract(1, 'days');
   }
   return dateArray;
 }
 
-const randomOrigionalStartDatesArray = getDates( '2018-05-30' , '2017-09-01');
-const randomAdoptedStartDatesArray = getDates( '2018-08-30' , '2017-12-01');
+const randomOrigionalStartDatesArray = getDates( 0.5, 1);
+const randomAdoptedStartDatesArray = getDates( 0.2, 0.7 );
 
 function randomStartDate(dateArray){
   const randomIndex =  Math.floor(Math.random() * dateArray.length);
