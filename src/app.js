@@ -4,26 +4,43 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import 'bulma/css/bulma.css'; //Needs to change when Heroku-ing
 import './scss/style.scss';
 
-//Components
+//COMPONENTS
+//partials
 import Header from './components/Header';
+// import Footer from './components/Footer';
+import FlashMessages from './components/common/FlashMessages';
+
+//Auth
+import AuthLogin from './components/auth/Login';
+
+//dash - tribe
 import Dashboard from './components/dashboard/Dashboard.js';
 import Tribe from './components/tribe/Tribe';
-// import Footer from './components/Footer';
 
-import ProfileShow from './components/profile/Show';
-// import ProfileEdit from './components/profile/Edit';
+//user
+import UserShow from './components/profile/Show';
+import UserEdit from './components/profile/Edit';
 
 class App extends React.Component {
   render() {
     return(
       <main>
         <Header />
+        <FlashMessages />
         {/* <Tribe /> */}
         {/* <Switch>
         </Switch> */}
         <Switch>
+
+          <Route path='/login' component={AuthLogin} />
+
           <Route path='/tribe/:tribeName' component={Tribe} />
-          <Route path='/profile' component={ProfileShow} />
+
+          {/* user */}
+          <Route exact path='/profile' component={UserShow} />
+          <Route path='/profile/:id' component={UserShow} />
+          <Route path='/users/:id/edit' component={UserEdit} />
+
           <Route path='/dashboard' component={Dashboard} />
         </Switch>
         {/* <Footer /> */}

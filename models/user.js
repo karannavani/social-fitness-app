@@ -14,9 +14,9 @@ const userSchema = new mongoose.Schema({
   surname: { type: String},
   age: { type: Number},
   height: { type: Number},
-  heightUnit: { type: String},
+  heightUnit: { type: String, default: 'cm\'s'},
   weight: { type: Number},
-  weightUnit: { type: String},
+  weightUnit: { type: String, default: 'kg\'s'},
   imageUrl: String,
 
   // Application
