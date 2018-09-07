@@ -93,11 +93,11 @@ export default class UserShow extends React.Component{
                         {this.isFollowing() ?
                           <button
                             onClick={ this.handleUnFollow }
-                            className="button is-rounded is-warning">Un Follow</button>
+                            className="button is-rounded is-info"><i className="fas fa-sm fa-minus"></i>  Unfollow</button>
                           :
                           <button
                             onClick={ this.handleFollow }
-                            className="button is-rounded is-success">Follow</button>
+                            className="button is-rounded is-info"><i className="fas fa-sm fa-plus"></i>  Follow</button>
                         }
                       </div>
                     }
