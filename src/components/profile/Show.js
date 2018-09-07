@@ -1,29 +1,47 @@
 // USER PROFILE SHOW
 import React from 'react';
+//5b91752666708bc8b1622706
+
 
 //dependancies
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Auth from '../../lib/Auth';
 
 export default class UserShow extends React.Component{
-  //get user data from API
-  //put data on state which will update the display
-  //determine if the logged in user is the current USER
-  //  if so then show an edit profile form
-  //  if not then show a follow button depending on if they are already following that user
-
-  state={
-    userId: '5b91752666708bc8b1622705'
-  };
+  state={};
 
   componentDidMount(){
-    axios.get(`/api/users/${this.state.userId}`)
+    axios.get(`/api/users/${this.props.match.params.id}`)
       .then(res => this.setState({user: res.data}));
+  }
+
+  componentDidUpdate(){
+    console.log('This is the users page=======> ', this.isUsersPage());
+    console.log('The user is following this page=======> ', this.isFollowing());
   }
 
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }
+  //determine if user is looking at there own page
+  //if not then show them a follow/unfollow button depending on if they follow one another
+  //  if they are following, render an unfollow button.
+  //  if no then render a follow button
+
+  //returns true if the current user is viewing their own profile
+  isUsersPage = () => {
+    if(Auth.currentUserId() === (this.props.match.params.id)) return true;
+    return false;
+  }
+
+  // returns true if viewer (logged in user) is following the displayed user
+  isFollowing = () => {
+    //see if following array includes the visited users id
+    console.log('the displayed user id is: ', this.props.match.params.id);
+    return this.state.user.followers.includes(Auth.currentUserId());
+  }
+
 
   render(){
     const { user } = this.state;
@@ -52,9 +70,15 @@ export default class UserShow extends React.Component{
                     </div>
                   </div>
 
-                  <div className=" column is-1">
-                    <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info">Edit Profile</Link>
-                  </div>
+                  {this.isUsersPage() ?
+                    <div className=" column is-1">
+                      <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info">Edit Profile</Link>
+                    </div>
+                    :
+                    <div className=" column is-1">
+                      <button className="button is-rounded is-success">Follow</button>
+                    </div>
+                  }
 
                 </section>
 

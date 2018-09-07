@@ -156,6 +156,7 @@ function restDay(){
   return rest[randomIndex];
 }
 
+// NOTE: historical data will be seperate to active programs
 function createExerciseDay(){
   const rest = restDay();
   if(rest){
@@ -250,7 +251,7 @@ const primaryUserData= [
     heightUnit: 'cm\'s',
     weight: 85,
     weightUnit: 'kg\'s',
-    imageUrl: 'https://i0.wp.com/ebus.ca/wp-content/uploads/2017/08/profile-placeholder.jpg?ssl=1',
+    imageUrl: 'https://media.licdn.com/dms/image/C5603AQEprR3HW3VtTg/profile-displayphoto-shrink_200_200/0?e=1541635200&v=beta&t=dyjePRARTWJeHefh8F_M-DCHseC-rRs777WRVHYrdTs',
     followers: [userIds[0], userIds[1], userIds[3], userIds[4], userIds[5], userIds[6],
       userIds[7], userIds[8], userIds[9], userIds[10], userIds[11], userIds[12], userIds[13],
       userIds[14], userIds[15], userIds[16], userIds[17], userIds[18], userIds[19], userIds[20],
