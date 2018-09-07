@@ -16,7 +16,7 @@ export default class UserEdit extends React.Component{
   }
 
   handleChange = ({ target: { name, value } }) => {
-    console.log('Handle change is called', value);
+    // console.log('Handle change is called', value);
     this.setState({[ name ]: value});
   }
 
@@ -24,11 +24,11 @@ export default class UserEdit extends React.Component{
     event.preventDefault();
     console.log('form to submit is', this.state);
     //axios to PUT /api/users/:id
-    axios.put(`/profile/${this.props.match.params.id}`, this.state)
+    axios.put(`/api/users/${this.props.match.params.id}`, this.state)
       .then(res => {
         console.log('update response is', res.data);
         // Flash.setMessage('success', res.data.messages );
-        this.props.history.push(`/api/users/${this.props.match.params.id}`);
+        this.props.history.push(`/profile/${this.props.match.params.id}`);
       })
       .catch(err =>{
         console.log('update err is ===>',err.response);
@@ -44,7 +44,7 @@ export default class UserEdit extends React.Component{
         <div className='columns is-centered'>
           <div className='column is-6'>
             <form className='form' onSubmit={this.handleSubmit}>
-              
+
               <FormInput name='email' type='email' state={ this.state } handleChange={ this.handleChange } label='Email' placeholder='example@email.com' />
               <FormInput name='username' type='text' state={ this.state } handleChange={ this.handleChange } label='User Name' placeholder='BigJoe201' />
               <FormInput name='firstName' type='text' state={ this.state } handleChange={ this.handleChange } label='First Name' placeholder='Joe' />
