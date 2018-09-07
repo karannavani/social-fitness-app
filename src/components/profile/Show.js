@@ -12,13 +12,16 @@ export default class ProfileShow extends React.Component{
   //  if not then show a follow button depending on if they are already following that user
 
   state={
-    userId: '5b916f8b250d777bcb49ca9a'
+    userId: '5b91752666708bc8b1622705'
   };
 
   componentDidMount(){
     axios.get(`/api/users/${this.state.userId}`)
       .then(res => this.setState({user: res.data}));
-      // .then(res => console.log('The user data is: ', res.data));
+  }
+
+  handleGoToTribe = () => {
+    this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }
 
   render(){
@@ -26,30 +29,55 @@ export default class ProfileShow extends React.Component{
     return(
       <section>
         {/* HERO */}
-        <section className='hero is-medium is-primary'>
-          <div className='hero-body'>
-            <div className='container '>
-              {/* PERSONAL DETAILS */}
-              <div className='columns' style={{border: '1px solid black'}}>
-                <div className='column is-full'>
-                  <p className='title'>Personal Details</p>
-                  <p>{user && user.username}</p>
-                </div>
-              </div>
+        {user &&
+          <section className='hero is-medium is-primary'>
+            <div className='hero-body'>
+              <div className='container '>
+                {/* PERSONAL DETAILS */}
+                <section className=' columns'>
+                  <figure className="column is-2">
+                    <p className="image is-128x128">
+                      <img src={user.imageUrl} />
+                    </p>
+                  </figure>
+                  <div className=" column is-9">
+                    <div className="content">
+                      <h2 className='title is-4'> <strong>{user.username}</strong> </h2>
+                      <p className='subtitle '>{user.firstName} {user.surname}</p>
+                      <hr/>
+                      <p>Height: {user.height}{user.heightUnit}</p>
+                      <p>Weight: {user.weight}{user.weightUnit}</p>
+                      <p>Age:{user.age}</p>
+                    </div>
+                  </div>
 
-              {/* TRIBE FOLLOWERS FOLLOWING */}
-              <div className='columns' style={{border: '1px solid black'}}>
-                <div className='column is-full'>
+                  <div className=" column is-1">
+                    <button className="button is-info"> Edit Profile</button>
+                  </div>
 
-                  <p className='title'> TRIBE FOLLOWERS FOLLOWING</p>
+                </section>
+
+                {/* TRIBE FOLLOWERS FOLLOWING */}
+
+                <div className='columns' style={{border: '1px solid black'}}>
+                  <div onClick={this.handleGoToTribe} className='column is-4 has-text-centered'>
+                    <p > {user.tribe}</p>
+                  </div>
+                  <div className='column is-4 has-text-centered'>
+                    <p >{user.followers.length} Followers</p>
+                  </div>
+                  <div className='column is-4 has-text-centered'>
+                    <p > Following {user.following.length}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        }
 
         {/* HISTORY */}
         <section className='container'>
+          <h2 className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
         </section>
       </section>
