@@ -19,7 +19,7 @@ class TribeAside extends React.Component {
   render() {
     return (
       <div className="columns">
-        <div className="column is-3" style={{ backgroundColor: 'green', height: '100vh' }}>
+        <div className="column is-4" style={{ backgroundColor: 'green', height: '100vh' }}>
           <div className="dashAsideFollowers" style={{ backgroundColor: 'white', height: '30vh', marginTop: '10px'}}>
             {this.state.members && <p>{this.state.tribeName} has {this.state.members.length} members</p>}
           </div>
@@ -29,7 +29,7 @@ class TribeAside extends React.Component {
           <div className="dashAsidePrograms" style={{ backgroundColor: 'white', height: '30vh', marginTop: '10px'}}>
 
           </div>
-          <div className="column is-9">
+          <div className="column is-8">
 
           </div>
         </div>
