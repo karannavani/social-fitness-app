@@ -8,6 +8,15 @@
   // margin-right: auto;
   margin: auto;
 }
+.program-card-rest {
+  background: linear-gradient(90deg, #d53369 0%, #daae51 100%);  // margin-right: auto;
+  margin: auto;
+}
+
+.program-card-completed {
+  background: linear-gradient(90deg, #f8ff00 0%, #3ad59f 100%);  // margin-right: auto;
+  margin: auto;
+}
 
 .program-div {
   margin-top: 30px;
@@ -15,4 +24,12 @@
 
 .fas {
   color: white;
+}
+
+.fas-regular {
+  color: inherit !important;
+}
+
+.upcomingDetails {
+  margin-right: 10px;
 }

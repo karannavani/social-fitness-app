@@ -109,7 +109,7 @@ function addOtherUser(){
 ////////////----------CREATE  GRIT------------///////////////////////
 /////////////////////////////////////////////////////////////////////
 function randomDailyGrit(){
-  return Math.floor(Math.random() * 50);
+  return Math.floor(Math.random() * 60);
 }
 
 // NOTE: grit date should go backwards in time one day per cycle [DONE]
