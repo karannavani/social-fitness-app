@@ -8,6 +8,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect(dbUri);
 
 const today = moment().format('dddd, MMMM Do YYYY');
+const dayInSeconds = 86400;
 
 const tribeNames = [
   'All Naturals', 'Inbetweeners', 'Gargantuans',
@@ -16,6 +17,7 @@ const tribeNames = [
   'All Naturals', 'Inbetweeners', 'Gargantuans'
 ];
 
+//////// NOTE: make sure to increase number of ids so can increase the number of seeds
 const userIds = [
   '5b91752666708bc8b1622705', '5b91752666708bc8b1622706', '5b91752666708bc8b1622707', '5b91752666708bc8b1622708', '5b91752666708bc8b1622709',
   '5b91752666708bc8b162270a', '5b91752666708bc8b162270b', '5b91752666708bc8b162270c', '5b91752666708bc8b162270d', '5b91752666708bc8b162270e',
@@ -30,17 +32,19 @@ const exerciseIds = [
   '5b91752666708bc8b162272d', '5b91752666708bc8b162272e', '5b91752666708bc8b162272f', '5b91752666708bc8b1622730', '5b91752666708bc8b1622731',
   '5b91752666708bc8b1622732', '5b91752666708bc8b1622733', '5b91752666708bc8b1622734', '5b91752666708bc8b1622735', '5b91752666708bc8b1622736',
   '5b91752666708bc8b1622737', '5b91752666708bc8b1622738', '5b91752666708bc8b1622739', '5b91752666708bc8b162273a', '5b91752666708bc8b162273b',
-  '5b91752666708bc8b162273c', '5b91752666708bc8b162273d', '5b91752666708bc8b162273e', '5b91752666708bc8b162273f', 
+  '5b91752666708bc8b162273c', '5b91752666708bc8b162273d', '5b91752666708bc8b162273e', '5b91752666708bc8b162273f',
   '5b91752666708bc8b1622740', '5b91752666708bc8b1622741', '5b91752666708bc8b1622742', '5b91752666708bc8b1622743', '5b91752666708bc8b1622744',
   '5b91752666708bc8b1622745', '5b91752666708bc8b1622746', '5b91752666708bc8b1622747', '5b91752666708bc8b1622748', '5b91752666708bc8b1622749'
 ];
 
-//////////////////////////////
-//////// NOTE: make sure to increase number of ids so can increase the number of seeds
 
 function randomNumber(){
   return Math.floor(Math.random() * 10000000000000);
 }
+
+/////////////////////////////////////////////////////////////////////
+////////////----------CREATE  USERS-----------///////////////////////
+/////////////////////////////////////////////////////////////////////
 
 function randomTribeName(){
   const randomIndex = Math.floor(Math.random() * tribeNames.length);
@@ -57,41 +61,6 @@ function randomHeight(){
 
 function randomWeight(){
   return Math.floor(Math.random() * 50) + 50;
-}
-
-function randomDailyGrit(){
-  return Math.floor(Math.random() * 50);
-}
-
-function randomExerciseTime(){
-  return Math.floor(Math.random() * 60) + 20;
-}
-
-function randomItensity(){
-  const intensities = [
-    'Low', 'Medium', 'High',
-    'Low', 'Medium', 'High',
-    'Low', 'Medium', 'High',
-    'Low', 'Medium', 'High'
-  ];
-  const randomIndex =  Math.floor(Math.random() * intensities.length);
-
-  return intensities[randomIndex];
-}
-
-function restDay(){
-  const rest = [ true, true, false, false, false, false];
-  const randomIndex =  Math.floor(Math.random() * rest.length);
-
-  return rest[randomIndex];
-}
-
-function addGrit(){
-  const dailyGrit = [];
-  for(let i = 0; i < 100; i++ ){
-    dailyGrit.push({date: `${randomDailyGrit()}`, grit: randomDailyGrit()});
-  }
-  return dailyGrit;
 }
 
 function addOtherUser(){
@@ -120,10 +89,60 @@ function addOtherUser(){
     );
   }
   return otherUserData;
-
 }
 
-function createDay(){
+/////////////////////////////////////////////////////////////////////
+////////////----------CREATE  GRIT------------///////////////////////
+/////////////////////////////////////////////////////////////////////
+function randomDailyGrit(){
+  return Math.floor(Math.random() * 50);
+}
+
+// NOTE: grit date should go backwards in time one day per cycle [DONE]
+
+function addGrit(){
+  const dailyGrit = [];
+  let startDateUnix = moment().unix();
+  const randomIndex = Math.floor(Math.random() * 300) + 60;
+  // IDEA: make the interval random to get varing number of [DONE]
+  for(let i = 0; i < randomIndex; i++ ){
+    dailyGrit.push({date: `${startDateUnix}`, grit: randomDailyGrit()});
+    startDateUnix -= dayInSeconds;
+  }
+  return dailyGrit;
+}
+
+/////////////////////////////////////////////////////////////////////
+////////////-------CREATE EXERCISE PLAN-------///////////////////////
+/////////////////////////////////////////////////////////////////////
+
+// NOTE: talk to Karan about saving only unix time dates as numbers then formatting them where necessary
+// NOTE: need to have historircal exercise plans for users. start date was > days since today minimum
+
+function randomExerciseTime(){
+  return Math.floor(Math.random() * 60) + 20;
+}
+
+function randomExerciseItensity(){
+  const intensities = [
+    'Low', 'Medium', 'High',
+    'Low', 'Medium', 'High',
+    'Low', 'Medium', 'High',
+    'Low', 'Medium', 'High'
+  ];
+  const randomIndex =  Math.floor(Math.random() * intensities.length);
+
+  return intensities[randomIndex];
+}
+
+function restDay(){
+  const rest = [ true, true, false, false, false, false];
+  const randomIndex =  Math.floor(Math.random() * rest.length);
+
+  return rest[randomIndex];
+}
+
+function createExerciseDay(){
   const rest = restDay();
   if(rest){
     return { rest: true };
@@ -132,22 +151,22 @@ function createDay(){
       rest: false,
       exerciseCompleted: true,
       time: randomExerciseTime(),
-      intensity: randomItensity()
+      intensity: randomExerciseItensity()
     };
   }
 }
 
-function createPlan(){
+function createExercisePlan(){
   const plan = [];
   for(let i = 0; i < userIds.length; i++ ) {
     plan.push({
-      dayOne: createDay(),
-      dayTwo: createDay(),
-      dayThree: createDay(),
-      dayFour: createDay(),
-      dayFive: createDay(),
-      daySix: createDay(),
-      daySeven: createDay(),
+      dayOne: createExerciseDay(),
+      dayTwo: createExerciseDay(),
+      dayThree: createExerciseDay(),
+      dayFour: createExerciseDay(),
+      dayFive: createExerciseDay(),
+      daySix: createExerciseDay(),
+      daySeven: createExerciseDay(),
       _id: exerciseIds[i],
       user: userIds[i],
       exercisePlanAdoptedFrom: userIds[i + 1],
@@ -158,7 +177,9 @@ function createPlan(){
   return plan;
 }
 
-
+/////////////////////////////////////////////////////////////////////
+////////////--------------DATA----------------///////////////////////
+/////////////////////////////////////////////////////////////////////
 const primaryUserData= [
   {
     _id: userIds[0],
@@ -230,101 +251,15 @@ const otherUserData = addOtherUser();
 
 const userData = [ ...primaryUserData, ...otherUserData ];
 
-const exerciseData = createPlan();
+const exerciseData = createExercisePlan();
 
-// const exerciseData = [
-//   {
-//     // user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model
-//     // adoptedFrom: String, //will have the program id
-//     dayOne: {
-//       exerciseCompleted: true,
-//       time: 60,
-//       intensity: 'Medium'
-//     },
-//     dayTwo: {
-//       exerciseCompleted: true,
-//       time: 30,
-//       intensity: 'Low'
-//     },
-//     dayThree: {
-//       exerciseCompleted: null,
-//       time: 40,
-//       intensity: 'Medium'
-//     },
-//     dayFour: {
-//       exerciseCompleted: null,
-//       time: 50,
-//       intensity: 'High'
-//     },
-//     dayFive: {
-//       exerciseCompleted: false,
-//       time: 40,
-//       intensity: 'Medium'
-//     },
-//     daySix: {
-//       exerciseCompleted: false,
-//       time: 60,
-//       intensity: 'High'
-//     },
-//     daySeven: {
-//       exerciseCompleted: true,
-//       time: 100,
-//       intensity: 'High'
-//     },
-//     daysLogged: ['02/09/2018', '03/09/2018', '04/09/2018']
-//   },
-//   {
-//     // user: { type: mongoose.Schema.ObjectId, ref: 'User' }, //references the user model
-//     // adoptedFrom: String, //will have the program id
-//     dayOne: {
-//       exerciseCompleted: false,
-//       time: 80,
-//       intensity: 'Medium'
-//     },
-//     dayTwo: {
-//       exerciseCompleted: true,
-//       time: 20,
-//       intensity: 'Low'
-//     },
-//     dayThree: {
-//       exerciseCompleted: false,
-//       time: 90,
-//       intensity: 'Medium'
-//     },
-//     dayFour: {
-//       exerciseCompleted: null,
-//       time: 50,
-//       intensity: 'High'
-//     },
-//     dayFive: {
-//       exerciseCompleted: true,
-//       time: 70,
-//       intensity: 'Medium'
-//     },
-//     daySix: {
-//       exerciseCompleted: false,
-//       time: 60,
-//       intensity: 'High'
-//     },
-//     daySeven: {
-//       exerciseCompleted: true,
-//       time: 100,
-//       intensity: 'High'
-//     },
-//     daysLogged: ['01/09/2018', '03/09/2018', '05/09/2018']
-//   }
-// ];
 
+////////////------SEED PROMISE CHAIN----------///////////////////////
 ExercisePlan.collection.drop();
 User.collection.drop();
 
 User.create(userData)
   .then(users => {
-    // exerciseData.forEach(exercise => {
-    //   const randomIndex = Math.floor(Math.random() * users.length);
-    //   exercise.user = users[randomIndex]._id;
-    // });
-
     console.log(`Created ${users.length} new users`);
     return ExercisePlan.create(exerciseData);
   })
