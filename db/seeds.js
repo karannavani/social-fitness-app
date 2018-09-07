@@ -30,7 +30,7 @@ const exerciseIds = [
   '5b91752666708bc8b162272d', '5b91752666708bc8b162272e', '5b91752666708bc8b162272f', '5b91752666708bc8b1622730', '5b91752666708bc8b1622731',
   '5b91752666708bc8b1622732', '5b91752666708bc8b1622733', '5b91752666708bc8b1622734', '5b91752666708bc8b1622735', '5b91752666708bc8b1622736',
   '5b91752666708bc8b1622737', '5b91752666708bc8b1622738', '5b91752666708bc8b1622739', '5b91752666708bc8b162273a', '5b91752666708bc8b162273b',
-  '5b91752666708bc8b162273c', '5b91752666708bc8b162273d', '5b91752666708bc8b162273e', '5b91752666708bc8b162273f', 
+  '5b91752666708bc8b162273c', '5b91752666708bc8b162273d', '5b91752666708bc8b162273e', '5b91752666708bc8b162273f',
   '5b91752666708bc8b1622740', '5b91752666708bc8b1622741', '5b91752666708bc8b1622742', '5b91752666708bc8b1622743', '5b91752666708bc8b1622744',
   '5b91752666708bc8b1622745', '5b91752666708bc8b1622746', '5b91752666708bc8b1622747', '5b91752666708bc8b1622748', '5b91752666708bc8b1622749'
 ];
@@ -174,12 +174,10 @@ const primaryUserData= [
     weight: 88,
     weightUnit: 'kg\'s',
     imageUrl: 'https://media.licdn.com/dms/image/C4D03AQE0THE9Yt64RQ/profile-displayphoto-shrink_200_200/0?e=1541635200&v=beta&t=j6-dluvDMqp9RDLoiBuYWMKEAwSpLV9gb0Jo2UHBR2k',
-<<<<<<< HEAD
     followers: [],
     following: []
 
   }, {
-=======
     followers: [userIds[1], userIds[2], userIds[3], userIds[4], userIds[5], userIds[6],
       userIds[7], userIds[8], userIds[9], userIds[10], userIds[11], userIds[12], userIds[13],
       userIds[14], userIds[15], userIds[16], userIds[17], userIds[18], userIds[19], userIds[20],
@@ -189,7 +187,6 @@ const primaryUserData= [
     dailyGrit: addGrit()
   }, {
     _id: userIds[1],
->>>>>>> development
     username: 'Karan',
     email: 'kknavani@gmail.com',
     password: 'pass',
@@ -202,12 +199,10 @@ const primaryUserData= [
     weight: 53,
     weightUnit: 'kg\'s',
     imageUrl: 'https://media.licdn.com/dms/image/C5603AQEetSeaXLe-pg/profile-displayphoto-shrink_200_200/0?e=1541635200&v=beta&t=aHSY52Eqt6b3r_RR5bpcJ4WPSJOPdFFD-wrbH9vYGss',
-<<<<<<< HEAD
     followers: [],
     following: []
 
   }, {
-=======
     followers: [userIds[0], userIds[2], userIds[3], userIds[4], userIds[5], userIds[6],
       userIds[7], userIds[8], userIds[9], userIds[10], userIds[11], userIds[12], userIds[13],
       userIds[14], userIds[15], userIds[16], userIds[17], userIds[18], userIds[19], userIds[20],
@@ -217,7 +212,6 @@ const primaryUserData= [
     dailyGrit: addGrit()
   }, {
     _id: userIds[2],
->>>>>>> development
     username: 'TrimHall',
     email: 'tah.developer@gmail.com',
     password: 'pass',
@@ -229,12 +223,10 @@ const primaryUserData= [
     heightUnit: 'cm\'s',
     weight: 85,
     weightUnit: 'kg\'s',
-<<<<<<< HEAD
     imageUrl: 'https://media.licdn.com/dms/image/C5603AQEprR3HW3VtTg/profile-displayphoto-shrink_200_200/0?e=1541635200&v=beta&t=dyjePRARTWJeHefh8F_M-DCHseC-rRs777WRVHYrdTs',
     followers: [],
     following: []
-
-=======
+  }, {
     imageUrl: 'https://i0.wp.com/ebus.ca/wp-content/uploads/2017/08/profile-placeholder.jpg?ssl=1',
     followers: [userIds[0], userIds[1], userIds[3], userIds[4], userIds[5], userIds[6],
       userIds[7], userIds[8], userIds[9], userIds[10], userIds[11], userIds[12], userIds[13],
@@ -243,7 +235,6 @@ const primaryUserData= [
     following: [userIds[0], userIds[1]],
     exercisePlan: exerciseIds[2],
     dailyGrit: addGrit()
->>>>>>> development
   }
 
 ];
@@ -346,24 +337,20 @@ let _users;
 
 User.create(userData)
   .then(users => {
-<<<<<<< HEAD
     exerciseData.forEach(exercise => {
       const randomIndex = Math.floor(Math.random() * users.length);
       exercise.user = users[randomIndex]._id;
     });
 
     _users = users;
-=======
     // exerciseData.forEach(exercise => {
     //   const randomIndex = Math.floor(Math.random() * users.length);
     //   exercise.user = users[randomIndex]._id;
     // });
->>>>>>> development
 
     console.log(`Created ${users.length} new users`);
     return ExercisePlan.create(exerciseData);
   })
-<<<<<<< HEAD
   .then(exercisePlans => {
     console.log(`created ${exercisePlans.length} exercises`);
     _exercisePlans = exercisePlans;
@@ -374,7 +361,7 @@ User.create(userData)
     user.exercisePlan.push(_exercisePlans[0]);
     _users.forEach(otherUser => {
       user.followers.push(otherUser._id);
-    } )
+    });
 
     user.save();
     return User.findById(_users[1]._id);
@@ -390,8 +377,6 @@ User.create(userData)
     return User.find();
   })
   .then(users => console.log(`Updated ${users.length} new users`))
-=======
   .then(exercisePlans => console.log(`created ${exercisePlans.length} exercises`))
->>>>>>> development
   .catch(err => console.log(err))
   .finally(() => mongoose.connection.close());
