@@ -7,7 +7,7 @@ const { dbUri } = require('../config/environment');
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbUri);
 
-const today = moment().format('dddd, MMMM Do YYYY');
+const today = moment().unix();
 const dayInSeconds = 86400;
 
 const tribeNames = [
