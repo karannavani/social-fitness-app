@@ -87,7 +87,7 @@ export default class UserShow extends React.Component{
 
                   <div className=" column is-1">
                     {this.isUsersPage() ?
-                      <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info">Edit Profile</Link>
+                      <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info"><i className="far fa-edit"></i>Profile</Link>
                       :
                       <div>
                         {this.isFollowing() ?
