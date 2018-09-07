@@ -3,8 +3,9 @@ import axios from 'axios';
 import moment from 'moment';
 
 //Components
-import EditProgram from './EditProgram';
-import PrimaryCard from './PrimaryCard';
+import EditProgram from './cards/EditProgram';
+import PrimaryCard from './cards/PrimaryCard';
+import GreenCard from './cards/GreenCard';
 
 
 class Dashboard extends React.Component {
@@ -132,6 +133,10 @@ class Dashboard extends React.Component {
                   }
                 </div>
               </div>
+            }
+
+            {programToday && !rest && this.state.programToday.exerciseCompleted &&
+              <GreenCard programDay = {this.state.programDay} />
             }
 
           </div>
