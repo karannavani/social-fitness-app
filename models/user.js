@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   heightUnit: { type: String},
   weight: { type: Number},
   weightUnit: { type: String},
+  imageUrl: String,
 
   // Application
   tribe: { type: String, enum: ['All Naturals', 'Inbetweeners', 'Gargantuans'] },
@@ -31,13 +32,32 @@ const userSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
+// make sure the virtuals get added
+userSchema.set('toObject', { virtuals: true });
+userSchema.set('toJSON', { virtuals: true });
+
 // PLUGINS
 //throw validation error when duplicate emails are creates
 userSchema.plugin(require('mongoose-unique-validator'));
 
+
 // VIRTUALS
-// bmi
 // grit
+userSchema.virtual('grit')
+  .get( function() {
+    const totalGrit = this.dailyGrit.reduce((sum, dayGrit) => {
+      return sum + dayGrit.grit;
+    }, 0);
+
+    return totalGrit;
+  });
+
+userSchema.virtual('averageGrit')
+  .get( function(){
+    return this.grit/this.dailyGrit.length;
+  });
+
+// bmi
 
 // METHODS
 // password validation

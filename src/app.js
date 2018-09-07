@@ -9,6 +9,9 @@ import Header from './components/Header';
 import Aside from './components/tribe/Aside';
 // import Footer from './components/Footer';
 
+import ProfileShow from './components/profile/Show';
+// import ProfileEdit from './components/profile/Edit';
+
 class App extends React.Component {
   render() {
     return(
@@ -17,6 +20,9 @@ class App extends React.Component {
         <Aside />
         {/* <Switch>
         </Switch> */}
+        <Switch>
+          <Route path='/profile' component={ProfileShow} />
+        </Switch>
         {/* <Footer /> */}
       </main>
     );

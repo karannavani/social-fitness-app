@@ -2,14 +2,14 @@ const ExercisePlan = require('../models/exercisePlan');
 
 function exercisePlanIndex(req, res, next) {
   ExercisePlan.find()
-    .populate('user')
+    // .populate('user')
     .then(exercisePlan => res.json(exercisePlan))
     .catch(next);
 }
 
 function exercisePlanShow(req, res, next) {
   ExercisePlan.findById(req.params.id)
-    .populate('user')
+    // .populate('user')
     .then(exercise => res.json(exercise))
     .catch(next);
 }
