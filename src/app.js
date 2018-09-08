@@ -21,6 +21,9 @@ import Tribe from './components/tribe/Tribe';
 import UserShow from './components/profile/Show';
 import UserEdit from './components/profile/Edit';
 
+//exercise
+import ExercisePlanShow from './components/exercisePlans/Show';
+
 class App extends React.Component {
   render() {
     return(
@@ -39,6 +42,9 @@ class App extends React.Component {
           {/* user */}
           <Route path='/profile/:id' component={UserShow} />
           <Route path='/users/:id/edit' component={UserEdit} />
+
+          {/* exercisePlans */}
+          <Route path='/exerciseplan/:id' component={ExercisePlanShow} />
 
           <Route path='/dashboard' component={Dashboard} />
         </Switch>

@@ -133,27 +133,16 @@ export default class UserShow extends React.Component{
           <div className='columns is-multiline'>
 
             {exercisePlans && exercisePlans.map( exercisePlan =>
-              //if plan is adopted show an icon
-              //program name
-              //average intensity
-              //total time per period
-              //average workout time
-              //average completed days
-              //total rest days
-              <div key={exercisePlan._id} className='column is-3 box'>
+              <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
                 {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
                 <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
-                <p><i className="fas fa-fire"></i>: {exercisePlan.formattedStartDate}</p>
-                <p><i className="far fa-clock"></i> Total:{exercisePlan.formattedStartDate}</p>
-                <p><i className="far fa-clock"></i> Average: {exercisePlan.formattedStartDate}</p>
-                <p>Completed Days: {exercisePlan.formattedStartDate}</p>
-                <p>Rest Days: {exercisePlan.formattedStartDate}</p>
-
-
-              </div>
-            )
-
-            }
+                <p><i className="fab fa-gripfire"></i>: {exercisePlan.intensityAvg}</p>
+                <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime}</p>
+                <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg}</p>
+                <p>Completed Days: {exercisePlan.completedDays}</p>
+                <p>Rest Days: {exercisePlan.restDays}</p>
+              </Link>
+            )}
           </div>
         </section>
       </section>
