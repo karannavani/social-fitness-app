@@ -10,17 +10,8 @@ import Auth from '../../lib/Auth';
 
 export default class AuthRegister extends React.Component{
   state = {
-    username: 'TestUser1',
-    email: 'a@a.com',
     passwordHidden: true,
-    password: 'pass',
-    passwordConfirmation: 'pass',
-    errors: {},
-    height: 175,
-    weight: 85,
-    age: 32,
-    Tribe: 'Gargantuans',
-    imageUrl: 'https://thecornishfishmonger.co.uk/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/t/r/trout.jpg'
+    errors: {}
   }
 
   handleSubmit = (event) => {
@@ -160,7 +151,7 @@ export default class AuthRegister extends React.Component{
 
             <div className="column is-full">
               <FormInput
-                name='imgUrl'
+                name='imageUrl'
                 type='text'
                 placeholder='profile picture (url)'
                 state={ this.state }
