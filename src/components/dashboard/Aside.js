@@ -4,6 +4,7 @@ import moment from 'moment';
 
 //Components
 import TodayCard from '../common/cards/TodayCard';
+import UnloggedCard from '../common/cards/UnloggedCard';
 import GreenCard from '../common/cards/GreenCard';
 import RedCard from '../common/cards/RedCard';
 import RestCard from '../common/cards/RestCard';
@@ -77,7 +78,7 @@ class Aside extends React.Component {
 
     const { exercises: { startDate } } = this.state; // getting startDate of the exercise
     // const today = moment.utc();
-    // const tomorrow = moment.utc().add(1, 'days');s
+    // const tomorrow = moment.utc().add(1, 'days');
     const today = moment.utc().add(3, 'days'); //manual today for testing
     const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
 
@@ -117,7 +118,8 @@ class Aside extends React.Component {
   }
 
   render() {
-    const {programToday, programDay, programTomorrow, editProgram, rest, tomorrowRest } = this.state;
+    const {programToday, programDay, programTomorrow, editProgram,
+      rest, tomorrowRest, unloggedExercises } = this.state;
     const {exerciseCompleted} = this.state.programToday || [];
 
     return(
@@ -173,6 +175,20 @@ class Aside extends React.Component {
                   title = {'Upcoming tomorrow:'}/>
               }
             </div>
+          }
+
+          {unloggedExercises.length > 0 && unloggedExercises.map((exercise, i) =>
+            <UnloggedCard
+              key = {i}
+              editProgram = {editProgram}
+              programDay = {programDay}
+              program = {exercise}
+              handleEdit = {this.handleEdit}
+              handleEditSubmit = {this.handleEditSubmit}
+              handleProgramClick = {this.handleProgramClick}
+            />
+          )
+
           }
 
           {/* **************CARDS LOGIC************** */}
