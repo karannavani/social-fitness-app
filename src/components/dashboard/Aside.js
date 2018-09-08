@@ -52,23 +52,16 @@ class Aside extends React.Component {
 
   handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
     const [id, day] = target.id.split(' ');
-    console.log('day is', day);
+    console.log('day is ====>', day);
     const newProgramState = this.state.exercises[day.toLowerCase()];
-    // if (day === this.state.programDay.replace(' ','')) {
-    //   console.log('today found');
-    //   newProgramState = this.state.programToday;
-    // } else {
-    //   console.log('day is', this.state.exercises[day.toLowerCase()]);
-    // }
-    console.log('clicked', id);
+    const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
+
     switch (id) {
 
       case ('complete'):
         newProgramState.exerciseCompleted = true;
-        this.setState({programToday: newProgramState}, () => {
-          console.log('updated program is', this.state.programToday);
-        });
-        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: this.state.programToday});
+        this.deleteUnlogged(unloggedIndex);
+        this.programUpdate(day, newProgramState);
         return console.log('clicked complete');
 
       case ('edit'):
@@ -77,10 +70,8 @@ class Aside extends React.Component {
 
       case ('skip'):
         newProgramState.exerciseCompleted = false;
-        this.setState({programToday: newProgramState}, () => {
-          console.log('updated program is', this.state.programToday);
-        });
-        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: this.state.programToday});
+        this.deleteUnlogged(unloggedIndex);
+        this.programUpdate(day, newProgramState);
         return console.log('clicked skip');
     }
   }
@@ -97,7 +88,7 @@ class Aside extends React.Component {
 
       // generate 7 dates from the start date – these are the program dates
       const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
-      console.log('date is', date.format('DD/MM/YYYY'));
+      // console.log('date is', date.format('DD/MM/YYYY'));
 
       // if a program date matches today's date, get the program at that index and set it as today's program
       if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
@@ -122,13 +113,29 @@ class Aside extends React.Component {
   checkUnlogged = (exercise, i) => {
     if (exercise.exerciseCompleted === null) {
       console.log('unlogged exercise is', exercise);
-      console.log(i);
       this.state.unloggedDays.push(i);
       this.state.unloggedExercises.push(exercise);
-      console.log(this.state.unloggedExercises);
     }
 
   }
+
+  deleteUnlogged = (unloggedIndex) => {
+    if (unloggedIndex > -1 ) {
+      const {unloggedDays, unloggedExercises} = this.state;
+      unloggedExercises.splice(unloggedIndex, unloggedIndex+1);
+      unloggedDays.splice(unloggedIndex, unloggedIndex+1);
+      this.setState({ unloggedExercises, unloggedDays });
+    }
+  }
+
+  programUpdate = (day, newProgramState) => {
+    this.setState({
+      exercises: {...this.state.exercises, [day.toLowerCase()]: newProgramState }
+    }, () => console.log(this.state.exercises));
+
+    axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState});
+  }
+
 
   render() {
     const {programToday, programDay, programTomorrow, editProgram,
