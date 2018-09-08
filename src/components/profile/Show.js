@@ -13,6 +13,18 @@ export default class UserShow extends React.Component{
   // BUG: pofile page does not remount if going from one profile to another
 
   componentDidMount(){
+    this.fetchUserData();
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    console.log('prevProps are:', prevState);
+    console.log('this.props are:', this.state);
+    if(prevProps.location.pathname !== this.props.location.pathname){
+      this.fetchUserData();
+    }
+  }
+
+  fetchUserData = () => {
     const userId = this.props.match.params.id;
     axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
@@ -22,23 +34,6 @@ export default class UserShow extends React.Component{
         const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
         this.setState({exercisePlans: usersExercisePlans});
       });
-
-  }
-
-  componentDidUpdate(prevProps, prevState){
-    console.log('prevProps are:', prevState);
-    console.log('this.props are:', this.state);
-    if(prevProps.location.pathname !== this.props.location.pathname){
-      const userId = this.props.match.params.id;
-      axios.get(`/api/users/${userId}`)
-        .then(res => this.setState({user: res.data}));
-
-      axios.get('/api/exerciseplans')
-        .then(res => {
-          const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
-          this.setState({exercisePlans: usersExercisePlans});
-        });
-    }
   }
 
   leadersSort = (dataArray) => {
