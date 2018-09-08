@@ -139,6 +139,7 @@ class Aside extends React.Component {
           {programToday && exerciseCompleted && rest &&
             <RestCard
               programDay = {this.state.programDay}
+              title = {'It\'s your rest day, take it easy!'}
             />
           }
 
