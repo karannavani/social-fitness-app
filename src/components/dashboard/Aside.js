@@ -13,7 +13,8 @@ import UpcomingRestCard from '../common/cards/UpcomingRestCard';
 
 class Aside extends React.Component {
   state = {
-    editProgram: false // this is linked to the edit button on the exercise card
+    editProgram: false, // this is linked to the edit button on the exercise card
+    unloggedExercises: []
   }
   //
   componentDidMount() {
@@ -83,10 +84,8 @@ class Aside extends React.Component {
     for (let i = 1; i < 8; i++) {
 
       // generate 7 dates from the start date – these are the program dates
-
       const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
       console.log('date is', date.format('DD/MM/YYYY'));
-
 
       // if a program date matches today's date, get the program at that index and set it as today's program
       if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
@@ -108,8 +107,12 @@ class Aside extends React.Component {
 
   }
 
-  checkUnlogged = (today) => {
-    console.log('unlogged today is', today);
+  checkUnlogged = (exercise) => {
+    if (exercise.exerciseCompleted === null) {
+      console.log('unlogged exercise is', exercise);
+      this.state.unloggedExercises.push(exercise);
+      console.log(this.state.unloggedExercises);
+    }
 
   }
 
