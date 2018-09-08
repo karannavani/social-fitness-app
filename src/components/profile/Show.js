@@ -14,14 +14,14 @@ export default class UserShow extends React.Component{
   state={
     sortString: 'startDate|asc',
     sortOptions: [
-      {value: 'totalGrit|asc', label: 'Grit (Highest First)' },
-      {value: 'totalGrit|desc', label: 'Grit (Lowest First)' },
-      {value: 'totalTime|asc', label: 'Longest Plan' },
-      {value: 'totalTime|desc', label: 'Shortest Plan' },
-      {value: 'workoutTimeAvg|asc', label: 'Long Workouts' },
-      {value: 'workoutTimeAvg|desc', label: 'Short Workouts first' },
-      {value: 'startDate|asc', label: 'Start Date (New to Old)' },
-      {value: 'startDate|desc', label: 'Start Date (Old to New' }
+      {value: 'totalGrit|desc', label: 'Grit (Highest First)' },
+      {value: 'totalGrit|asc', label: 'Grit (Lowest First)' },
+      {value: 'totalTime|desc', label: 'Longest Plan' },
+      {value: 'totalTime|asc', label: 'Shortest Plan' },
+      {value: 'workoutTimeAvg|desc', label: 'Long Workouts' },
+      {value: 'workoutTimeAvg|asc', label: 'Short Workouts first' },
+      {value: 'startDate|desc', label: 'Start Date (New to Old)' },
+      {value: 'startDate|asc', label: 'Start Date (Old to New' }
     ]
   };
 
@@ -35,7 +35,7 @@ export default class UserShow extends React.Component{
     }
 
     if(prevState.sortString !== this.state.sortString){
-      this.planSort(this.state.exercisePlans)
+      this.planSort(this.state.exercisePlans);
     }
   }
 
@@ -53,8 +53,10 @@ export default class UserShow extends React.Component{
 
   planSort = (dataArray) => {
     const [ field, order] = this.state.sortString.split('|');
+    console.log('the field is', field);
+    console.log('the order is', order);
     const sortedPlans = _.orderBy(dataArray, [field], order);
-    this.setState({sortedExercisePlans: sortedPlans});
+    this.setState({exercisePlans: sortedPlans});
   }
   // componentDidUpdate(){
   //   console.log('This is the users page=======> ', this.isUsersPage());
@@ -170,7 +172,7 @@ export default class UserShow extends React.Component{
               <SortSelect
                 options={sortOptions}
                 title='Sort Plans'
-                handleChange={this.handleSortChange}
+                handleChange={this.handleSortSelectChange}
               />
               <hr/>
             </section>
