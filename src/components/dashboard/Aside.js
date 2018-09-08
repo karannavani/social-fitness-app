@@ -74,34 +74,36 @@ class Aside extends React.Component {
 
   getProgram = () => {
 
-    // const { exercises: { startDate } } = this.state; // getting startDate of the exercise
-    // const { exercises: { startDate } } = this.state; // getting startDate of the exercise
-
-    const today = moment.utc();
-    const tomorrow = moment.utc().add(1, 'days');
+    const { exercises: { startDate } } = this.state; // getting startDate of the exercise
+    // const today = moment.utc();
+    // const tomorrow = moment.utc().add(1, 'days');s
+    const today = moment.utc().add(3, 'days'); //manual today for testing
+    const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
 
     for (let i = 1; i < 8; i++) {
 
       // generate 7 dates from the start date – these are the program dates
 
-      const date = moment.utc().add(i-1, 'days');
+      const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
       console.log('date is', date.format('DD/MM/YYYY'));
 
-      if(moment(date).isBefore(moment(today))) {
-        this.checkUnlogged(this.state.exercises[`day${i}`]);
 
-        // if a program date matches today's date, get the program at that index and set it as today's program
-      } else if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
+      // if a program date matches today's date, get the program at that index and set it as today's program
+      if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
         const value = this.state.exercises[`day${i}`];
         console.log('program for today is', value);
         this.setState({ programToday: value, programDay: `Day ${i}`, rest: value.rest });
 
-      // saving the workout of the next day to the state
+        // saving the workout of the next day to the state
       } else if (date.format('DD/MM/YYYY') === tomorrow.format('DD/MM/YYYY') ) {
         const value = this.state.exercises[`day${i}`];
         this.setState({ programTomorrow: value, tomorrowRest: value.rest });
-      }
 
+      } else if(moment(date).isBefore(moment(today))) {
+
+        console.log(`${date.format('DD/MM/YYYY')} is before ${today.format('DD/MM/YYYY')}`);
+        this.checkUnlogged(this.state.exercises[`day${i}`]);
+      }
     }
 
   }
