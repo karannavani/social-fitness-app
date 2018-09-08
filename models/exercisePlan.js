@@ -113,9 +113,7 @@ exercisePlanSchema.virtual('totalTime')
         timesArray.push(this[`day${i}`].time);
       }
     }
-    const totalTime = timesArray.reduce((sum, time) => sum + time);
-    const formatTime = `${totalTime} minutes`;
-    return formatTime;
+    return timesArray.reduce((sum, time) => sum + time);
   });
 
 // Returns the total exercise time required in a program
@@ -144,9 +142,7 @@ exercisePlanSchema.virtual('workoutTimeAvg')
         timesArray.push(this[`day${i}`].time);
       }
     }
-    const averageTime = Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
-    const formatAvgTime = `${averageTime} minutes/day`;
-    return formatAvgTime;
+    return Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
   });
 
 
