@@ -12,6 +12,7 @@ import FlashMessages from './components/common/FlashMessages';
 
 //Auth
 import AuthLogin from './components/auth/Login';
+import AuthRegister from './components/auth/Register';
 
 //dash - tribe
 import Dashboard from './components/dashboard/Dashboard.js';
@@ -36,6 +37,7 @@ class App extends React.Component {
         <Switch>
 
           <Route path='/login' component={AuthLogin} />
+          <Route path='/register' component={AuthRegister} />
 
           <Route path='/tribe/:tribeName' component={Tribe} />
 
