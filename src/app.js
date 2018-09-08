@@ -6,6 +6,7 @@ import './scss/style.scss';
 
 //COMPONENTS
 //partials
+import Home from './components/Home';
 import Header from './components/Header';
 // import Footer from './components/Footer';
 import FlashMessages from './components/common/FlashMessages';
@@ -36,6 +37,7 @@ class App extends React.Component {
         </Switch> */}
         <Switch>
 
+          <Route exact path='/' component={Home} />
           <Route path='/login' component={AuthLogin} />
           <Route path='/register' component={AuthRegister} />
 

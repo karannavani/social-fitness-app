@@ -101,7 +101,7 @@ export default class AuthRegister extends React.Component{
             <div className="column is-half">
               <FormInput
                 name='passwordConfirmation'
-                type='passwordConfirmation'
+                type='password'
                 placeholder='password confirmation'
                 state={ this.state }
                 handleChange={ this.handleChange }
