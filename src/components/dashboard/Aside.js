@@ -137,31 +137,30 @@ class Aside extends React.Component {
 
           {/* primary card for rest day*/}
           {programToday && exerciseCompleted && rest &&
-            <RestCard />
+            <RestCard
+              programDay = {this.state.programDay}
+            />
           }
 
           {/* upcoming cards for rest day and non rest day*/}
           {programToday && exerciseCompleted !== null && programTomorrow &&
             <div>
               { tomorrowRest &&
-                <UpcomingRestCard />
+                <UpcomingRestCard
+                  title = {'Upcoming tomorrow:'}
+                />
               }
               {!tomorrowRest &&
-                <UpcomingCard programTomorrow = {this.state.programTomorrow} />
+                <UpcomingCard
+                  programDetails = {this.state.programTomorrow}
+                  title = {'Upcoming tomorrow:'}/>
               }
             </div>
           }
 
           {/* **************CARDS LOGIC************** */}
 
-          {/* **************TIMELINE LOGIC************** */}
-          <div>
-            {/* {this.state.exercises && this.state.exercises.map(field => console.log(field)) } */}
 
-            {this.state.exercises && Object.keys(this.state.exercises).map((key, i) =>
-              <p key={key}>{this.state.exercises[`day${i}`].time}</p>)}
-          </div>
-          {/* **************TIMELINE LOGIC************** */}
 
         </div>
       </div>
