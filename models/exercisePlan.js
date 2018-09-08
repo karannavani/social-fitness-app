@@ -60,6 +60,7 @@ exercisePlanSchema.virtual('formattedStartDate')
     return moment.unix(this.startDate).format('DD/MM/YYYY');
   });
 
+// Returns the average intensity of the program as a string
 exercisePlanSchema.virtual('intensityAvg')
   .get(function(){
     const allIntensities = [];
@@ -96,26 +97,57 @@ exercisePlanSchema.virtual('intensityAvg')
     }
   });
 
-//get day intensity, if medium, push 2 into an array etc
-//push into an array
-//count how many of each
-// const value = this.state.exercises[`day${i}`];
-
-
+// Returns the total exercise time required in a program
 exercisePlanSchema.virtual('totalTime')
-//get each days exercise time
-//put them into an array
-//reduce the array and return the toa
+  .get( function() {
+    const timesArray = [];
+    for(let i = 1; i < 8; i++){
+      if(this[`day${i}`].time){
+        timesArray.push(this[`day${i}`].time);
+      }
+    }
+    const totalTime = timesArray.reduce((sum, time) => sum + time);
+    const formatTime = `${totalTime} minutes`;
+    return formatTime;
+  });
 
 
 exercisePlanSchema.virtual('workoutTimeAvg')
+  .get( function() {
+    const timesArray = [];
+    for(let i = 1; i < 8; i++){
+      if(this[`day${i}`].time){
+        timesArray.push(this[`day${i}`].time);
+      }
+    }
+    const averageTime = Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
+    const formatAvgTime = `${averageTime} minutes/day`;
+    return formatAvgTime;
+  });
 
 
 exercisePlanSchema.virtual('completedDays')
+  .get( function() {
+    let completed = 0;
+    for(let i = 1; i < 8; i++){
+      if(this[`day${i}`].exerciseCompleted && !this[`day${i}`].rest){
+        completed ++;
+      }
+    }
+    return completed;
+  });
 
 
 exercisePlanSchema.virtual('restDays')
-
+  .get( function() {
+    let restDays = 0;
+    for(let i = 1; i < 8; i++){
+      if(this[`day${i}`].rest){
+        restDays ++;
+      }
+    }
+    return restDays;
+  });
 
 
 // LIFECYCLE HOOKS
