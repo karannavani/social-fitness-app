@@ -39,7 +39,8 @@ function randomNumber(){
 
 function randomUserId(){
   const randomIndex = Math.floor(Math.random() * userIds.length/5);
-  return userIds[randomIndex];
+  return mongoose.Types.ObjectId(userIds[randomIndex]);
+  // return userIds[randomIndex];
 }
 
 function randomTribeName(){
@@ -256,8 +257,7 @@ function createActiveExercisePlan(){
 ////////////--CREATE HISTORIC EXERCISE PLAN---///////////////////////
 /////////////////////////////////////////////////////////////////////
 
-// BUG: these do not generate dates
-
+// returns an arrray of dates 3 days apart between the start date and stop date, descending
 function getDates(startDate, stopDate) {
   const dateArray = [];
   const stopperDate = moment().subtract(stopDate, 'years');
@@ -265,7 +265,7 @@ function getDates(startDate, stopDate) {
 
   while ( stopperDate <= currentDate) {
     dateArray.push( moment(currentDate).unix() );
-    currentDate = moment(currentDate).subtract(1, 'days');
+    currentDate = moment(currentDate).subtract(3, 'days');
   }
   return dateArray;
 }

@@ -128,14 +128,33 @@ export default class UserShow extends React.Component{
 
         {/* HISTORY */}
         <section className='container'>
-          {exercisePlans &&
-            <section>
-              <h2 className='title has-text-centered is-2'>History</h2>
-              {/* map over an array of past exercise */}
+          <h2 className='title has-text-centered is-2'>History</h2>
+          {/* map over an array of past exercise */}
+          <div className='columns is-multiline'>
 
-              <p>{exercisePlans[0].startDate}</p>
-            </section>
-          }
+            {exercisePlans && exercisePlans.map( exercisePlan =>
+              //if plan is adopted show an icon
+              //program name
+              //average intensity
+              //total time per period
+              //average workout time
+              //average completed days
+              //total rest days
+              <div key={exercisePlan._id} className='column is-3 box'>
+                {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
+                <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
+                <p><i className="fas fa-fire"></i>: {exercisePlan.formattedStartDate}</p>
+                <p><i className="far fa-clock"></i> Total:{exercisePlan.formattedStartDate}</p>
+                <p><i className="far fa-clock"></i> Average: {exercisePlan.formattedStartDate}</p>
+                <p>Completed Days: {exercisePlan.formattedStartDate}</p>
+                <p>Rest Days: {exercisePlan.formattedStartDate}</p>
+
+
+              </div>
+            )
+
+            }
+          </div>
         </section>
       </section>
 
