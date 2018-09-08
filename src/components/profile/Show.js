@@ -9,6 +9,7 @@ import _ from 'lodash';
 
 //Components
 import SortSelect from '../common/SortSelect';
+import FilterBar from './FilterBar';
 
 export default class UserShow extends React.Component{
   state={
@@ -22,6 +23,11 @@ export default class UserShow extends React.Component{
       {value: 'workoutTimeAvg|asc', label: 'Short Workouts first' },
       {value: 'startDate|desc', label: 'Start Date (New to Old)' },
       {value: 'startDate|asc', label: 'Start Date (Old to New' }
+    ],
+    filterIntensityOptions: [
+      {label: 'Low Intensity', value: 'Low', active: true},
+      {label: 'Medium Intensity', value: 'Medium', active: true},
+      {label: 'High Intensity', value: 'High', active: true}
     ]
   };
 
@@ -168,12 +174,20 @@ export default class UserShow extends React.Component{
           <h2 className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
           <div className='columns is-multiline'>
-            <section className='column is-12'>
-              <SortSelect
-                options={sortOptions}
-                title='Sort Plans'
-                handleChange={this.handleSortSelectChange}
-              />
+            <section className='column is-12 columns'>
+              <div className='column is-6'>
+                <SortSelect
+                  options={sortOptions}
+                  title='Sort Plans'
+                  handleChange={this.handleSortSelectChange}
+                />
+              </div>
+              <div className='column is-6'>
+                <FilterBar
+                  options={this.state.filterIntensityOptions}
+
+                />
+              </div>
               <hr/>
             </section>
 
