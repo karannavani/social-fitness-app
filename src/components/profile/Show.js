@@ -11,16 +11,14 @@ export default class UserShow extends React.Component{
   state={};
 
   componentDidMount(){
-    const userId = this.props.match.params.id
+    const userId = this.props.match.params.id;
     axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
 
     axios.get('/api/exerciseplans')
       .then(res => {
         const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
-        console.log('all the users exercise plans are ', usersExercisePlans);
-        const sortedUserExercisePlans = this.leadersSort(usersExercisePlans);
-        console.log('the sorted exercise plans are ', sortedUserExercisePlans);
+        this.setState({exercisePlans: usersExercisePlans});
       });
   }
 
@@ -64,7 +62,7 @@ export default class UserShow extends React.Component{
 
 
   render(){
-    const { user } = this.state;
+    const { user, exercisePlans } = this.state;
     return(
       <section>
         {/* HERO */}
@@ -130,8 +128,14 @@ export default class UserShow extends React.Component{
 
         {/* HISTORY */}
         <section className='container'>
-          <h2 className='title has-text-centered is-2'>History</h2>
-          {/* map over an array of past exercise */}
+          {exercisePlans &&
+            <section>
+              <h2 className='title has-text-centered is-2'>History</h2>
+              {/* map over an array of past exercise */}
+
+              <p>{exercisePlans[0].startDate}</p>
+            </section>
+          }
         </section>
       </section>
 
