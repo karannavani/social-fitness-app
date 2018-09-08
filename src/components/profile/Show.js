@@ -8,7 +8,7 @@ import Auth from '../../lib/Auth';
 import _ from 'lodash';
 
 //Components
-import SortSelect from '../common/SortSelect';
+// import SortSelect from '../common/SortSelect';
 
 export default class UserShow extends React.Component{
   state={
