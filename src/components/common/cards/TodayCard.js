@@ -17,6 +17,7 @@ const TodayCard = ({editProgram, programToday, programDay, handleEdit, handleEdi
           />
           :
           <PrimaryCard
+            programDay = {programDay.replace(' ', '')}
             programToday = {programToday}
             handleProgramClick = {handleProgramClick}
           />

@@ -50,8 +50,17 @@ class Aside extends React.Component {
     }
   }
 
-  handleProgramClick = ({target: {id} }) => { // allows user to complete, edit and skip days
-    const newProgramState = this.state.programToday;
+  handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
+    const [id, day] = target.id.split(' ');
+    console.log('day is', day);
+    const newProgramState = this.state.exercises[day.toLowerCase()];
+    // if (day === this.state.programDay.replace(' ','')) {
+    //   console.log('today found');
+    //   newProgramState = this.state.programToday;
+    // } else {
+    //   console.log('day is', this.state.exercises[day.toLowerCase()]);
+    // }
+    console.log('clicked', id);
     switch (id) {
 
       case ('complete'):
@@ -59,7 +68,7 @@ class Aside extends React.Component {
         this.setState({programToday: newProgramState}, () => {
           console.log('updated program is', this.state.programToday);
         });
-        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {day1: this.state.programToday});
+        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: this.state.programToday});
         return console.log('clicked complete');
 
       case ('edit'):
@@ -71,7 +80,7 @@ class Aside extends React.Component {
         this.setState({programToday: newProgramState}, () => {
           console.log('updated program is', this.state.programToday);
         });
-        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {day1: this.state.programToday});
+        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: this.state.programToday});
         return console.log('clicked skip');
     }
   }
@@ -128,7 +137,7 @@ class Aside extends React.Component {
 
     return(
 
-      <div className="column is-4 dashAside">
+      <div className="column is-4 is-3-desktop dashAside">
         <div className="program-div">
           {programToday && <h2 className="title is-2 white">Today:</h2>}
           {/* **************CARDS LOGIC************** */}

@@ -43,7 +43,7 @@ class TribeAside extends React.Component {
       <div>
         {this.state &&
           <div className="columns">
-            <div className="column is-4 tribeAside">
+            <div className="column is-4 is-3-desktop tribeAside">
               <div className="tribeAsideContainer">
                 <p>YOUR TRIBE</p>
                 { this.state.user && this.state.tribeWeight && <div><p>{this.state.members.length} {this.state.tribeName}</p>

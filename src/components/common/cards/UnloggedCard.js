@@ -16,6 +16,7 @@ const UnloggedCard = ({editProgram, program, programDay, handleEdit, handleEditS
           />
           :
           <PrimaryCard
+            programDay = {programDay.replace(' ', '')}
             programToday = {program}
             handleProgramClick = {handleProgramClick}
           />
