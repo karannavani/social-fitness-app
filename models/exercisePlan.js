@@ -113,6 +113,9 @@ exercisePlanSchema.virtual('totalTime')
         timesArray.push(this[`day${i}`].time);
       }
     }
+    if(!timesArray.length){
+      return null;
+    }
     return timesArray.reduce((sum, time) => sum + time);
   });
 
@@ -141,6 +144,9 @@ exercisePlanSchema.virtual('workoutTimeAvg')
       if(this[`day${i}`].time){
         timesArray.push(this[`day${i}`].time);
       }
+    }
+    if(!timesArray.length){
+      return null;
     }
     return Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
   });

@@ -20,7 +20,8 @@ class Aside extends React.Component {
   //
   componentDidMount() {
     axios.get('/api/users/')
-      .then(res => this.setState({ users: res.data[0], exerciseId: res.data[0].exercisePlan[0] }, () => this.getExercise()));
+      .then(res => this.setState({ users: res.data[0], exerciseId: res.data[0].exercisePlan[0] },
+        () => this.getExercise()));
   }
 
   getExercise = () => { // sets the exercises from the current plan on the state
@@ -124,9 +125,9 @@ class Aside extends React.Component {
 
     return(
 
-      <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
+      <div className="column is-4 dashAside">
         <div className="program-div">
-
+          {programToday && <h2 className="title is-2 white">Today:</h2>}
           {/* **************CARDS LOGIC************** */}
 
           {/* main card which displays today's exercise */}
@@ -177,18 +178,20 @@ class Aside extends React.Component {
             </div>
           }
 
+          {unloggedExercises.length > 0 &&
+          <h3 className="title is-3 white">Unlogged:</h3>}
           {unloggedExercises.length > 0 && unloggedExercises.map((exercise, i) =>
-            <UnloggedCard
-              key = {i}
-              editProgram = {editProgram}
-              programDay = {programDay}
-              program = {exercise}
-              handleEdit = {this.handleEdit}
-              handleEditSubmit = {this.handleEditSubmit}
-              handleProgramClick = {this.handleProgramClick}
-            />
+            <div key = {i}>
+              <UnloggedCard
+                editProgram = {editProgram}
+                programDay = {programDay}
+                program = {exercise}
+                handleEdit = {this.handleEdit}
+                handleEditSubmit = {this.handleEditSubmit}
+                handleProgramClick = {this.handleProgramClick}
+              />
+            </div>
           )
-
           }
 
           {/* **************CARDS LOGIC************** */}
