@@ -12,19 +12,31 @@ class TribeAside extends React.Component {
 
   componentDidMount() {
     axios.get(`/api/tribes/${this.state.tribeName}`)
-      .then(res => this.setState({ members: res.data} ));
+      .then(res => this.setState({ members: res.data}, () => {
+        this.tribeWeight();
+      } ));
     axios.get('/api/users/5b91752666708bc8b1622706')
       .then(res => this.setState({ user: res.data }));
-  }
 
-  getCurrentUser = () => {
-    console.log('Current user is', this.state.user.age);
   }
 
   leadersSort = () => {
     const leaders = this.state.members;
     return _.orderBy(leaders, ['grit', 'username'], 'desc');
   }
+
+  tribeWeight = () => {
+    const tribeWeight = [];
+    this.state.members.forEach(member => {
+      tribeWeight.push(member.weight);
+      const reducedWeight = (tribeWeight.reduce((a, b) => a + b) / tribeWeight.length);
+      console.log('reducedWeight', reducedWeight);
+      this.setState({ tribeWeight: reducedWeight }, () => {
+        console.log('tribe weight on state is', this.state.tribeWeight);
+      });
+    });
+  }
+
 
   render() {
     return (
@@ -34,7 +46,8 @@ class TribeAside extends React.Component {
             <div className="column is-4 tribeAside">
               <div className="dashAsideContainer">
                 <p>YOUR TRIBE</p>
-                {this.state.members && this.state.user && <p>{this.state.tribeName} has {this.state.members.length} {this.getCurrentUser()} members</p>}
+                { this.state.user && this.state.tribeWeight && <div><p>{this.state.members.length} {this.state.tribeName}</p>
+                  <p>Average weight: {this.state.tribeWeight}</p></div> }
               </div>
               <div className="dashAsideContainer">
                 <p>LEADER BOARD</p>
