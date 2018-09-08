@@ -301,7 +301,8 @@ function createHistoricExerciseDay(){
       rest: false,
       exerciseCompleted: randomExerciseCompleted(),
       time: randomExerciseTime(),
-      intensity: randomExerciseItensity()
+      intensity: randomExerciseItensity(),
+      dailyGrit: randomDailyGrit()
     };
   }
 }

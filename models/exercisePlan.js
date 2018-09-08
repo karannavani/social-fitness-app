@@ -7,43 +7,50 @@ const exercisePlanSchema = new mongoose.Schema({
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
-    intensity: String
+    intensity: String,
+    dailyGrit: Number
   },
   day2: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
-    intensity: String
+    intensity: String,
+    dailyGrit: Number
   },
   day3: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
-    intensity: String
+    intensity: String,
+    dailyGrit: Number
   },
   day4: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
-    intensity: String
+    intensity: String,
+    dailyGrit: Number
   },
   day5: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
-    intensity: String
+    intensity: String,
+    dailyGrit: Number
   },
   day6: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
-    intensity: String
+    intensity: String,
+    dailyGrit: Number
   },
   day7: {
     rest: {type: Boolean, default: false },
     exerciseCompleted: { type: Boolean, default: null},
     time: Number,
-    intensity: String
+    intensity: String,
+    dailyGrit: Number
   },
   user: { type: ObjectId, ref: 'User' }, //references the user model
   exercisePlanAdoptedFrom: { type: ObjectId, ref: 'ExercisePlan' }, //will have the program id
@@ -109,6 +116,23 @@ exercisePlanSchema.virtual('totalTime')
     const totalTime = timesArray.reduce((sum, time) => sum + time);
     const formatTime = `${totalTime} minutes`;
     return formatTime;
+  });
+
+// Returns the total exercise time required in a program
+exercisePlanSchema.virtual('totalGrit')
+  .get( function() {
+    const gritArray = [];
+    for(let i = 1; i < 8; i++){
+      if(this[`day${i}`].dailyGrit){
+        gritArray.push(this[`day${i}`].dailyGrit);
+      }
+    }
+
+    if(!gritArray.length){
+      return null;
+    }
+
+    return gritArray.reduce((sum, grit) => sum + grit);
   });
 
 

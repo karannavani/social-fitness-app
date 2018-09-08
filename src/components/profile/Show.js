@@ -10,6 +10,8 @@ import _ from 'lodash';
 export default class UserShow extends React.Component{
   state={};
 
+  // BUG: pofile page does not remount if going from one profile to another
+
   componentDidMount(){
     const userId = this.props.match.params.id;
     axios.get(`/api/users/${userId}`)
@@ -20,7 +22,17 @@ export default class UserShow extends React.Component{
         const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
         this.setState({exercisePlans: usersExercisePlans});
       });
+
   }
+
+  // componentDidUpdate(prevProps, prevState){
+  //   console.log('prevProps are:', prevState);
+  //   console.log('this.props are:', this.state);
+  //   if(prevState.user !== this.user){
+  //     console.log('set State should fire');
+  //     this.setState({update: true});
+  //   }
+  // }
 
   leadersSort = (dataArray) => {
     return _.orderBy(dataArray, ['startDate'], 'desc');
