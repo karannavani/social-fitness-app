@@ -25,14 +25,21 @@ export default class UserShow extends React.Component{
 
   }
 
-  // componentDidUpdate(prevProps, prevState){
-  //   console.log('prevProps are:', prevState);
-  //   console.log('this.props are:', this.state);
-  //   if(prevState.user !== this.user){
-  //     console.log('set State should fire');
-  //     this.setState({update: true});
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState){
+    console.log('prevProps are:', prevState);
+    console.log('this.props are:', this.state);
+    if(prevProps.location.pathname !== this.props.location.pathname){
+      const userId = this.props.match.params.id;
+      axios.get(`/api/users/${userId}`)
+        .then(res => this.setState({user: res.data}));
+
+      axios.get('/api/exerciseplans')
+        .then(res => {
+          const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
+          this.setState({exercisePlans: usersExercisePlans});
+        });
+    }
+  }
 
   leadersSort = (dataArray) => {
     return _.orderBy(dataArray, ['startDate'], 'desc');
@@ -147,6 +154,7 @@ export default class UserShow extends React.Component{
             {exercisePlans && exercisePlans.map( exercisePlan =>
               <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
                 {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
+                <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>
                 <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
                 <p><i className="fab fa-gripfire"></i>: {exercisePlan.intensityAvg}</p>
                 <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime}</p>
