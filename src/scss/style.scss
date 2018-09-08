@@ -19,9 +19,22 @@
   margin: auto;
 }
 
+.program-card-skipped {
+  background: #ED213A;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #93291E, #ED213A);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #93291E, #ED213A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  margin: auto;
+}
+
 .program-div {
   margin-top: 30px;
 }
+
+input.programEdit  {
+  background: none;
+}
+
+
 
 .fas {
   color: white;
