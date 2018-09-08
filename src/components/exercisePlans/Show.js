@@ -35,27 +35,27 @@ export default class ExercisePlanShow extends React.Component{
                 <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg}</p>
               </div>
 
-              {/* <div className='column is-12'>
-                {for(let i = 1; i < 8; i++){
+              <div className='column is-12'>
+                {/* {for(let i = 1; i < 8; i++){ */}
                   <div className="card program-card">
                     <div className="card-content">
-                      <h5 key="1" className="title is-5">Day {i}:</h5>
+                      <h5 key="1" className="title is-5">Day {1}:</h5>
                       <p>
                         <span
                           className="title is-5 upcomingDetails">
                           <i className="fas fa-stopwatch fas-regular"></i>
-                          {exercisePlan[`day${i}`].time}
+                          {exercisePlan[`day${1}`].time}
                           mins
                         </span>
                         <span
                           className="title is-5 upcomingDetails">
                           <i className="fas fa-fire fas-regular"></i> {
-                            exercisePlan[`day${i}`].intensity}
+                            exercisePlan[`day${1}`].intensity}
                         </span>
                       </p>
                     </div>
-                  </div> */}
-                }}
+                  </div>
+                {/* }} */}
 
               </div>
 

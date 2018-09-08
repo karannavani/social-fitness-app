@@ -155,12 +155,12 @@ class Aside extends React.Component {
           {/* **************CARDS LOGIC************** */}
 
           {/* **************TIMELINE LOGIC************** */}
-          <div>
+          {/* <div> */}
             {/* {this.state.exercises && this.state.exercises.map(field => console.log(field)) } */}
 
-            {this.state.exercises && Object.keys(this.state.exercises).map((key, i) =>
+            {/* {this.state.exercises && Object.keys(this.state.exercises).map((key, i) =>
               <p key={key}>{this.state.exercises[`day${i}`].time}</p>)}
-          </div>
+          </div> */}
           {/* **************TIMELINE LOGIC************** */}
 
         </div>
