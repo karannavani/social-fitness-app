@@ -43,13 +43,13 @@ class TribeAside extends React.Component {
       <div>
         {this.state &&
           <div className="columns">
-            <div className="column is-4 tribeAside">
-              <div className="dashAsideContainer">
+            <div className="column is-4 is-3-desktop tribeAside">
+              <div className="tribeAsideContainer">
                 <p>YOUR TRIBE</p>
                 { this.state.user && this.state.tribeWeight && <div><p>{this.state.members.length} {this.state.tribeName}</p>
                   <p>Average weight: {this.state.tribeWeight}</p></div> }
               </div>
-              <div className="dashAsideContainer">
+              <div className="tribeAsideContainer">
                 <p>LEADER BOARD</p>
                 {this.state.members && this.leadersSort().slice(0, 10).map(leader =>
                   <div key={leader._id}>
@@ -57,7 +57,7 @@ class TribeAside extends React.Component {
                   </div>
                 )}
               </div>
-              <div className="dashAsideContainer">
+              <div className="tribeAsideContainer">
                 <p>ADOPTED PROGRAMMES</p>
               </div>
             </div>
