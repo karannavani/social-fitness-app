@@ -86,10 +86,11 @@ class Aside extends React.Component {
       const unixDate = moment(startDate).add(i-1, 'days');
       const date = moment.unix(unixDate).format('DD/MM/YYYY');
 
-      // if(moment.unix(date).format('DD/MM/YYYY').isBefore(moment.unix(today).format('DD/MM/YYYY')))
+      if (moment(unixDate).isBefore(unixToday) && !unixToday) {
+        this.checkUnlogged(this.state.exercises[`day${i}`]);
 
       // if a program date matches today's date, get the program at that index and set it as today's program
-      if (date === today) {
+      } else if (date === today) {
         console.log(date);
         const value = this.state.exercises[`day${i}`];
         console.log('program for today is', value);
@@ -106,8 +107,9 @@ class Aside extends React.Component {
 
   }
 
-  getUnlogged = (today) => {
-    console.log('unlogged today is', today);
+  checkUnlogged = (exerciseDay) => {
+    console.log('reached here');
+    console.log('unlogged today is', exerciseDay);
 
   }
 
