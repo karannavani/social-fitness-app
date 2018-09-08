@@ -46,38 +46,45 @@ export default class AuthLogin extends React.Component{
   render(){
     return(
       <section>
-        <h1>Please login! Not got a login <Link to='/register'>SIGN UP</Link></h1>
         <form onSubmit={ this.handleSubmit }>
+          <div className="columns is-centered is-multiline">
+            <div className="column is-6 is-offest-3">
 
-          <div className='columns is-centered'>
-            <div className='column is-half'>
-              <FormInput
-                name='email'
-                type='email'
-                state={ this.state }
-                handleChange={ this.handleChange }
-                placeholder='example@email.com'
-              />
+              <h1 className="column title is-6">Log into your account</h1>
 
-              <div className='columns'>
-                <div className='column is-10'>
-                  <FormInput
-                    name='password'
-                    type={this.state.passwordHidden ? 'password' : 'text'}
-                    state={ this.state }
-                    handleChange={ this.handleChange }
-                    placeholder='Password'
-                  />
-
-                </div>
-                <div className='column is-2'>
-                  <a className='button is-rounded' onClick={ this.togglePasswordShow }>👁</a>
-                </div>
+              <div className="column">
+                <FormInput
+                  name='email'
+                  type='email'
+                  state={ this.state }
+                  handleChange={ this.handleChange }
+                  placeholder='example@email.com'
+                />
               </div>
-              <button className='button'>Submit</button>
+
+              <div className="column">
+                <FormInput
+                  name='password'
+                  type={this.state.passwordHidden ? 'password' : 'text'}
+                  state={ this.state }
+                  handleChange={ this.handleChange }
+                  placeholder='Password'
+                />
+              </div>
+
+              <div className="columns login-buttons">
+
+                <button className="button column is-info is-rounded is-3 is-offset-1">Log in</button>
+
+                <div className="column is-3 is-offset-1">
+                  <a className="button is-rounded" onClick={ this.togglePasswordShow }>👁</a>
+                </div>
+
+                <button className="button is-rounded is-info is-3 is-offset-1"><Link to='/'>Back</Link></button>
+              </div>
+
             </div>
           </div>
-
         </form>
       </section>
     );

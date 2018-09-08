@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 // Common components
 import FormInput from '../common/FormInput';
@@ -46,6 +47,8 @@ export default class AuthRegister extends React.Component{
       <section className="container">
         <form onSubmit={ this.handleSubmit }>
           <div className="columns is-centered is-multiline">
+
+            <h1 className="column is-12 title is-6">Set up your Grit account</h1>
 
             <div className="column is-one-third">
               <FormInput
@@ -158,7 +161,8 @@ export default class AuthRegister extends React.Component{
                 handleChange={ this.handleChange }
               />
             </div>
-            <button className="button">Register</button>
+            <button className="button is-info is-rounded has-text-weight-bold">Register</button>
+            <Link to='/login' className="button is-info is-rounded has-text-weight-bold">Log in</Link>
           </div>
         </form>
       </section>

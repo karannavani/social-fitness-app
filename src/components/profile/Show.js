@@ -168,14 +168,14 @@ export default class UserShow extends React.Component{
           <h2 className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
           <div className='columns is-multiline'>
-            <section className='column is-12'>
+            {/* <section className='column is-12'>
               <SortSelect
                 options={sortOptions}
                 title='Sort Plans'
                 handleChange={this.handleSortSelectChange}
               />
               <hr/>
-            </section>
+            </section> */}
 
             {exercisePlans && exercisePlans.map( exercisePlan =>
               <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
