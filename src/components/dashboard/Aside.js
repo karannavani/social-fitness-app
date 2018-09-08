@@ -3,12 +3,12 @@ import axios from 'axios';
 import moment from 'moment';
 
 //Components
-import TodayCard from './cards/TodayCard';
-import GreenCard from './cards/GreenCard';
-import RedCard from './cards/RedCard';
-import RestCard from './cards/RestCard';
-import UpcomingCard from './cards/UpcomingCard';
-import UpcomingRestCard from './cards/UpcomingRestCard';
+import TodayCard from '../common/cards/TodayCard';
+import GreenCard from '../common/cards/GreenCard';
+import RedCard from '../common/cards/RedCard';
+import RestCard from '../common/cards/RestCard';
+import UpcomingCard from '../common/cards/UpcomingCard';
+import UpcomingRestCard from '../common/cards/UpcomingRestCard';
 
 
 class Aside extends React.Component {
