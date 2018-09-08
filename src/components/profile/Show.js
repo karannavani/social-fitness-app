@@ -7,20 +7,35 @@ import axios from 'axios';
 import Auth from '../../lib/Auth';
 import _ from 'lodash';
 
-export default class UserShow extends React.Component{
-  state={};
+//Components
+import SortSelect from '../common/SortSelect';
 
-  // BUG: pofile page does not remount if going from one profile to another
+export default class UserShow extends React.Component{
+  state={
+    sortString: 'startDate|asc',
+    sortOptions: [
+      {value: 'totalGrit|asc', label: 'Grit (Highest First)' },
+      {value: 'totalGrit|desc', label: 'Grit (Lowest First)' },
+      {value: 'totalTime|asc', label: 'Longest Plan' },
+      {value: 'totalTime|desc', label: 'Shortest Plan' },
+      {value: 'workoutTimeAvg|asc', label: 'Long Workouts' },
+      {value: 'workoutTimeAvg|desc', label: 'Short Workouts first' },
+      {value: 'startDate|asc', label: 'Start Date (New to Old)' },
+      {value: 'startDate|desc', label: 'Start Date (Old to New' }
+    ]
+  };
 
   componentDidMount(){
     this.fetchUserData();
   }
 
   componentDidUpdate(prevProps, prevState){
-    console.log('prevProps are:', prevState);
-    console.log('this.props are:', this.state);
     if(prevProps.location.pathname !== this.props.location.pathname){
       this.fetchUserData();
+    }
+
+    if(prevState.sortString !== this.state.sortString){
+      this.planSort(this.state.exercisePlans)
     }
   }
 
@@ -36,8 +51,10 @@ export default class UserShow extends React.Component{
       });
   }
 
-  leadersSort = (dataArray) => {
-    return _.orderBy(dataArray, ['startDate'], 'desc');
+  planSort = (dataArray) => {
+    const [ field, order] = this.state.sortString.split('|');
+    const sortedPlans = _.orderBy(dataArray, [field], order);
+    this.setState({sortedExercisePlans: sortedPlans});
   }
   // componentDidUpdate(){
   //   console.log('This is the users page=======> ', this.isUsersPage());
@@ -74,9 +91,13 @@ export default class UserShow extends React.Component{
       });
   }
 
+  handleSortSelectChange = ({ target }) => {
+    console.log('sort string value is ', target.value);
+    this.setState({sortString: target.value});
+  }
 
   render(){
-    const { user, exercisePlans } = this.state;
+    const { user, exercisePlans, sortOptions } = this.state;
     return(
       <section>
         {/* HERO */}
@@ -145,6 +166,14 @@ export default class UserShow extends React.Component{
           <h2 className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
           <div className='columns is-multiline'>
+            <section className='column is-12'>
+              <SortSelect
+                options={sortOptions}
+                title='Sort Plans'
+                handleChange={this.handleSortChange}
+              />
+              <hr/>
+            </section>
 
             {exercisePlans && exercisePlans.map( exercisePlan =>
               <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
@@ -152,8 +181,8 @@ export default class UserShow extends React.Component{
                 <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>
                 <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
                 <p><i className="fab fa-gripfire"></i>: {exercisePlan.intensityAvg}</p>
-                <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime}</p>
-                <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg}</p>
+                <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime} min</p>
+                <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg} min/day</p>
                 <p>Completed Days: {exercisePlan.completedDays}</p>
                 <p>Rest Days: {exercisePlan.restDays}</p>
               </Link>
