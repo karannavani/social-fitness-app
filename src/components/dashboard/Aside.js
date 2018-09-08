@@ -74,42 +74,40 @@ class Aside extends React.Component {
 
   getProgram = () => {
 
-    const { exercises: { startDate } } = this.state; // getting startDate of the exercise
-    const unixToday = moment().unix();
-    const unixTomorrow = moment(unixToday).add(1, 'days');
-    const today = moment.unix(unixToday).format('DD/MM/YYYY');
-    const tomorrow = moment.unix(unixTomorrow).format('DD/MM/YYYY');
+    // const { exercises: { startDate } } = this.state; // getting startDate of the exercise
+    // const { exercises: { startDate } } = this.state; // getting startDate of the exercise
+
+    const today = moment.utc();
+    const tomorrow = moment.utc().add(1, 'days');
 
     for (let i = 1; i < 8; i++) {
 
       // generate 7 dates from the start date – these are the program dates
-      const unixDate = moment(startDate).add(i-1, 'days');
-      const date = moment.unix(unixDate).format('DD/MM/YYYY');
 
-      if (moment(unixDate).isBefore(unixToday) && !unixToday) {
+      const date = moment.utc().add(i-1, 'days');
+      console.log('date is', date.format('DD/MM/YYYY'));
+
+      if(moment(date).isBefore(moment(today))) {
         this.checkUnlogged(this.state.exercises[`day${i}`]);
 
-      // if a program date matches today's date, get the program at that index and set it as today's program
-      } else if (date === today) {
-        console.log(date);
+        // if a program date matches today's date, get the program at that index and set it as today's program
+      } else if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
         const value = this.state.exercises[`day${i}`];
         console.log('program for today is', value);
         this.setState({ programToday: value, programDay: `Day ${i}`, rest: value.rest });
 
       // saving the workout of the next day to the state
-      } else if (date === tomorrow ) {
+      } else if (date.format('DD/MM/YYYY') === tomorrow.format('DD/MM/YYYY') ) {
         const value = this.state.exercises[`day${i}`];
         this.setState({ programTomorrow: value, tomorrowRest: value.rest });
       }
 
     }
-    // this.getUnlogged(today);
 
   }
 
-  checkUnlogged = (exerciseDay) => {
-    console.log('reached here');
-    console.log('unlogged today is', exerciseDay);
+  checkUnlogged = (today) => {
+    console.log('unlogged today is', today);
 
   }
 
