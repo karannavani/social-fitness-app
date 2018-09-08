@@ -11,12 +11,14 @@ const TodayCard = ({editProgram, programToday, programDay, handleEdit, handleEdi
 
         {editProgram ?
           <EditProgram
+            programDay = {programDay.replace(' ', '')}
             programToday = {programToday}
             handleEdit = {handleEdit}
             handleEditSubmit = {handleEditSubmit}
           />
           :
           <PrimaryCard
+            editWanted = {true}
             programDay = {programDay.replace(' ', '')}
             programToday = {programToday}
             handleProgramClick = {handleProgramClick}

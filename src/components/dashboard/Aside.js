@@ -40,11 +40,15 @@ class Aside extends React.Component {
     this.setState({programToday: newState});
   }
 
-  handleEditSubmit = ({target: {id}}) => { // saves the edit to the exercise db or cancels it
-
+  handleEditSubmit = ({ target }) => { // saves the edit to the exercise db or cancels it
+    console.log('target is', target.id);
+    const [id, day] = target.id.split(' ');
+    console.log('day is', day);
     if (id === 'complete') {
       this.setState({ editProgram: false });
-      axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {day1: this.state.programToday});
+      axios.patch(`/api/exerciseplans/${this.state.exerciseId}`,
+        {[day.toLowerCase()]: this.state.programToday});
+
     } else if (id === 'skip') {
       this.setState({ editProgram: false });
     }
