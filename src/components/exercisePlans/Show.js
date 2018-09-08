@@ -36,18 +36,12 @@ export default class ExercisePlanShow extends React.Component{
     }else if(this.state.adopting){
       const adoptedPlan = this.packageAdoptionData();
       axios.post('/api/exerciseplans', adoptedPlan)
-        // .then(() => this.props.history.push('/dashboard'))
+        .then(() => this.props.history.push('/dashboard'))
         .catch(err => console.log('adoption error message: ', err));
     }
   }
 
-  //must return an object
-  //save the newstart date as a moment unix stamp
-  //check for an exercisePlanAdoptedFrom id
-  //    if there is one then us it in the new package
-  //    if not then add the current programs id to it
-  //loop through all the days and take out intensity time and rest into corresponding day in new array
-  //add the logged in user to the Id
+  // NOTE: this needs refactoring
   packageAdoptionData = () =>{
     const unixStartDate = moment(this.state.newStartDate).unix();
     let exercisePlanAdoptedFrom = this.state.exercisePlanAdoptedFrom;
@@ -95,8 +89,6 @@ export default class ExercisePlanShow extends React.Component{
       startDate: unixStartDate,
       exercisePlanAdoptedFrom: exercisePlanAdoptedFrom
     };
-
-    console.log('the plan data is ', packagedData);
 
     return packagedData;
   }

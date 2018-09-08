@@ -269,7 +269,8 @@ function getDates(startDate, stopDate) {
   }
   return dateArray;
 }
-
+//VARIABLE
+const numberOfOrigionalPlan = 50;
 const randomOrigionalStartDatesArray = getDates( 0.5, 1);
 const randomAdoptedStartDatesArray = getDates( 0.2, 0.7 );
 
@@ -281,12 +282,13 @@ function randomStartDate(dateArray){
 function randomExerciseCompleted(){
   const exerciseCompleted = [ true, true, true, false, true, true, false];
   const randomIndex =  Math.floor(Math.random() * exerciseCompleted.length);
-
   return exerciseCompleted[randomIndex];
 }
 
+
+
 function randomExerciseId(){
-  const randomIndex =  Math.floor(Math.random() * userIds.length + 50) + userIds.length;
+  const randomIndex =  Math.floor(Math.random() * userIds.length + numberOfOrigionalPlan) + userIds.length;
   return exerciseIds[randomIndex];
 }
 
@@ -306,7 +308,7 @@ function createHistoricExerciseDay(){
 
 function createOrigionalHistoricExercisePlans(){
   const plan = [];
-  for(let i = userIds.length; i < userIds.length + 50; i++ ) {
+  for(let i = userIds.length; i < userIds.length + numberOfOrigionalPlan; i++ ) {
     plan.push({
       day1: createHistoricExerciseDay(),
       day2: createHistoricExerciseDay(),
@@ -326,7 +328,7 @@ function createOrigionalHistoricExercisePlans(){
 //
 function createAdoptedHistoricExercisePlans(){
   const plan = [];
-  for(let i = userIds.length + 50; i < exerciseIds.length; i++ ) {
+  for(let i = userIds.length + numberOfOrigionalPlan; i < exerciseIds.length; i++ ) {
     plan.push({
       day1: createHistoricExerciseDay(),
       day2: createHistoricExerciseDay(),
