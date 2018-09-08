@@ -15,7 +15,8 @@ import UpcomingRestCard from '../common/cards/UpcomingRestCard';
 class Aside extends React.Component {
   state = {
     editProgram: false, // this is linked to the edit button on the exercise card
-    unloggedExercises: []
+    unloggedExercises: [],
+    unloggedDays: []
   }
   //
   componentDidMount() {
@@ -103,15 +104,17 @@ class Aside extends React.Component {
       } else if(moment(date).isBefore(moment(today))) {
 
         console.log(`${date.format('DD/MM/YYYY')} is before ${today.format('DD/MM/YYYY')}`);
-        this.checkUnlogged(this.state.exercises[`day${i}`]);
+        this.checkUnlogged(this.state.exercises[`day${i}`], `Day ${i}`);
       }
     }
 
   }
 
-  checkUnlogged = (exercise) => {
+  checkUnlogged = (exercise, i) => {
     if (exercise.exerciseCompleted === null) {
       console.log('unlogged exercise is', exercise);
+      console.log(i);
+      this.state.unloggedDays.push(i);
       this.state.unloggedExercises.push(exercise);
       console.log(this.state.unloggedExercises);
     }
@@ -120,7 +123,7 @@ class Aside extends React.Component {
 
   render() {
     const {programToday, programDay, programTomorrow, editProgram,
-      rest, tomorrowRest, unloggedExercises } = this.state;
+      rest, tomorrowRest, unloggedExercises, unloggedDays } = this.state;
     const {exerciseCompleted} = this.state.programToday || [];
 
     return(
@@ -184,7 +187,7 @@ class Aside extends React.Component {
             <div key = {i}>
               <UnloggedCard
                 editProgram = {editProgram}
-                programDay = {programDay}
+                programDay = {unloggedDays[i]}
                 program = {exercise}
                 handleEdit = {this.handleEdit}
                 handleEditSubmit = {this.handleEditSubmit}
