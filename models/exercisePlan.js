@@ -113,9 +113,24 @@ exercisePlanSchema.virtual('totalTime')
         timesArray.push(this[`day${i}`].time);
       }
     }
-    const totalTime = timesArray.reduce((sum, time) => sum + time);
-    const formatTime = `${totalTime} minutes`;
-    return formatTime;
+    if(!timesArray.length){
+      return null;
+    }
+    return timesArray.reduce((sum, time) => sum + time);
+  });
+
+exercisePlanSchema.virtual('workoutTimeAvg')
+  .get( function() {
+    const timesArray = [];
+    for(let i = 1; i < 8; i++){
+      if(this[`day${i}`].time){
+        timesArray.push(this[`day${i}`].time);
+      }
+    }
+    if(!timesArray.length){
+      return null;
+    }
+    return Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
   });
 
 // Returns the total exercise time required in a program
@@ -127,28 +142,11 @@ exercisePlanSchema.virtual('totalGrit')
         gritArray.push(this[`day${i}`].dailyGrit);
       }
     }
-
     if(!gritArray.length){
       return null;
     }
-
     return gritArray.reduce((sum, grit) => sum + grit);
   });
-
-
-exercisePlanSchema.virtual('workoutTimeAvg')
-  .get( function() {
-    const timesArray = [];
-    for(let i = 1; i < 8; i++){
-      if(this[`day${i}`].time){
-        timesArray.push(this[`day${i}`].time);
-      }
-    }
-    const averageTime = Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
-    const formatAvgTime = `${averageTime} minutes/day`;
-    return formatAvgTime;
-  });
-
 
 exercisePlanSchema.virtual('completedDays')
   .get( function() {
