@@ -146,7 +146,9 @@ class Aside extends React.Component {
           {programToday && exerciseCompleted !== null && programTomorrow &&
             <div>
               { tomorrowRest &&
-                <UpcomingRestCard />
+                <UpcomingRestCard
+                  title = {'Upcoming tomorrow:'}
+                />
               }
               {!tomorrowRest &&
                 <UpcomingCard
