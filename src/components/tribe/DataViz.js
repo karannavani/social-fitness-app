@@ -1,21 +1,33 @@
 import React from 'react';
 import TribeVsUserChart from './TribeVsUserChart';
+import axios from 'axios';
+import Auth from '../../lib/Auth';
+
 
 class Graphs extends React.Component{
   state = {}
 
+  componentDidMount(){
+    axios.get(`/api/users/${Auth.currentUserId()}`)
+      .then(res => this.setState({ user: res.data }));
+  }
+
   componentDidUpdate(previousProps) {
-    if(this.props.user !== previousProps.user){
+    if(this.props.members !== previousProps.members){
       console.log('State on arrival', this.props.members);
-      this.setState({ members: this.props.members, user: this.props.user });
+      this.setState({ members: this.props.members }, () =>
+        this.tribeGrit()
+      );
     }
   }
 
   tribeGrit = () => {
+    console.log('member is', this.state.members);
     const totalGrit = [];
-    this.props.members.forEach(member =>
+    this.state.members.forEach(member =>
       totalGrit.push(member.grit));
-    return totalGrit.reduce((a, b) => a + b);
+    const totalGritReduced = totalGrit.reduce((a, b) => a + b);
+    this.setState({totalGritReduced});
   }
 
   render() {
@@ -23,8 +35,8 @@ class Graphs extends React.Component{
       <div className="columns is-multiline">
         <div className="column is-half whole-tribe-pie"
           style={{ height: '50vh', width: '50%'}}>
-          {this.state.user &&
-            <TribeVsUserChart tribeGrit={this.tribeGrit()}
+          {this.state.user && this.state.totalGritReduced &&
+            <TribeVsUserChart tribeGrit={this.state.totalGritReduced}
               userGrit={this.state.user.grit}/>}
         </div>
         <div className="column is-half" style={{ height: '50vh', width: '50%'}}>

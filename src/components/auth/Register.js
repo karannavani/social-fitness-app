@@ -12,7 +12,13 @@ import Auth from '../../lib/Auth';
 export default class AuthRegister extends React.Component{
   state = {
     passwordHidden: true,
-    errors: {}
+    errors: {},
+    email: `email@${Math.floor(Math.random() * 100)}.com`,
+    password: 'pass',
+    passwordConfirmation: 'pass',
+    tribe: 'Inbetweeners',
+    weight: 60,
+    height: 160
   }
 
   handleSubmit = (event) => {
@@ -27,7 +33,7 @@ export default class AuthRegister extends React.Component{
       .then(res => {
         const token = res.data.token;
         Auth.setToken(token);
-        this.props.history.push('/profile');
+        this.props.history.push(`/tribe/${this.state.tribe}`);
       })
       .catch(err => {
         const errors = {...this.state.errors, ...err.response.data.errors};
@@ -145,7 +151,8 @@ export default class AuthRegister extends React.Component{
             <div className="column is-one-quarter">
               <select name='tribe'
                 state={ this.state }
-                handleChange={ this.handleChange }>
+                onChange={ this.handleChange }
+                defaultValue = {this.state.tribe}>
                 <option value='Gargantuans'>Gargantuans</option>
                 <option value='Inbetweeners'>Inbetweeners</option>
                 <option value='All Naturals'>All Naturals</option>
@@ -162,7 +169,11 @@ export default class AuthRegister extends React.Component{
               />
             </div>
             <button className="button column is-info is-rounded is-3 is-offset-2">Register</button>
-            <Link to='/login' className="button column is-info is-rounded is-3 is-offset-2">Log in</Link>
+
+            <div className="level">
+              <p>Already got an account?</p><Link to='/login' className="column">Log in</Link>
+            </div>
+
           </div>
         </form>
       </section>

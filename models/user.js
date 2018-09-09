@@ -13,10 +13,10 @@ const userSchema = new mongoose.Schema({
   firstName: { type: String},
   surname: { type: String},
   age: { type: Number},
-  height: { type: Number},
-  heightUnit: { type: String, default: 'cm\'s'},
-  weight: { type: Number},
-  weightUnit: { type: String, default: 'kg\'s'},
+  height: { type: Number, default: 0 },
+  heightUnit: { type: String, default: 'cm'},
+  weight: { type: Number, default: 0 },
+  weightUnit: { type: String, default: 'kg'},
   imageUrl: String,
 
   // Application
