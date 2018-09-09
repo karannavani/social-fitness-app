@@ -169,11 +169,11 @@ export default class UserShow extends React.Component{
           {/* map over an array of past exercise */}
           <div className='columns is-multiline'>
             <section className='column is-12'>
-              <SortSelect
+              {/* <SortSelect
                 options={sortOptions}
                 title='Sort Plans'
                 handleChange={this.handleSortSelectChange}
-              />
+              /> */}
               <hr/>
             </section>
 

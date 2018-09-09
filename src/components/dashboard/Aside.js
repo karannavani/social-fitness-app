@@ -55,8 +55,10 @@ class Aside extends React.Component {
   }
 
   handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
-    const [id, day] = target.id.split(' ');
+    console.log('target is', target.id);
+    const [id, day, grit] = target.id.split(' ');
     console.log('day is ====>', day);
+    // console.log('grit is ====>', grit);
     const newProgramState = this.state.exercises[day.toLowerCase()];
     const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
 
@@ -64,6 +66,7 @@ class Aside extends React.Component {
 
       case ('complete'):
         newProgramState.exerciseCompleted = true;
+        newProgramState.dailyGrit = parseInt(grit);
         this.deleteUnlogged(unloggedIndex);
         this.programUpdate(day, newProgramState);
         return console.log('clicked complete');
@@ -139,7 +142,7 @@ class Aside extends React.Component {
 
     axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState});
   }
-
+  //
 
   render() {
     const {programToday, programDay, programTomorrow, editProgram,
@@ -218,6 +221,7 @@ class Aside extends React.Component {
           }
 
           {/* **************CARDS LOGIC************** */}
+
           {/* **************TIMELINE LOGIC************** */}
           <div>
             {/* {this.state.exercises && this.state.exercises.map(field => console.log(field)) } */}
