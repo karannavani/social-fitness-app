@@ -147,7 +147,7 @@ class Aside extends React.Component {
   render() {
     const {programToday, programDay, programTomorrow, editProgram,
       rest, tomorrowRest, unloggedExercises, unloggedDays } = this.state;
-    const {exerciseCompleted} = this.state.programToday || [];
+    const {exerciseCompleted, dailyGrit} = this.state.programToday || [];
 
     return(
 
@@ -172,7 +172,10 @@ class Aside extends React.Component {
           {programToday && !rest &&
             <div>
               {exerciseCompleted &&
-                <GreenCard programDay = {this.state.programDay} />
+                <GreenCard
+                  programDay = {this.state.programDay}
+                  grit = {dailyGrit}
+                />
               }
               {exerciseCompleted === false &&
                 <RedCard programDay = {this.state.programDay} />
