@@ -40,9 +40,9 @@ export default class UserShow extends React.Component{
       this.fetchUserData();
     }
 
-    if(prevState.sortString !== this.state.sortString){
-      this.planSort(this.state.exercisePlans);
-    }
+    // if(prevState.sortString !== this.state.sortString){
+    //   this.sortPlans(filteredOptions);
+    // }
   }
 
   fetchUserData = () => {
@@ -57,17 +57,29 @@ export default class UserShow extends React.Component{
       });
   }
 
-  planSort = (dataArray) => {
+  //returns an array of sorted plans
+  sortPlans = (plansArr) => {
     const [ field, order] = this.state.sortString.split('|');
-    console.log('the field is', field);
-    console.log('the order is', order);
-    const sortedPlans = _.orderBy(dataArray, [field], order);
-    this.setState({exercisePlans: sortedPlans});
+    return _.orderBy(plansArr, [field], order);
+    // this.setState({exercisePlans: sortedPlans});
   }
-  // componentDidUpdate(){
-  //   console.log('This is the users page=======> ', this.isUsersPage());
-  //   console.log('The user is following this page=======> ', this.isFollowing());
-  // }
+
+  // returns an array of plans filted by the checked options
+  filterByOptions = (planArr) => {
+    //  filter out all unchecked filterIntensityOptions
+    //  save those changed to state.
+    //  need to filter sorted options
+    //  unchecking should add option back in
+    return planArr.filter(plan =>
+      this.state.filterIntensityOptions.some(option => {
+        return option.active && plan.intensityAvg === option.value;
+      }));
+  }
+
+  sortedFilteredPlans = () => {
+    const filteredOptions = this.filterByOptions(this.state.exercisePlans);
+    return this.sortPlans(filteredOptions);
+  }
 
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
@@ -104,13 +116,18 @@ export default class UserShow extends React.Component{
   }
 
   handleFilterChange = ({target}) => {
-    console.log('checkbox change is ', target.value);
-    const filterIntensityOptions = this.state.filterIntensityOptions;
-    this.setState()
+    const filterIntensityOptions = this.state.filterIntensityOptions.slice();
+    filterIntensityOptions.forEach(option => {
+      if(option.value === target.name || target.name === 'all'){
+        option.active = target.checked;
+      }
+    });
+    this.setState({ filterIntensityOptions });
   }
 
   render(){
     const { user, exercisePlans, sortOptions } = this.state;
+    // const this.filterByOptions()
     return(
       <section>
         {/* HERO */}
@@ -190,13 +207,14 @@ export default class UserShow extends React.Component{
               <div className='column is-6'>
                 <FilterBar
                   options={this.state.filterIntensityOptions}
+                  handleChange={this.handleFilterChange}
 
                 />
               </div>
               <hr/>
             </section>
 
-            {exercisePlans && exercisePlans.map( exercisePlan =>
+            {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
               <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
                 {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
                 <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>
