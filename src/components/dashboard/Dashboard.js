@@ -6,6 +6,11 @@ import moment from 'moment';
 import Auth from '../../lib/Auth';
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.child = React.createRef();
+  }
+
   state = {
     goRender: false,
     unloggedExercises: [],
@@ -72,9 +77,7 @@ class Dashboard extends React.Component {
   }
 
   handleEdit = ({ target: { name, value } }) => { // handles exercise edit for that day
-console.log('clicked');
-
-const newState = this.state.programToday;
+    const newState = this.state.programToday;
     newState[name] = value;
     this.setState({programToday: newState});
   }
@@ -138,6 +141,7 @@ const newState = this.state.programToday;
       exercises: {...this.state.exercises, [day.toLowerCase()]: newProgramState }
     }, () => {
       console.log(this.state.exercises);
+      this.child.current.parentUpdate();
     });
 
   }
@@ -162,7 +166,6 @@ const newState = this.state.programToday;
             rest = {this.state.rest}
             unloggedExercises = {this.state.unloggedExercises}
             unloggedDays = {this.state.unloggedDays}
-            onRef={ref => (this.child = ref)}
             parentUpdate = {this.parentUpdate}
             handleEdit = {this.handleEdit}
             handleProgramClick = {this.handleProgramClick}
@@ -173,6 +176,8 @@ const newState = this.state.programToday;
         <Feed
           exercises = {this.state.exercises}
           forceUpdate = {this.state.forceUpdate}
+          // onRef={ref => (this.child = ref)}
+          ref={this.child}
         />
         }
       </div>

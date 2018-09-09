@@ -15,6 +15,13 @@ class Feed extends React.Component {
 
   }
 
+  parentUpdate = () => {
+    console.log('feed called');
+    this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
+      this.createDots();
+    });
+  }
+
   createDots = () => {
     for (let i = 1; i < 8; i++) {
       switch(this.props.exercises[`day${i}`].exerciseCompleted) {
