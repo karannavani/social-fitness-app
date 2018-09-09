@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import Graphs from './DataViz';
 
-import Auth from '../lib/Auth';
+import Auth from '../../lib/Auth';
 
 
 

@@ -148,6 +148,21 @@ exercisePlanSchema.virtual('totalGrit')
     return gritArray.reduce((sum, grit) => sum + grit);
   });
 
+// Returns the total exercise time required in a program
+exercisePlanSchema.virtual('totalAvailableGrit')
+  .get( function() {
+    const gritArray = [];
+    for(let i = 1; i < 8; i++){
+      if(this[`day${i}`].dailyGrit){
+        gritArray.push(this[`day${i}`].dailyGrit);
+      }
+    }
+    if(!gritArray.length){
+      return null;
+    }
+    return gritArray.reduce((sum, grit) => sum + grit);
+  });
+
 exercisePlanSchema.virtual('completedDays')
   .get( function() {
     let completed = 0;
