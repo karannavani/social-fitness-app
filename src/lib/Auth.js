@@ -32,6 +32,10 @@ Auth.currentUserId = function() {
   return this.getPayload().sub;
 };
 
+Auth.currentUserTribe = function() {
+  return this.getPayload().userTribe;
+};
+
 Auth.bearerHeader = function() {
   return {
     // request options

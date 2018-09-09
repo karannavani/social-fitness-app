@@ -21,7 +21,7 @@ function login(req, res, next) {
 }
 
 function createAndSendToken(user, res, message) {
-  const token = jwt.sign({ sub: user.id, username: user.username }, secret, { expiresIn: '2hr' });
+  const token = jwt.sign({ sub: user.id, username: user.username, userTribe: user.tribe }, secret, { expiresIn: '2hr' });
   res.json({ message, token });
 }
 

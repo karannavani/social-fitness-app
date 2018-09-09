@@ -104,7 +104,7 @@ exercisePlanSchema.virtual('intensityAvg')
     }
   });
 
-  
+
 
 // Returns the total exercise time required in a program
 exercisePlanSchema.virtual('totalTime')
@@ -147,23 +147,46 @@ exercisePlanSchema.virtual('totalGrit')
     if(!gritArray.length){
       return null;
     }
-    return gritArray.reduce((sum, grit) => sum + grit);
+    return gritArray.reduce((sum, grit) =>{
+      return sum + grit;
+    }, 0);
   });
+
+function calculateGrit(intensity, time){
+  switch (intensity) {
+    case 'low':
+      return Math.floor((time/20)) * 5;
+    case 'medium':
+      return Math.floor((time/20)) * 10;
+    case 'high':
+      return Math.floor((time/20)) * 15;
+  }
+}
 
 // Returns the total exercise time required in a program
 exercisePlanSchema.virtual('totalAvailableGrit')
-  .get( function() {
-    const gritArray = [];
+  .get( function(){
+    const planAvailableGrit = [];
+
     for(let i = 1; i < 8; i++){
-      if(this[`day${i}`].dailyGrit){
-        gritArray.push(this[`day${i}`].dailyGrit);
+
+      if(this[`day${i}`].intensity){
+        const dayIntensity = this[`day${i}`].intensity.toLowerCase();
+        const dayTime = this[`day${i}`].time;
+        const dailyAvailableGrit = calculateGrit(dayIntensity, dayTime );
+
+
+        planAvailableGrit.push(dailyAvailableGrit);
       }
     }
-    if(!gritArray.length){
+
+    if(!planAvailableGrit.length){
       return null;
     }
-    return gritArray.reduce((sum, grit) => sum + grit);
+    return planAvailableGrit.reduce((sum, grit) => sum + grit);
   });
+
+
 
 exercisePlanSchema.virtual('completedDays')
   .get( function() {
