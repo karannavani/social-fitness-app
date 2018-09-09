@@ -3,6 +3,8 @@ import axios from 'axios';
 import _ from 'lodash';
 import Graphs from './DataViz';
 
+import Auth from '../lib/Auth';
+
 
 
 class TribeAside extends React.Component {
@@ -15,7 +17,7 @@ class TribeAside extends React.Component {
       .then(res => this.setState({ members: res.data}, () => {
         this.tribeWeight();
       } ));
-    axios.get('/api/users/5b91752666708bc8b1622706')
+    axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ user: res.data }));
       // .then(res => console.log('user data is', res.data));
 
