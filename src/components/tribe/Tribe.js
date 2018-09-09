@@ -8,18 +8,16 @@ import Auth from '../lib/Auth';
 
 
 class TribeAside extends React.Component {
-  state = {
-    tribeName: 'Gargantuans' // need to figure out a way to dynamically update
-  }
+  state = {}
 
   componentDidMount() {
-    axios.get(`/api/tribes/${this.state.tribeName}`)
-      .then(res => this.setState({ members: res.data}, () => {
+    axios.get(`/api/tribes/${this.props.match.params.tribeName}`)
+      .then(res => this.setState({ members: res.data, tribeName: this.props.match.params.tribeName }, () => {
         this.tribeWeight();
       } ));
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ user: res.data }));
-      // .then(res => console.log('user data is', res.data));
+    // .then(res => console.log('user data is', res.data));
 
 
   }
@@ -42,7 +40,7 @@ class TribeAside extends React.Component {
   }
 
   dailyGrit = () => {
-    return this.state.user.dailyGrit
+    return this.state.user.dailyGrit;
   }
 
 
