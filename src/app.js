@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter } from 'react-router-hash-link';
 import 'bulma/css/bulma.css'; //Needs to change when Heroku-ing
 import './scss/style.scss';
 
@@ -45,6 +46,7 @@ class App extends React.Component {
           <Route path='/tribe/:tribeName' component={Tribe} />
 
           {/* user */}
+          <HashRouter exact path='/profile/:id#history' component={UserShow} />
           <Route path='/profile/:id' component={UserShow} />
           <Route path='/users/:id/edit' component={UserEdit} />
 

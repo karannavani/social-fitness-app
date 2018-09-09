@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import Graphs from './DataViz';
+import { Link } from 'react-router-dom';
 
 import Auth from '../../lib/Auth';
 
@@ -54,13 +55,14 @@ class TribeAside extends React.Component {
                 <h2 className="subtitle is-4 has-text-grey">YOUR TRIBE</h2>
                 { this.state.user && this.state.tribeWeight && <div><p>{this.state.members.length} {this.state.tribeName}</p>
                   <p>Average weight: {this.state.tribeWeight.toFixed(2)}</p></div> }
+                <Link to='/exerciseplan/new'><button className="button is-info is-outlined is-rounded">Create plan</button></Link>
               </div>
               <div className="tribeAsideContainer">
                 <h2 className="subtitle is-4 has-text-grey">LEADER BOARD</h2>
                 {this.state.members && this.leadersSort().slice(0, 10).map(leader =>
-                  <div key={leader._id}>
+                  <Link to={`/profile/${leader._id}`} key={leader._id}>
                     {leader.username} Grit: {leader.grit}
-                  </div>
+                  </Link>
                 )}
               </div>
               <div className="tribeAsideContainer">
