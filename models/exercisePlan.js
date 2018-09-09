@@ -104,6 +104,8 @@ exercisePlanSchema.virtual('intensityAvg')
     }
   });
 
+  
+
 // Returns the total exercise time required in a program
 exercisePlanSchema.virtual('totalTime')
   .get( function() {

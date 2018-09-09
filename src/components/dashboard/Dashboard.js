@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
   //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
   // }
   componentDidMount() {
-    axios.get('/api/users/${Auth.currentUserId()}')
+    axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan },
         () => this.getExercise()));
   }

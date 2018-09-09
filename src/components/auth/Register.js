@@ -12,7 +12,13 @@ import Auth from '../../lib/Auth';
 export default class AuthRegister extends React.Component{
   state = {
     passwordHidden: true,
-    errors: {}
+    errors: {},
+    email: `email@${Math.floor(Math.random() * 100)}.com`,
+    password: 'pass',
+    passwordConfirmation: 'pass',
+    tribe: 'Inbetweeners',
+    weight: 60,
+    height: 160
   }
 
   handleSubmit = (event) => {
@@ -27,7 +33,7 @@ export default class AuthRegister extends React.Component{
       .then(res => {
         const token = res.data.token;
         Auth.setToken(token);
-        this.props.history.push('/profile');
+        this.props.history.push(`/tribe/${this.state.tribe}`);
       })
       .catch(err => {
         const errors = {...this.state.errors, ...err.response.data.errors};
@@ -145,7 +151,8 @@ export default class AuthRegister extends React.Component{
             <div className="column is-one-quarter">
               <select name='tribe'
                 state={ this.state }
-                handleChange={ this.handleChange }>
+                onChange={ this.handleChange }
+                defaultValue = {this.state.tribe}>
                 <option value='Gargantuans'>Gargantuans</option>
                 <option value='Inbetweeners'>Inbetweeners</option>
                 <option value='All Naturals'>All Naturals</option>
