@@ -162,7 +162,11 @@ export default class AuthRegister extends React.Component{
               />
             </div>
             <button className="button column is-info is-rounded is-3 is-offset-2">Register</button>
-            <Link to='/login' className="button column is-info is-rounded is-3 is-offset-2">Log in</Link>
+
+            <div className="level">
+              <p>Already got an account?</p><Link to='/login' className="column">Log in</Link>
+            </div>
+
           </div>
         </form>
       </section>
