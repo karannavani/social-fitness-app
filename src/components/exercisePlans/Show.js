@@ -116,12 +116,13 @@ export default class ExercisePlanShow extends React.Component{
 
               {/* day cards */}
               <div className='column is-12'>
-                {Object.keys(state).map(key => {
+                {/* // BUG: Day number is unreliable  */}
+                {Object.keys(state).map((key, i) => {
                   if(!state[key].rest && state[key].intensity){
-                    return <UpcomingCard key={key} title={key} programDetails={state[key]} />;
+                    return <UpcomingCard key={key} title={`Day ${i}`} programDetails={state[key]} />;
 
                   }else if(state[key].rest){
-                    return  <RestCard key={key} programDay={key} title='Rest Day' />;
+                    return  <RestCard key={key} programDay={`Day ${i}`} title='Rest Day' />;
                   }
                 })
                 }

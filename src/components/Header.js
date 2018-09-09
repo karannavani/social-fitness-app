@@ -14,7 +14,7 @@ class Header extends React.Component {
       <header>
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <a className="navbar-item"> TRIBE </a>
+            <Link className="navbar-item" to="/dashboard">TRIBE</Link>
 
             <a role="button" className="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
               <span className="burger-menu"></span>
