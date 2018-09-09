@@ -27,19 +27,26 @@ class Feed extends React.Component {
       switch(this.props.exercises[`day${i}`].exerciseCompleted) {
         case (null):
           console.log('grey');
-          this.state.dotsArr.push('grey');
+          this.getGrit(this.props.exercises[`day${i}`]);
+          this.state.dotsArr.push({color: 'grey', grit: this.getGrit(this.props.exercises[`day${i}`]) });
           break;
         case (true):
           console.log('green');
-          this.state.dotsArr.push('green');
+          this.getGrit(this.props.exercises[`day${i}`]);
+          this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
           break;
         case (false):
           console.log('red');
-          this.state.dotsArr.push('red');
+          this.getGrit(this.props.exercises[`day${i}`]);
+          this.state.dotsArr.push({color: 'red', grit: this.getGrit(this.props.exercises[`day${i}`]) });
           break;
       }
       if (i === 7) this.forceUpdate();
     }
+  }
+
+  getGrit = (exercise) => {
+    return exercise.dailyGrit ? exercise.dailyGrit : null;
   }
 
   render() {
@@ -65,12 +72,16 @@ class Feed extends React.Component {
           <div className="card program-card-unlogged">
             <div className="card-content">
               <h4 className="title is-4 white">This week</h4>
-              { dotsArr.length === 7 && dotsArr.map((dot, i) =>
-
-                <i className={`fas fa-circle dot-${dotsArr[i]}`} key={i}></i>
-              )
-
-              }
+              <div className="columns">
+                { dotsArr.length === 7 && dotsArr.map((dot, i) =>
+                  <div className="column is-1 has-text-centered" key={i}>
+                    <i className={`title is-4 fas fa-circle dot-${dotsArr[i].color}`} key={i}></i>
+                    <h5 className="subtitle is-5 white"><i className="fas fa-bolt"></i> {dotsArr[i].grit}</h5>
+                  </div>
+                )
+                }
+              </div>
+              <h4 className="title is-5 white">Average workout time: {this.state.exercises && this.state.exercises.workoutTimeAvg} mins</h4>
             </div>
           </div>
 
