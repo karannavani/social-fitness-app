@@ -2,21 +2,24 @@ import React from 'react';
 import EditProgram from './EditProgram';
 import PrimaryCard from './PrimaryCard';
 
-const RestCard = ({editProgram, programToday, programDay, handleEdit, handleEditSubmit, handleProgramClick }) => {
+const TodayCard = ({editProgram, programToday, programDay, handleEdit, handleEditSubmit, handleProgramClick }) => {
   return(
     <div className="card program-card">
       <div className="card-content">
         <h3 key="0" className="title is-3 white">{programDay}</h3>
-        <h4 className="title is-4 white">{'Today\'s Plan:'}</h4>
+        {/* <h4 className="title is-4 white">{'Today\'s Plan:'}</h4> */}
 
         {editProgram ?
           <EditProgram
+            programDay = {programDay.replace(' ', '')}
             programToday = {programToday}
             handleEdit = {handleEdit}
             handleEditSubmit = {handleEditSubmit}
           />
           :
           <PrimaryCard
+            editWanted = {true}
+            programDay = {programDay.replace(' ', '')}
             programToday = {programToday}
             handleProgramClick = {handleProgramClick}
           />
@@ -26,4 +29,4 @@ const RestCard = ({editProgram, programToday, programDay, handleEdit, handleEdit
   );
 };
 
-export default RestCard;
+export default TodayCard;

@@ -100,8 +100,13 @@ export default class UserShow extends React.Component{
   }
 
   handleSortSelectChange = ({ target }) => {
-    console.log('sort string value is ', target.value);
     this.setState({sortString: target.value});
+  }
+
+  handleFilterChange = ({target}) => {
+    console.log('checkbox change is ', target.value);
+    const filterIntensityOptions = this.state.filterIntensityOptions;
+    this.setState()
   }
 
   render(){

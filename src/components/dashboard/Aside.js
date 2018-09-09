@@ -4,6 +4,7 @@ import moment from 'moment';
 
 //Components
 import TodayCard from '../common/cards/TodayCard';
+import UnloggedCard from '../common/cards/UnloggedCard';
 import GreenCard from '../common/cards/GreenCard';
 import RedCard from '../common/cards/RedCard';
 import RestCard from '../common/cards/RestCard';
@@ -13,21 +14,28 @@ import UpcomingRestCard from '../common/cards/UpcomingRestCard';
 
 class Aside extends React.Component {
   state = {
-    editProgram: false // this is linked to the edit button on the exercise card
+    editProgram: false, // this is linked to the edit button on the exercise card
+    unloggedExercises: [],
+    unloggedDays: []
   }
   //
+  // componentDidMount() {
+  //   axios.get('/api/users')
+  //     .then(res => this.setState({ users: res.data[0], exerciseId: res.data[0].exercisePlan[0] },
+  //       () => this.getExercise()));
+  // }
+  //
+  // getExercise = () => { // sets the exercises from the current plan on the state
+  //   axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
+  //     .then(res => this.setState({ exercises: res.data }, () => {
+  //       console.log('exercises are', this.state.exercises);
+  //       this.getProgram();
+  //       // this.props.shareExercises(this.state.exercises);
+  //     }
+  //     ));
+  // }
   componentDidMount() {
-    axios.get('/api/users/')
-      .then(res => this.setState({ users: res.data[0], exerciseId: res.data[0].exercisePlan[0] }, () => this.getExercise()));
-  }
-
-  getExercise = () => { // sets the exercises from the current plan on the state
-    axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
-      .then(res => this.setState({ exercises: res.data }, () => {
-        console.log('exercises are', this.state.exercises);
-        this.getProgram();
-      }
-      ));
+    this.props.onRef(this);
   }
 
   handleEdit = ({ target: { name, value } }) => { // handles exercise edit for that day
@@ -36,26 +44,35 @@ class Aside extends React.Component {
     this.setState({programToday: newState});
   }
 
-  handleEditSubmit = ({target: {id}}) => { // saves the edit to the exercise db or cancels it
-
+  handleEditSubmit = ({ target }) => { // saves the edit to the exercise db or cancels it
+    console.log('target is', target.id);
+    const [id, day] = target.id.split(' ');
+    console.log('day is', day);
     if (id === 'complete') {
       this.setState({ editProgram: false });
-      axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {day1: this.state.programToday});
+      axios.patch(`/api/exerciseplans/${this.props.exerciseId}`,
+        {[day.toLowerCase()]: this.state.programToday});
+
     } else if (id === 'skip') {
       this.setState({ editProgram: false });
     }
   }
 
-  handleProgramClick = ({target: {id} }) => { // allows user to complete, edit and skip days
-    const newProgramState = this.state.programToday;
+  handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
+    console.log('target is', target.id);
+    const [id, day, grit] = target.id.split(' ');
+    console.log('day is ====>', day);
+    // console.log('grit is ====>', grit);
+    const newProgramState = this.state.exercises[day.toLowerCase()];
+    const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
+
     switch (id) {
 
       case ('complete'):
         newProgramState.exerciseCompleted = true;
-        this.setState({programToday: newProgramState}, () => {
-          console.log('updated program is', this.state.programToday);
-        });
-        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {day1: this.state.programToday});
+        newProgramState.dailyGrit = parseInt(grit);
+        this.deleteUnlogged(unloggedIndex);
+        this.programUpdate(day, newProgramState);
         return console.log('clicked complete');
 
       case ('edit'):
@@ -64,51 +81,87 @@ class Aside extends React.Component {
 
       case ('skip'):
         newProgramState.exerciseCompleted = false;
-        this.setState({programToday: newProgramState}, () => {
-          console.log('updated program is', this.state.programToday);
-        });
-        axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {day1: this.state.programToday});
+        this.deleteUnlogged(unloggedIndex);
+        this.programUpdate(day, newProgramState);
         return console.log('clicked skip');
     }
   }
 
+  getExercises = () => {
+    this.setState({ exercises: this.props.exercises }, () => this.getProgram());
+  }
+
   getProgram = () => {
+    if (this.state.exercises) {
+      const { exercises: { startDate } } = this.state; // getting startDate of the exercise
+      // const today = moment.utc();
+      // const tomorrow = moment.utc().add(1, 'days');
+      const today = moment.utc().add(3, 'days'); //manual today for testing
+      const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
 
-    const { exercises: { startDate } } = this.state; // getting startDate of the exercise
-    const today = moment().unix();
-    const tomorrow = moment(today).add(1, 'days');
+      for (let i = 1; i < 8; i++) {
 
-    for (let i = 1; i < 8; i++) {
+        // generate 7 dates from the start date – these are the program dates
+        const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
+        // console.log('date is', date.format('DD/MM/YYYY'));
 
-      // generate 7 dates from the start date – these are the program dates
-      const date = moment(startDate).add(i-1, 'days');
+        // if a program date matches today's date, get the program at that index and set it as today's program
+        if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
+          const value = this.state.exercises[`day${i}`];
+          console.log('program for today is', value);
+          this.setState({ programToday: value, programDay: `Day ${i}`, rest: value.rest });
 
-      // if a program date matches today's date, get the program at that index and set it as today's program
-      if (moment.unix(date).format('DD/MM/YYYY') === moment.unix(today).format('DD/MM/YYYY')) {
-        console.log(moment.unix(date).format('DD/MM/YYYY'));
-        const value = this.state.exercises[`day${i}`];
-        console.log('program for today is', value);
-        this.setState({ programToday: value, programDay: `Day ${i}`, rest: value.rest });
+          // saving the workout of the next day to the state
+        } else if (date.format('DD/MM/YYYY') === tomorrow.format('DD/MM/YYYY') ) {
+          const value = this.state.exercises[`day${i}`];
+          this.setState({ programTomorrow: value, tomorrowRest: value.rest });
 
-      // saving the workout of the next day to the state
-      } else if (moment.unix(date).format('DD/MM/YYYY') === moment.unix(tomorrow).format('DD/MM/YYYY') ) {
-        const value = this.state.exercises[`day${i}`];
-        this.setState({ programTomorrow: value, tomorrowRest: value.rest });
+        } else if(moment(date).isBefore(moment(today))) {
+
+          console.log(`${date.format('DD/MM/YYYY')} is before ${today.format('DD/MM/YYYY')}`);
+          this.checkUnlogged(this.state.exercises[`day${i}`], `Day ${i}`);
+        }
       }
+    }
+  }
 
+  checkUnlogged = (exercise, i) => {
+    if (exercise.exerciseCompleted === null) {
+      console.log('unlogged exercise is', exercise);
+      this.state.unloggedDays.push(i);
+      this.state.unloggedExercises.push(exercise);
     }
 
   }
 
+  deleteUnlogged = (unloggedIndex) => {
+    if (unloggedIndex > -1 ) {
+      const {unloggedDays, unloggedExercises} = this.state;
+      unloggedExercises.splice(unloggedIndex, unloggedIndex+1);
+      unloggedDays.splice(unloggedIndex, unloggedIndex+1);
+      this.setState({ unloggedExercises, unloggedDays });
+    }
+  }
+
+  programUpdate = (day, newProgramState) => {
+    this.setState({
+      exercises: {...this.state.exercises, [day.toLowerCase()]: newProgramState }
+    }, () => console.log(this.state.exercises));
+
+    axios.patch(`/api/exerciseplans/${this.props.exerciseId}`, {[day.toLowerCase()]: newProgramState});
+  }
+  //
+
   render() {
-    const {programToday, programDay, programTomorrow, editProgram, rest, tomorrowRest } = this.state;
-    const {exerciseCompleted} = this.state.programToday || [];
+    const {programToday, programDay, programTomorrow, editProgram,
+      rest, tomorrowRest, unloggedExercises, unloggedDays } = this.state;
+    const {exerciseCompleted, dailyGrit} = this.state.programToday || [];
 
     return(
 
-      <div className="column is-4 " style={{ backgroundColor: '#12233e', height: '100vh', overflow: 'auto'}}>
+      <div className="column is-4 is-3-desktop dashAside">
         <div className="program-div">
-
+          {programToday && <h2 className="title is-2 white">Today:</h2>}
           {/* **************CARDS LOGIC************** */}
 
           {/* main card which displays today's exercise */}
@@ -127,7 +180,10 @@ class Aside extends React.Component {
           {programToday && !rest &&
             <div>
               {exerciseCompleted &&
-                <GreenCard programDay = {this.state.programDay} />
+                <GreenCard
+                  programDay = {this.state.programDay}
+                  grit = {dailyGrit}
+                />
               }
               {exerciseCompleted === false &&
                 <RedCard programDay = {this.state.programDay} />
@@ -159,8 +215,32 @@ class Aside extends React.Component {
             </div>
           }
 
+          {unloggedExercises.length > 0 &&
+          <h3 className="title is-3 white">Unlogged:</h3>}
+          {unloggedExercises.length > 0 && unloggedExercises.map((exercise, i) =>
+            <div key = {i}>
+              <UnloggedCard
+                editProgram = {editProgram}
+                programDay = {unloggedDays[i]}
+                program = {exercise}
+                handleEdit = {this.handleEdit}
+                handleEditSubmit = {this.handleEditSubmit}
+                handleProgramClick = {this.handleProgramClick}
+              />
+            </div>
+          )
+          }
+
           {/* **************CARDS LOGIC************** */}
 
+          {/* **************TIMELINE LOGIC************** */}
+          <div>
+            {/* {this.state.exercises && this.state.exercises.map(field => console.log(field)) } */}
+
+            {/* {this.state.exercises && Object.keys(this.state.exercises).map((key, i) =>
+              <p key={key}>{this.state.exercises[`day${i}`].time}</p>)} */}
+          </div>
+          {/* **************TIMELINE LOGIC************** */}
 
 
         </div>
