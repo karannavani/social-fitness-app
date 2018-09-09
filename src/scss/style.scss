@@ -2,6 +2,10 @@ header {
   margin-bottom: 64px;
 }
 
+body {
+  background-color: #F5F5F5;
+}
+
 .navbar, .navbar-menu {
   background: #000000;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
@@ -93,4 +97,9 @@ input.programEdit  {
   background-color: #12233e;
   height: 100vh;
   overflow: auto;
+}
+
+.dashFeed {
+  // padding-right: 60px;
+  // flex: auto;
 }
