@@ -93,7 +93,10 @@ class Dashboard extends React.Component {
             // shareExercises = {this.shareExercises}
           />
         }
-        <Feed exerciseData = {this.exerciseData}/>
+        <Feed
+          exercises = {this.state.exercises}
+          onRef={ref => (this.child = ref)}
+        />
       </div>
     );
   }

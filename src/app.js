@@ -24,6 +24,7 @@ import UserEdit from './components/profile/Edit';
 
 //exercise
 import ExercisePlanShow from './components/exercisePlans/Show';
+import ExercisePlanNew from './components/exercisePlans/New';
 
 class App extends React.Component {
   render() {
@@ -46,6 +47,7 @@ class App extends React.Component {
           <Route path='/users/:id/edit' component={UserEdit} />
 
           {/* exercisePlans */}
+          <Route path='/exerciseplan/new' component={ExercisePlanNew} />
           <Route path='/exerciseplan/:id' component={ExercisePlanShow} />
 
           <Route path='/dashboard' component={Dashboard} />
