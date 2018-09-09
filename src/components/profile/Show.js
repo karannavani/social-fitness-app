@@ -8,7 +8,8 @@ import Auth from '../../lib/Auth';
 import _ from 'lodash';
 
 //Components
-// import SortSelect from '../common/SortSelect';
+import SortSelect from '../common/SortSelect';
+import FilterBar from './FilterBar';
 
 export default class UserShow extends React.Component{
   state={
@@ -22,6 +23,11 @@ export default class UserShow extends React.Component{
       {value: 'workoutTimeAvg|asc', label: 'Short Workouts first' },
       {value: 'startDate|desc', label: 'Start Date (New to Old)' },
       {value: 'startDate|asc', label: 'Start Date (Old to New' }
+    ],
+    filterIntensityOptions: [
+      {label: 'Low Intensity', value: 'Low', active: true},
+      {label: 'Medium Intensity', value: 'Medium', active: true},
+      {label: 'High Intensity', value: 'High', active: true}
     ]
   };
 
@@ -29,13 +35,9 @@ export default class UserShow extends React.Component{
     this.fetchUserData();
   }
 
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps){
     if(prevProps.location.pathname !== this.props.location.pathname){
       this.fetchUserData();
-    }
-
-    if(prevState.sortString !== this.state.sortString){
-      this.planSort(this.state.exercisePlans);
     }
   }
 
@@ -51,17 +53,25 @@ export default class UserShow extends React.Component{
       });
   }
 
-  planSort = (dataArray) => {
+  //returns an array of sorted plans
+  sortPlans = (plansArr) => {
     const [ field, order] = this.state.sortString.split('|');
-    console.log('the field is', field);
-    console.log('the order is', order);
-    const sortedPlans = _.orderBy(dataArray, [field], order);
-    this.setState({exercisePlans: sortedPlans});
+    return _.orderBy(plansArr, [field], order);
+    // this.setState({exercisePlans: sortedPlans});
   }
-  // componentDidUpdate(){
-  //   console.log('This is the users page=======> ', this.isUsersPage());
-  //   console.log('The user is following this page=======> ', this.isFollowing());
-  // }
+
+  // returns an array of plans filted by the checked options
+  filterByOptions = (planArr) => {
+    return planArr.filter(plan =>
+      this.state.filterIntensityOptions.some(option => {
+        return option.active && plan.intensityAvg === option.value;
+      }));
+  }
+
+  sortedFilteredPlans = () => {
+    const filteredOptions = this.filterByOptions(this.state.exercisePlans);
+    return this.sortPlans(filteredOptions);
+  }
 
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
@@ -94,12 +104,22 @@ export default class UserShow extends React.Component{
   }
 
   handleSortSelectChange = ({ target }) => {
-    console.log('sort string value is ', target.value);
     this.setState({sortString: target.value});
+  }
+
+  handleFilterChange = ({target}) => {
+    const filterIntensityOptions = this.state.filterIntensityOptions.slice();
+    filterIntensityOptions.forEach(option => {
+      if(option.value === target.name || target.name === 'all'){
+        option.active = target.checked;
+      }
+    });
+    this.setState({ filterIntensityOptions });
   }
 
   render(){
     const { user, exercisePlans, sortOptions } = this.state;
+    // const this.filterByOptions()
     return(
       <section>
         {/* HERO */}
@@ -168,16 +188,25 @@ export default class UserShow extends React.Component{
           <h2 className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
           <div className='columns is-multiline'>
-            {/* <section className='column is-12'>
-              <SortSelect
-                options={sortOptions}
-                title='Sort Plans'
-                handleChange={this.handleSortSelectChange}
-              />
-              <hr/>
-            </section> */}
+            <section className='column is-12 columns'>
+              <div className='column is-6'>
+                <SortSelect
+                  options={sortOptions}
+                  title='Sort Plans'
+                  handleChange={this.handleSortSelectChange}
+                />
+              </div>
+              <div className='column is-6'>
+                <FilterBar
+                  options={this.state.filterIntensityOptions}
+                  handleChange={this.handleFilterChange}
 
-            {exercisePlans && exercisePlans.map( exercisePlan =>
+                />
+              </div>
+              <hr/>
+            </section> 
+
+            {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
               <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
                 {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
                 <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>

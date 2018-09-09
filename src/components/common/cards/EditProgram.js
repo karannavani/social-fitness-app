@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EditProgram = ({programToday, handleEdit, handleEditSubmit}) => {
+const EditProgram = ({programToday, handleEdit, handleEditSubmit, programDay}) => {
   return(
     <div>
       <form>
@@ -14,8 +14,8 @@ const EditProgram = ({programToday, handleEdit, handleEditSubmit}) => {
         </div>
       </form>
       <footer className="card-footer">
-        <a onClick={handleEditSubmit} id="complete" className="card-footer-item"><i id="complete" className="fas fa-check"></i></a>
-        <a onClick={handleEditSubmit} id="skip" className="card-footer-item"><i id="skip" className="fas fa-times"></i></a>
+        <a onClick={handleEditSubmit} id={`complete ${programDay}`} className="card-footer-item"><i id={`complete ${programDay}`} className="fas fa-check"></i></a>
+        <a onClick={handleEditSubmit} id={`skip ${programDay}`} className="card-footer-item"><i id={`skip ${programDay}`} className="fas fa-times"></i></a>
       </footer>
     </div>
   );
