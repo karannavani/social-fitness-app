@@ -2,7 +2,7 @@ import React from 'react';
 import FormInput from '../common/FormInput';
 
 export default class ExercisePlanNew extends React.Component {
-state = {}
+  state = {}
 
   // handleChange = (event) => {
   //   const { target: {name, value} } = event;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Aside from './Aside';
 import Feed from './Feed';
 import moment from 'moment';
+import Auth from '../../lib/Auth';
 
 class Dashboard extends React.Component {
   state = {
@@ -14,8 +15,8 @@ class Dashboard extends React.Component {
   //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
   // }
   componentDidMount() {
-    axios.get('/api/users')
-      .then(res => this.setState({ users: res.data[0], exerciseId: res.data[0].exercisePlan[0] },
+    axios.get('/api/users/${Auth.currentUserId()}')
+      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan },
         () => this.getExercise()));
   }
 
