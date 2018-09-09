@@ -35,14 +35,10 @@ export default class UserShow extends React.Component{
     this.fetchUserData();
   }
 
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps){
     if(prevProps.location.pathname !== this.props.location.pathname){
       this.fetchUserData();
     }
-
-    // if(prevState.sortString !== this.state.sortString){
-    //   this.sortPlans(filteredOptions);
-    // }
   }
 
   fetchUserData = () => {
@@ -66,10 +62,6 @@ export default class UserShow extends React.Component{
 
   // returns an array of plans filted by the checked options
   filterByOptions = (planArr) => {
-    //  filter out all unchecked filterIntensityOptions
-    //  save those changed to state.
-    //  need to filter sorted options
-    //  unchecking should add option back in
     return planArr.filter(plan =>
       this.state.filterIntensityOptions.some(option => {
         return option.active && plan.intensityAvg === option.value;
