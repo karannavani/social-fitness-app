@@ -46,9 +46,9 @@ export default class AuthRegister extends React.Component{
     return(
       <section className="container">
         <form onSubmit={ this.handleSubmit }>
-          <div className="columns is-centered is-multiline">
+          <div className="columns is-multiline">
 
-            <h1 className="column is-12 title is-6">Set up your Grit account</h1>
+            <h1 className="column is-12 title is-6">Set up your Tribe account</h1>
 
             <div className="column is-one-third">
               <FormInput
@@ -161,8 +161,8 @@ export default class AuthRegister extends React.Component{
                 handleChange={ this.handleChange }
               />
             </div>
-            <button className="button is-info is-rounded has-text-weight-bold">Register</button>
-            <Link to='/login' className="button is-info is-rounded has-text-weight-bold">Log in</Link>
+            <button className="button column is-info is-rounded is-3 is-offset-2">Register</button>
+            <Link to='/login' className="button column is-info is-rounded is-3 is-offset-2">Log in</Link>
           </div>
         </form>
       </section>

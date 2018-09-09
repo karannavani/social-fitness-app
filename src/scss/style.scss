@@ -81,6 +81,10 @@ input.programEdit  {
 }
 
 .tribeAside {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
   background-color: #777;
   height: 100vh;
   overflow: auto;
@@ -91,8 +95,10 @@ input.programEdit  {
   background: -webkit-linear-gradient(to right, #0f2027, #203a43, #2c5364);
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
   height: 270px;
+  width: 100%;
   margin-top: 10px;
   color: white;
+  overflow: scroll;
 }
 
 .dashAside {

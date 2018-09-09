@@ -17,6 +17,8 @@ class TribeAside extends React.Component {
       } ));
     axios.get('/api/users/5b91752666708bc8b1622706')
       .then(res => this.setState({ user: res.data }));
+      // .then(res => console.log('user data is', res.data));
+
 
   }
 
@@ -37,6 +39,10 @@ class TribeAside extends React.Component {
     });
   }
 
+  dailyGrit = () => {
+    return this.state.user.dailyGrit
+  }
+
 
   render() {
     return (
@@ -45,12 +51,12 @@ class TribeAside extends React.Component {
           <div className="columns">
             <div className="column is-4 is-3-desktop tribeAside">
               <div className="tribeAsideContainer">
-                <p>YOUR TRIBE</p>
+                <h2 className="subtitle is-4 has-text-grey">YOUR TRIBE</h2>
                 { this.state.user && this.state.tribeWeight && <div><p>{this.state.members.length} {this.state.tribeName}</p>
                   <p>Average weight: {this.state.tribeWeight}</p></div> }
               </div>
               <div className="tribeAsideContainer">
-                <p>LEADER BOARD</p>
+                <h2 className="subtitle is-4 has-text-grey">LEADER BOARD</h2>
                 {this.state.members && this.leadersSort().slice(0, 10).map(leader =>
                   <div key={leader._id}>
                     {leader.username} Grit: {leader.grit}
@@ -58,7 +64,7 @@ class TribeAside extends React.Component {
                 )}
               </div>
               <div className="tribeAsideContainer">
-                <p>ADOPTED PROGRAMMES</p>
+                <h2 className="subtitle is-4 has-text-grey">ADOPTED PROGRAMMES</h2>
               </div>
             </div>
             <div className="column is-8">

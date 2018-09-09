@@ -6,7 +6,7 @@ class Header extends React.Component {
 
   handleLogout = () => {
     Auth.removeToken();
-    this.props.history.push('/login');
+    this.props.history.push('/');
   }
 
   render() {
