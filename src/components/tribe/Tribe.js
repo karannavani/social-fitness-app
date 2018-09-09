@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import Graphs from './DataViz';
 
-import Auth from '../lib/Auth';
+import Auth from '../../lib/Auth';
 
 
 
@@ -22,7 +22,7 @@ class TribeAside extends React.Component {
 
   }
 
-  leadersSort = () => {
+  leadersSort = () => { // this is the leaderboard
     const leaders = this.state.members;
     return _.orderBy(leaders, ['grit', 'username'], 'desc');
   }
