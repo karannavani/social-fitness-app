@@ -2,9 +2,24 @@ import React from 'react';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import moment from 'moment';
+import Auth from '../../lib/Auth';
 
 export default class ExercisePlanNew extends React.Component {
-  state = {}
+  state = {
+    validStartDate: false
+  }
+
+  componentDidMount(){
+    const paginateOptions = {
+      'userId': Auth.currentUserId(),
+      'page': 1,
+      'sort': { 'startDate': -1 },
+      'limit': 1
+    };
+    axios.post('/api/exerciseplans/paginate', paginateOptions)
+      .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}));
+
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -25,13 +40,16 @@ export default class ExercisePlanNew extends React.Component {
       });
 
     } else if (name.includes('normalStartDate')){
-      const unixValue = moment(value).unix();
-      console.log('unix value is', unixValue);
-      this.setState({[name]: value, startDate: unixValue}, () => {
-        console.log('state is', this.state);
-        // console.log(this.state.day1.rest);
+      this.setState({[name]: value}, () =>{
+        if(this.validateStartDate()){
+          const unixValue = moment(value).unix();
+          console.log('unix value is', unixValue);
+          this.setState({errors: null, startDate: unixValue, validStartDate: true});
+        }else{
+          //date is not valid
+          this.setState({errors: { normalStartDate: 'Your start date is no valid'},[name]: value });
+        }
       });
-
     } else if (name.includes('rest')) {
       this.setState({[name]: checked}, () => {
         console.log('state is', this.state);
@@ -45,11 +63,26 @@ export default class ExercisePlanNew extends React.Component {
     }
   }
 
+  validateStartDate = () => {
+    // console.log('from state ', this.state.normalStartDate);
+    const momStartDate = moment(this.state.normalStartDate).utc();
+    // console.log('the newStartDate is:', momStartDate);
+    const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
+    // console.log('the date sevenDaysTime is: ', sevenDaysTime);
+    if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
+
+    return false;
+  }
+
   // handleChecked = ({target: {name, checked}}) => {
   //   console.log('event target is', checked);
   //   console.log('event target name is', name);
   //   this.setState({[name]: checked});
   // }
+
+  // click submit to validate start date,
+  //  validate the start date on handle change
+  // disable the submit button if date is not valide
 
   render() {
     return(
@@ -66,6 +99,7 @@ export default class ExercisePlanNew extends React.Component {
             />
           </div>
 
+          {/* PICK START DATE */}
           <div className="column is-4">
             <FormInput
               label='Choose your preferred start date'
@@ -375,12 +409,12 @@ export default class ExercisePlanNew extends React.Component {
               }
 
             </div>
-
-
-
           </div>
 
-          <button className="button is-info is-rounded is-3">Create</button>
+          <button
+            className="button is-info is-rounded is-3"
+            disabled={!this.state.validStartDate}
+          >Create</button>
         </form>
       </section>
     );

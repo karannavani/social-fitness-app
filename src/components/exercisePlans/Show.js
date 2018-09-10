@@ -36,8 +36,9 @@ export default class ExercisePlanShow extends React.Component{
       this.getUsersCurrentPlan();
       const adopting = true;
       this.setState({ adopting });
+
     }else if(this.state.adopting){
-      console.log('the start date is valid:', this.validateStartDate());
+
       if(this.validateStartDate()){
         const formattedDate = moment.unix(this.state.startDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
@@ -55,7 +56,6 @@ export default class ExercisePlanShow extends React.Component{
     // console.log('from state ', this.state.newStartDate);
     const momStartDate = moment(this.state.newStartDate).utc();
     // console.log('the newStartDate is:', momStartDate);
-
     const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
     // console.log('the date sevenDaysTime is: ', sevenDaysTime);
     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
