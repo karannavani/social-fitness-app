@@ -46,9 +46,15 @@ class Feed extends React.Component {
         case (true):
           // console.log('green');
           this.getGrit(this.props.exercises[`day${i}`]);
+          if (this.props.exercises[`day${i}`].rest === true) {
+            this.state.dotsArr.push({color: 'orange', grit: this.getGrit(this.props.exercises[`day${i}`]) });
 
-          timeArr.push(this.getCompletedTime(this.props.exercises[`day${i}`]));
-          this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
+          } else {
+            timeArr.push(this.getCompletedTime(this.props.exercises[`day${i}`]));
+            this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
+          }
+          // timeArr.push(this.getCompletedTime(this.props.exercises[`day${i}`]));
+          // this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
           break;
 
         case (false):
