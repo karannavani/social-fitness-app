@@ -194,7 +194,6 @@ export default class UserShow extends React.Component{
                       </div>
                     }
                   </div>
-
                 </section>
 
                 {/* TRIBE FOLLOWERS FOLLOWING */}
@@ -221,10 +220,11 @@ export default class UserShow extends React.Component{
           {/* map over an array of past exercise */}
 
           {/* BUG: this is not always stable */}
-          {exercisePlans && !exercisePlans.length ?
+          {exercisePlans && user && !exercisePlans.length ?
             <div> You dont have any plans yet.
               <Link to='/exerciseplan/new'>Click</Link> here to create one or visit your
-              <Link to={`/tribe/${user.tribe}`}> tribes</Link>  page and adopt one </div>
+              <Link to={`/tribe/${user.tribe}`}> tribes</Link>  page and adopt one
+            </div>
             :
             <div className='columns is-multiline'>
               <section className='column is-12 columns'>
