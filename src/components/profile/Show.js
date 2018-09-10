@@ -9,6 +9,7 @@ import _ from 'lodash';
 
 //Components
 import SortSelect from '../common/SortSelect';
+import Paginate from '../common/Paginate';
 import FilterBar from './FilterBar';
 
 export default class UserShow extends React.Component{
@@ -47,6 +48,11 @@ export default class UserShow extends React.Component{
     axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
 
+    this.fetchPaginatePlanHistory();
+  }
+
+  fetchPaginatePlanHistory = () => {
+    const userId = this.props.match.params.id;
     const paginateOptions = {
       'userId': userId,
       'page': this.state.page,
@@ -58,6 +64,10 @@ export default class UserShow extends React.Component{
     //returns 10 user exercises and sorts then by startDate with newest first.
     axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => {
+        console.log(`there are ${res.data.pages} pages for this user`);
+
+        // for(let i = 1; i <= res.data)
+
         const planDateAsc = this.sortPlans(res.data.docs);
         this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
       });
@@ -130,8 +140,25 @@ export default class UserShow extends React.Component{
     this.setState({ filterIntensityOptions });
   }
 
+  handlePageChange = (page) => {
+    return () => {
+      this.setState({page}, () => this.fetchPaginatePlanHistory());
+    };
+  };
+
+  // createListItems = (startPage, endPage) => {
+  //   const pageNumbers = [];
+  //   for(let i = startPage; i <= endPage; i++){
+  //     pageNumbers.push(<li> <a onClick={this.handlePageChange(i)} className={`pagination-link ${this.state.page === i ? 'is-current' : ''}`}>{i}</a> </li>)
+  //   }
+  //
+  //   return pageNumbers;
+  // }
+
   render(){
     const { user, exercisePlans, sortOptions } = this.state;
+
+
     // const this.filterByOptions()
     return(
       <section>
@@ -242,6 +269,17 @@ export default class UserShow extends React.Component{
                   <p>Rest Days: {exercisePlan.restDays}</p>
                 </Link>
               )}
+
+              {this.state.pages &&
+                <div className='column is-12 has-text-centered'>
+                  <Paginate
+                    currentPage={this.state.page}
+                    startPage={1}
+                    endPage={this.state.pages}
+                    handleClick={this.handlePageChange}
+                  />
+                </div>
+              }
             </div>
           }
         </section>

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { HashRouter } from 'react-router-hash-link';
 import 'bulma/css/bulma.css'; //Needs to change when Heroku-ing
 import './scss/style.scss';
 
@@ -35,10 +34,8 @@ class App extends React.Component {
         <Header />
         <FlashMessages />
         {/* <Tribe /> */}
-        {/* <Switch>
-        </Switch> */}
         <Switch>
-
+          {/* Auth and home */}
           <Route exact path='/' component={Home} />
           <Route path='/login' component={AuthLogin} />
           <Route path='/register' component={AuthRegister} />
