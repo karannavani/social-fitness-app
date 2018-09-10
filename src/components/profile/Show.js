@@ -136,7 +136,7 @@ export default class UserShow extends React.Component{
                   </figure>
                   <div className=" column is-9">
                     <div className="content">
-                      <h2 className='title is-4'> <strong>{user.username}</strong> </h2>
+                      <h2 className='title is-4'><strong>{user.username}</strong></h2>
                       <p className='subtitle '>{user.firstName} {user.surname}</p>
                       <hr/>
                       <p>Height: {user.height}{user.heightUnit}</p>
@@ -169,13 +169,13 @@ export default class UserShow extends React.Component{
 
                 <div className='columns' style={{border: '1px solid black'}}>
                   <div onClick={this.handleGoToTribe} className='column is-4 has-text-centered'>
-                    <p > {user.tribe}</p>
+                    <p> {user.tribe}</p>
                   </div>
                   <div className='column is-4 has-text-centered'>
-                    <p >{user.followers.length} Followers</p>
+                    <p>{user.followers.length} Followers</p>
                   </div>
                   <div className='column is-4 has-text-centered'>
-                    <p > Following {user.following.length}</p>
+                    <p> Following {user.following.length}</p>
                   </div>
                 </div>
               </div>
