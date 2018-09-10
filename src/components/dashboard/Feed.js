@@ -21,7 +21,7 @@ class Feed extends React.Component {
     // console.log('prev props is ==>', prevProps.exercises);
     // console.log('state exercises is ==>', this.state.exercises);
     if (prevProps.exercises !== this.props.exercises) {
-      console.log('this.props.exercise is', this.props.exercises);
+      // console.log('this.props.exercise is', this.props.exercises);
       this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
         this.createDots();
       });

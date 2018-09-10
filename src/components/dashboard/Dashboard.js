@@ -100,9 +100,9 @@ class Dashboard extends React.Component {
   }
 
   handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
-    console.log('target is', target.id);
+    // console.log('target is', target.id);
     const [id, day, grit] = target.id.split(' ');
-    console.log('day is ====>', day);
+    // console.log('day is ====>', day);
     // console.log('grit is ====>', grit);
     const newProgramState = this.state.exercises[day.toLowerCase()];
     const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
@@ -123,8 +123,9 @@ class Dashboard extends React.Component {
       case ('skip'):
         newProgramState.exerciseCompleted = false;
         newProgramState.time = 0;
+        newProgramState.dailyGrit = 0;
         this.deleteUnlogged(unloggedIndex);
-        this.programUpdate(day, newProgramState);
+        this.programUpdate(day, newProgramState, newProgramState.dailyGrit);
         return console.log('clicked skip');
     }
   }
@@ -139,12 +140,18 @@ class Dashboard extends React.Component {
   }
 
   programUpdate = (day, newProgramState, grit) => {
+
+
     axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState})
       // .then(res => console.log('res is', res.data))
       .then(res => this.setState({ exercises: res.data }));
 
     axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
       .then(res => this.setState({ userGrit: res.data.grit }));
+
+    if (this.state.programDay.replace(' ', '') === day) {
+      this.setState({ programToday: newProgramState });
+    }
   }
   // this.setState({
   //   exercises: {...this.state.exercises, [day.toLowerCase()]: newProgramState }
