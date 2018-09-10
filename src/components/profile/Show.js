@@ -13,7 +13,7 @@ import FilterBar from './FilterBar';
 
 export default class UserShow extends React.Component{
   state={
-    sortString: 'startDate|asc',
+    sortString: 'startDate|desc',
     sortOptions: [
       {value: 'totalGrit|desc', label: 'Grit (Highest First)' },
       {value: 'totalGrit|asc', label: 'Grit (Lowest First)' },
@@ -28,7 +28,8 @@ export default class UserShow extends React.Component{
       {label: 'Low Intensity', value: 'Low', active: true},
       {label: 'Medium Intensity', value: 'Medium', active: true},
       {label: 'High Intensity', value: 'High', active: true}
-    ]
+    ],
+    page: 1
   };
 
   componentDidMount(){
@@ -46,10 +47,19 @@ export default class UserShow extends React.Component{
     axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
 
-    axios.get('/api/exerciseplans')
+    const paginateOptions = {
+      'userId': userId,
+      'page': this.state.page,
+      'sort': {'startDate': -1 },
+      'populate': 'user',
+      'limit': 10
+    };
+
+    //returns 10 user exercises and sorts then by startDate with newest first.
+    axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => {
-        const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
-        this.setState({exercisePlans: usersExercisePlans});
+        const planDateAsc = this.sortPlans(res.data.docs);
+        this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
       });
   }
 
@@ -72,6 +82,9 @@ export default class UserShow extends React.Component{
     const filteredOptions = this.filterByOptions(this.state.exercisePlans);
     return this.sortPlans(filteredOptions);
   }
+
+  //sort the filtered plans by date newest to oldest.
+  //
 
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);

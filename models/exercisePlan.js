@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const moment = require('moment');
 
@@ -57,11 +58,14 @@ const exercisePlanSchema = new mongoose.Schema({
   startDate: Number
 }, { timestamps: true });
 
+exercisePlanSchema.plugin(mongoosePaginate);
+
 // make sure the virtuals get added
 exercisePlanSchema.set('toObject', { virtuals: true });
 exercisePlanSchema.set('toJSON', { virtuals: true });
 
 //VIRTUALS
+//returns the start date formatted as a string in the format 'DD/MM/YYYY'
 exercisePlanSchema.virtual('formattedStartDate')
   .get(function(){
     return moment.unix(this.startDate).format('DD/MM/YYYY');
@@ -104,8 +108,6 @@ exercisePlanSchema.virtual('intensityAvg')
     }
   });
 
-
-
 // Returns the total exercise time required in a program
 exercisePlanSchema.virtual('totalTime')
   .get( function() {
@@ -121,6 +123,7 @@ exercisePlanSchema.virtual('totalTime')
     return timesArray.reduce((sum, time) => sum + time);
   });
 
+//returns the average workout time per day. totalTime/#non rest days in plan
 exercisePlanSchema.virtual('workoutTimeAvg')
   .get( function() {
     const timesArray = [];
@@ -135,7 +138,7 @@ exercisePlanSchema.virtual('workoutTimeAvg')
     return Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
   });
 
-// Returns the total exercise time required in a program
+// returns the total grit earned in a program is it is historical, returns null if not
 exercisePlanSchema.virtual('totalGrit')
   .get( function() {
     const gritArray = [];
@@ -152,18 +155,7 @@ exercisePlanSchema.virtual('totalGrit')
     }, 0);
   });
 
-function calculateGrit(intensity, time){
-  switch (intensity) {
-    case 'low':
-      return Math.floor((time/20)) * 5;
-    case 'medium':
-      return Math.floor((time/20)) * 10;
-    case 'high':
-      return Math.floor((time/20)) * 15;
-  }
-}
-
-// Returns the total exercise time required in a program
+// returns the total avialable grit for created plans
 exercisePlanSchema.virtual('totalAvailableGrit')
   .get( function(){
     const planAvailableGrit = [];
@@ -186,8 +178,7 @@ exercisePlanSchema.virtual('totalAvailableGrit')
     return planAvailableGrit.reduce((sum, grit) => sum + grit);
   });
 
-
-
+// returns all the completed days in a historical program or 0 if non are completed
 exercisePlanSchema.virtual('completedDays')
   .get( function() {
     let completed = 0;
@@ -199,7 +190,7 @@ exercisePlanSchema.virtual('completedDays')
     return completed;
   });
 
-
+// returns the number of rest days in a plan
 exercisePlanSchema.virtual('restDays')
   .get( function() {
     let restDays = 0;
@@ -211,9 +202,31 @@ exercisePlanSchema.virtual('restDays')
     return restDays;
   });
 
+// Returns true if program start date is within 7 days of current date
+exercisePlanSchema.virtual('activePlan')
+  .get(function(){
+    const momStartDate = moment.utc(moment.unix(this.startDate));
+    const sevenDaysAgo = moment().subtract(7, 'days');
+    if(moment(momStartDate).isBefore(sevenDaysAgo)) return false;
+
+    return true;
+  });
 
 // LIFECYCLE HOOKS
 //  set the date for each day based on the start date prior to saving
 //  NOTE: might be worth moving the program day logic here if we need day dates on more than one place
 
 module.exports = mongoose.model('ExercisePlan', exercisePlanSchema);
+
+
+////------ INTERNAL FUNCTIONS ---------///
+function calculateGrit(intensity, time){
+  switch (intensity) {
+    case 'low':
+      return Math.floor((time/20)) * 5;
+    case 'medium':
+      return Math.floor((time/20)) * 10;
+    case 'high':
+      return Math.floor((time/20)) * 15;
+  }
+}
