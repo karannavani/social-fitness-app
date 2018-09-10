@@ -13,7 +13,7 @@ import FilterBar from './FilterBar';
 
 export default class UserShow extends React.Component{
   state={
-    sortString: 'startDate|asc',
+    sortString: 'startDate|desc',
     sortOptions: [
       {value: 'totalGrit|desc', label: 'Grit (Highest First)' },
       {value: 'totalGrit|asc', label: 'Grit (Lowest First)' },
@@ -55,13 +55,11 @@ export default class UserShow extends React.Component{
       'limit': 10
     };
 
+    //returns 10 user exercises and sorts then by startDate with newest first.
     axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => {
-
-
-        console.log('the paginate data is', res.data);
-        // const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
-        this.setState({exercisePlans: res.data.docs, pages: res.data.pages});
+        const planDateAsc = this.sortPlans(res.data.docs);
+        this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
       });
   }
 
