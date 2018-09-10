@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   heightUnit: { type: String, default: 'cm'},
   weight: { type: Number, default: 0 },
   weightUnit: { type: String, default: 'kg'},
-  imageUrl: String,
+  imageUrl: { type: String, default: 'https://i0.wp.com/ebus.ca/wp-content/uploads/2017/08/profile-placeholder.jpg?ssl=1'},
 
   // Application
   tribe: { type: String, enum: ['All Naturals', 'Inbetweeners', 'Gargantuans'] },

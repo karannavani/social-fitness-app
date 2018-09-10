@@ -200,38 +200,50 @@ export default class UserShow extends React.Component{
         <section id="history" className='container'>
           <h2  className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
-          <div className='columns is-multiline'>
-            <section className='column is-12 columns'>
-              <div className='column is-6'>
-                <SortSelect
-                  options={sortOptions}
-                  title='Sort Plans'
-                  handleChange={this.handleSortSelectChange}
-                />
-              </div>
-              <div className='column is-6'>
-                <FilterBar
-                  options={this.state.filterIntensityOptions}
-                  handleChange={this.handleFilterChange}
 
-                />
-              </div>
-              <hr/>
-            </section>
+          {/* BUG: this is not always stable */}
+          {exercisePlans && !exercisePlans.length ?
+            <div> You dont have any plans yet.
+              <Link to='/exerciseplan/new'>Click</Link> here to create one or visit your
+              <Link to={`/tribe/${user.tribe}`}> tribes</Link>  page and adopt one </div>
+            :
+            <div className='columns is-multiline'>
+              <section className='column is-12 columns'>
+                <div className='column is-6'>
+                  <SortSelect
+                    options={sortOptions}
+                    title='Sort Plans'
+                    handleChange={this.handleSortSelectChange}
+                  />
+                </div>
+                <div className='column is-6'>
+                  <FilterBar
+                    options={this.state.filterIntensityOptions}
+                    handleChange={this.handleFilterChange}
 
-            {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
-              <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
-                {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
-                <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>
-                <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
-                <p><i className="fab fa-gripfire"></i>: {exercisePlan.intensityAvg}</p>
-                <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime} min</p>
-                <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg} min/day</p>
-                <p>Completed Days: {exercisePlan.completedDays}</p>
-                <p>Rest Days: {exercisePlan.restDays}</p>
-              </Link>
-            )}
-          </div>
+                  />
+                </div>
+                <hr/>
+              </section>
+
+              {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
+                <Link
+                  to={`/exerciseplan/${exercisePlan._id}`}
+                  style={exercisePlan.activePlan ? {border: '1px solid red'} : null}
+                  key={exercisePlan._id} className='column is-3 box'>
+
+                  {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
+                  <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>
+                  <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
+                  <p><i className="fab fa-gripfire"></i>: {exercisePlan.intensityAvg}</p>
+                  <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime} min</p>
+                  <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg} min/day</p>
+                  <p>Completed Days: {exercisePlan.completedDays}</p>
+                  <p>Rest Days: {exercisePlan.restDays}</p>
+                </Link>
+              )}
+            </div>
+          }
         </section>
       </section>
 

@@ -17,7 +17,7 @@ Router.route('/login')
 //
 Router.route('/register')
   .post(authController.register);
-//
+
 // USER ROUTES
 Router.route('/users')
   .get(userController.index);
