@@ -22,8 +22,10 @@ class Dashboard extends React.Component {
   // }
   componentDidMount() {
     axios.get(`/api/users/${Auth.currentUserId()}`)
-      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan },
-        () => this.getExercise()));
+      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
+        () => {
+          this.getExercise();
+        }));
   }
 
   getExercise = () => { // sets the exercises from the current plan on the state
@@ -42,6 +44,7 @@ class Dashboard extends React.Component {
       // const tomorrow = moment.utc().add(1, 'days');
       const today = moment.utc().add(3, 'days'); //manual today for testing
       const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
+      this.setState({ momentToday: moment(today).unix()});
 
       for (let i = 1; i < 8; i++) {
 
@@ -110,7 +113,7 @@ class Dashboard extends React.Component {
         newProgramState.exerciseCompleted = true;
         newProgramState.dailyGrit = parseInt(grit);
         this.deleteUnlogged(unloggedIndex);
-        this.programUpdate(day, newProgramState);
+        this.programUpdate(day, newProgramState, grit);
         return console.log('clicked complete');
 
       case ('edit'):
@@ -119,6 +122,7 @@ class Dashboard extends React.Component {
 
       case ('skip'):
         newProgramState.exerciseCompleted = false;
+        newProgramState.time = 0;
         this.deleteUnlogged(unloggedIndex);
         this.programUpdate(day, newProgramState);
         return console.log('clicked skip');
@@ -134,18 +138,20 @@ class Dashboard extends React.Component {
     }
   }
 
-  programUpdate = (day, newProgramState) => {
-    axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState});
+  programUpdate = (day, newProgramState, grit) => {
+    axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState})
+      // .then(res => console.log('res is', res.data))
+      .then(res => this.setState({ exercises: res.data }));
 
-    this.setState({
-      exercises: {...this.state.exercises, [day.toLowerCase()]: newProgramState }
-    }, () => {
-      console.log(this.state.exercises);
-      this.child.current.parentUpdate();
-    });
-
+    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
+      .then(res => this.setState({ userGrit: res.data.grit }));
   }
-
+  // this.setState({
+  //   exercises: {...this.state.exercises, [day.toLowerCase()]: newProgramState }
+  // }, () => {
+  //   // console.log(this.state.exercises);
+  //   this.child.current.parentUpdate();
+  // })
 
   // parentUpdate = (exercises) => {
   //   this.setState({ exercises, forceUpdate: Math.random() }, () => console.log('parent state is', this.state.exercises));
@@ -162,7 +168,7 @@ class Dashboard extends React.Component {
             programToday = {this.state.programToday}
             programDay = {this.state.programDay}
             programTomorrow = {this.state.programTomorrow}
-            tomorrowRest =  {this.state.rest}
+            tomorrowRest =  {this.state.tomorrowRest}
             rest = {this.state.rest}
             unloggedExercises = {this.state.unloggedExercises}
             unloggedDays = {this.state.unloggedDays}
@@ -176,6 +182,7 @@ class Dashboard extends React.Component {
         <Feed
           exercises = {this.state.exercises}
           forceUpdate = {this.state.forceUpdate}
+          userGrit = {this.state.userGrit}
           // onRef={ref => (this.child = ref)}
           ref={this.child}
         />

@@ -25,6 +25,7 @@ Router.route('/users')
 Router.route('/users/:id')
   .get(userController.show)
   .put(userController.update)
+  // .patch(userController.patch)
   .delete(userController.delete);
 
 Router.route('/users/:userId/follow')

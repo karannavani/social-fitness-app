@@ -17,6 +17,7 @@ class Aside extends React.Component {
     unloggedExercises: [],
     unloggedDays: []
   }
+
   //
   // componentDidMount() {
   //   this.props.onRef(this);

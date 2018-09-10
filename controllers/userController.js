@@ -38,6 +38,15 @@ function userUpdate( req, res, next ){
   // EG: .then(event => Event.populate(event, { path: 'guests'}))
 }
 
+// function userPatch(req, res, next) {
+//   User
+//     .findById(req.params.id)
+//     .then(user => user.set(req.body))
+//     .then(user => user.save())
+//     .then(exercise => res.json(exercise))
+//     .catch(next);
+// }
+
 function userDelete( req, res, next ){
   // DELETE /user/:id
   User
@@ -61,6 +70,7 @@ function addUserGrit( req, res, next ){
   // pushes an object into the daily grit array
   // body needs to be an object containing a date and a grit number
 }
+
 
 //------------- SOCIAL ------------//
 function userFollowDelete( req, res, next ){
@@ -121,6 +131,7 @@ module.exports = {
   show: userShow,
   update: userUpdate,
   delete: userDelete,
+  // patch: userPatch,
 
   // Application
   createGrit: addUserGrit,
