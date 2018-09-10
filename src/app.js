@@ -46,7 +46,7 @@ class App extends React.Component {
           <Route path='/tribe/:tribeName' component={Tribe} />
 
           {/* user */}
-          <HashRouter exact path='/profile/:id#history' component={UserShow} />
+          {/* <HashRouter exact path='/profile/:id#history' component={UserShow} /> */}
           <Route path='/profile/:id' component={UserShow} />
           <Route path='/users/:id/edit' component={UserEdit} />
 

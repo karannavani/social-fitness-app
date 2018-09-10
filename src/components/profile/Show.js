@@ -197,7 +197,7 @@ export default class UserShow extends React.Component{
         }
 
         {/* HISTORY */}
-        <section id="history" className='container'>
+        <section id='history' className='container'>
           <h2  className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
 
