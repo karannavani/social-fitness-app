@@ -95,7 +95,7 @@ class Graphs extends React.Component{
         </div>
         <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
           {this.state.userGritHistory &&
-          <UserGritVsTime userGritHistory={this.state.userGritHistory}/>
+          <UserGritVsTime userGritHistory={this.state.userGritHistory} userAvailableGrit={this.state.userAvailableGrit}/>
           }
         </div>
         <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
