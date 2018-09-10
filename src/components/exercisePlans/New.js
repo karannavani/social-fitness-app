@@ -10,6 +10,21 @@ export default class ExercisePlanNew extends React.Component {
     },
     day2: {
       rest: false
+    },
+    day3: {
+      rest: false
+    },
+    day4: {
+      rest: false
+    },
+    day5: {
+      rest: false
+    },
+    day6: {
+      rest: false
+    },
+    day7: {
+      rest: false
     }
   }
 
@@ -17,9 +32,9 @@ export default class ExercisePlanNew extends React.Component {
     event.preventDefault();
 
     axios.post('/api/exerciseplans', this.state)
-    .then(res => console.log('res is', res))
-    .then(() => this.props.history.push('/dashboard'))
-    .catch(err => console.log('adoption error message: ', err));
+      .then(res => console.log('res is', res))
+      .then(() => this.props.history.push('/dashboard'))
+      .catch(err => console.log('adoption error message: ', err));
   }
 
   // }
@@ -84,7 +99,7 @@ export default class ExercisePlanNew extends React.Component {
           </div>
 
           <div className= "columns is-multiline">
-            <div className="column is-4">
+            <div className="column is-4 card create-card">
               <div className="column is-12">
                 <label className='label'>Day 1</label>
 
@@ -122,7 +137,7 @@ export default class ExercisePlanNew extends React.Component {
             </div>
 
             {/* DAY 2 */}
-            <div className="column is-4">
+            <div className="column is-4 card create-card">
               <div className="column is-12">
                 <label className='label'>Day 2</label>
 
@@ -158,6 +173,199 @@ export default class ExercisePlanNew extends React.Component {
                 </select>
               </div>
             </div>
+
+            {/* DAY 3 */}
+            <div className="column is-4 card create-card">
+              <div className="column is-12">
+                <label className='label'>Day 3</label>
+
+                <div className="control">
+                  <input
+                    type="checkbox"
+                    name="day3.rest"
+                    onChange = {this.handleChange}
+                    value = {true}
+                  /> Is this a rest day?
+                </div>
+              </div>
+
+              <div className="column is-8">
+                <FormInput
+                  label='Duration (minutes)'
+                  name='day3.time'
+                  type='number'
+                  handleChange={this.handleChange}
+                  state={this.state}
+                />
+              </div>
+
+              <div className="column is-4">
+                <label className='label'>Intensity</label>
+                <select className = 'select'
+                  name='day3.intensity'
+                  state={ this.state }
+                  onChange={ this.handleChange }>
+                  <option value='Low'>Low</option>
+                  <option value='Medium'>Medium</option>
+                  <option value='High'>High</option>
+                </select>
+              </div>
+            </div>
+
+            {/* DAY 4 */}
+            <div className="column is-4 card create-card">
+              <div className="column is-12">
+                <label className='label'>Day 4</label>
+
+                <div className="control">
+                  <input
+                    type="checkbox"
+                    name="day4.rest"
+                    onChange = {this.handleChange}
+                    value = {true}
+                  /> Is this a rest day?
+                </div>
+              </div>
+
+              <div className="column is-8">
+                <FormInput
+                  label='Duration (minutes)'
+                  name='day4.time'
+                  type='number'
+                  handleChange={this.handleChange}
+                  state={this.state}
+                />
+              </div>
+
+              <div className="column is-4">
+                <label className='label'>Intensity</label>
+                <select className = 'select'
+                  name='day4.intensity'
+                  state={ this.state }
+                  onChange={ this.handleChange }>
+                  <option value='Low'>Low</option>
+                  <option value='Medium'>Medium</option>
+                  <option value='High'>High</option>
+                </select>
+              </div>
+            </div>
+
+            {/* DAY 5 */}
+            <div className="column is-4 card create-card">
+              <div className="column is-12">
+                <label className='label'>Day 5</label>
+
+                <div className="control">
+                  <input
+                    type="checkbox"
+                    name="day5.rest"
+                    onChange = {this.handleChange}
+                    value = {true}
+                  /> Is this a rest day?
+                </div>
+              </div>
+
+              <div className="column is-8">
+                <FormInput
+                  label='Duration (minutes)'
+                  name='day5.time'
+                  type='number'
+                  handleChange={this.handleChange}
+                  state={this.state}
+                />
+              </div>
+
+              <div className="column is-4">
+                <label className='label'>Intensity</label>
+                <select className = 'select'
+                  name='day5.intensity'
+                  state={ this.state }
+                  onChange={ this.handleChange }>
+                  <option value='Low'>Low</option>
+                  <option value='Medium'>Medium</option>
+                  <option value='High'>High</option>
+                </select>
+              </div>
+            </div>
+
+            {/* DAY 6 */}
+            <div className="column is-4 card create-card">
+              <div className="column is-12">
+                <label className='label'>Day 6</label>
+
+                <div className="control">
+                  <input
+                    type="checkbox"
+                    name="day6.rest"
+                    onChange = {this.handleChange}
+                    value = {true}
+                  /> Is this a rest day?
+                </div>
+              </div>
+
+              <div className="column is-8">
+                <FormInput
+                  label='Duration (minutes)'
+                  name='day6.time'
+                  type='number'
+                  handleChange={this.handleChange}
+                  state={this.state}
+                />
+              </div>
+
+              <div className="column is-4">
+                <label className='label'>Intensity</label>
+                <select className = 'select'
+                  name='day6.intensity'
+                  state={ this.state }
+                  onChange={ this.handleChange }>
+                  <option value='Low'>Low</option>
+                  <option value='Medium'>Medium</option>
+                  <option value='High'>High</option>
+                </select>
+              </div>
+            </div>
+
+            {/* DAY 7 */}
+            <div className="column is-4 card create-card">
+              <div className="column is-12">
+                <label className='label'>Day 7</label>
+
+                <div className="control">
+                  <input
+                    type="checkbox"
+                    name="day7.rest"
+                    onChange = {this.handleChange}
+                    value = {true}
+                  /> Is this a rest day?
+                </div>
+              </div>
+
+              <div className="column is-8">
+                <FormInput
+                  label='Duration (minutes)'
+                  name='day7.time'
+                  type='number'
+                  handleChange={this.handleChange}
+                  state={this.state}
+                />
+              </div>
+
+              <div className="column is-4">
+                <label className='label'>Intensity</label>
+                <select className = 'select'
+                  name='day7.intensity'
+                  state={ this.state }
+                  onChange={ this.handleChange }>
+                  <option value='Low'>Low</option>
+                  <option value='Medium'>Medium</option>
+                  <option value='High'>High</option>
+                </select>
+              </div>
+            </div>
+
+
+
           </div>
 
           <button className="button is-info is-rounded is-3">Create</button>
