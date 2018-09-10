@@ -17,7 +17,7 @@ Router.route('/login')
 //
 Router.route('/register')
   .post(authController.register);
-//
+
 // USER ROUTES
 Router.route('/users')
   .get(userController.index);
@@ -40,6 +40,9 @@ Router.route('/exerciseplans')
   .get(exercisePlanController.index)
   .post(exercisePlanController.create); // NOTE: also take care of adopt
 
+Router.route('/exerciseplans/paginate')
+  .post(exercisePlanController.paginate);
+
 Router.route('/exerciseplans/:id')
   .get(exercisePlanController.show)
   .put(exercisePlanController.update)
@@ -49,6 +52,8 @@ Router.route('/exerciseplans/:id')
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
 
+Router.route('/tribes')
+  .get(tribeController.index);
 
 // Router.route('/exercise/:id/adopt');
 

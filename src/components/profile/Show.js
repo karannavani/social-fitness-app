@@ -9,11 +9,13 @@ import _ from 'lodash';
 
 //Components
 import SortSelect from '../common/SortSelect';
+import Paginate from '../common/Paginate';
 import FilterBar from './FilterBar';
+import PlanHistoryCard from './PlanHistoryCard';
 
 export default class UserShow extends React.Component{
   state={
-    sortString: 'startDate|asc',
+    sortString: 'startDate|desc',
     sortOptions: [
       {value: 'totalGrit|desc', label: 'Grit (Highest First)' },
       {value: 'totalGrit|asc', label: 'Grit (Lowest First)' },
@@ -28,7 +30,8 @@ export default class UserShow extends React.Component{
       {label: 'Low Intensity', value: 'Low', active: true},
       {label: 'Medium Intensity', value: 'Medium', active: true},
       {label: 'High Intensity', value: 'High', active: true}
-    ]
+    ],
+    page: 1
   };
 
   componentDidMount(){
@@ -46,10 +49,28 @@ export default class UserShow extends React.Component{
     axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
 
-    axios.get('/api/exerciseplans')
+    this.fetchPaginatePlanHistory();
+  }
+
+  fetchPaginatePlanHistory = () => {
+    const userId = this.props.match.params.id;
+    const paginateOptions = {
+      'userId': userId,
+      'page': this.state.page,
+      'sort': {'startDate': -1 },
+      'populate': 'user',
+      'limit': 10
+    };
+
+    //returns 10 user exercises and sorts then by startDate with newest first.
+    axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => {
-        const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
-        this.setState({exercisePlans: usersExercisePlans});
+        console.log(`there are ${res.data.pages} pages for this user`);
+
+        // for(let i = 1; i <= res.data)
+
+        const planDateAsc = this.sortPlans(res.data.docs);
+        this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
       });
   }
 
@@ -72,6 +93,9 @@ export default class UserShow extends React.Component{
     const filteredOptions = this.filterByOptions(this.state.exercisePlans);
     return this.sortPlans(filteredOptions);
   }
+
+  //sort the filtered plans by date newest to oldest.
+  //
 
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
@@ -117,8 +141,16 @@ export default class UserShow extends React.Component{
     this.setState({ filterIntensityOptions });
   }
 
+  handlePageChange = (page) => {
+    return () => {
+      this.setState({page}, () => this.fetchPaginatePlanHistory());
+    };
+  };
+
   render(){
     const { user, exercisePlans, sortOptions } = this.state;
+
+
     // const this.filterByOptions()
     return(
       <section>
@@ -136,12 +168,12 @@ export default class UserShow extends React.Component{
                   </figure>
                   <div className=" column is-9">
                     <div className="content">
-                      <h2 className='title is-4'> <strong>{user.username}</strong> </h2>
+                      <h2 className='title is-4'><strong>{user.username}</strong></h2>
                       <p className='subtitle '>{user.firstName} {user.surname}</p>
                       <hr/>
                       <p>Height: {user.height}{user.heightUnit}</p>
                       <p>Weight: {user.weight}{user.weightUnit}</p>
-                      <p>Age:{user.age}</p>
+                      <p>Age: {user.age}</p>
                     </div>
                   </div>
 
@@ -162,20 +194,19 @@ export default class UserShow extends React.Component{
                       </div>
                     }
                   </div>
-
                 </section>
 
                 {/* TRIBE FOLLOWERS FOLLOWING */}
 
                 <div className='columns' style={{border: '1px solid black'}}>
                   <div onClick={this.handleGoToTribe} className='column is-4 has-text-centered'>
-                    <p > {user.tribe}</p>
+                    <p> {user.tribe}</p>
                   </div>
                   <div className='column is-4 has-text-centered'>
-                    <p >{user.followers.length} Followers</p>
+                    <p>{user.followers.length} Followers</p>
                   </div>
                   <div className='column is-4 has-text-centered'>
-                    <p > Following {user.following.length}</p>
+                    <p> Following {user.following.length}</p>
                   </div>
                 </div>
               </div>
@@ -184,41 +215,54 @@ export default class UserShow extends React.Component{
         }
 
         {/* HISTORY */}
-        <section className='container'>
-          <h2 className='title has-text-centered is-2'>History</h2>
+        <section id='history' className='container'>
+          <h2  className='title has-text-centered is-2'>History</h2>
           {/* map over an array of past exercise */}
-          <div className='columns is-multiline'>
-            <section className='column is-12 columns'>
-              <div className='column is-6'>
-                <SortSelect
-                  options={sortOptions}
-                  title='Sort Plans'
-                  handleChange={this.handleSortSelectChange}
-                />
-              </div>
-              <div className='column is-6'>
-                <FilterBar
-                  options={this.state.filterIntensityOptions}
-                  handleChange={this.handleFilterChange}
 
-                />
-              </div>
-              <hr/>
-            </section> 
+          {/* BUG: this is not always stable */}
+          {exercisePlans && user && !exercisePlans.length ?
+            <div> You dont have any plans yet.
+              <Link to='/exerciseplan/new'>Click</Link> here to create one or visit your
+              <Link to={`/tribe/${user.tribe}`}> tribes</Link>  page and adopt one
+            </div>
+            :
+            <div className='columns is-multiline'>
+              <section className='column is-12 columns'>
+                <div className='column is-6'>
+                  <SortSelect
+                    options={sortOptions}
+                    title='Sort Plans'
+                    handleChange={this.handleSortSelectChange}
+                  />
+                </div>
+                <div className='column is-6'>
+                  <FilterBar
+                    options={this.state.filterIntensityOptions}
+                    handleChange={this.handleFilterChange}
+                  />
+                </div>
+                <hr/>
+              </section>
 
-            {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
-              <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>
-                {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
-                <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>
-                <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
-                <p><i className="fab fa-gripfire"></i>: {exercisePlan.intensityAvg}</p>
-                <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime} min</p>
-                <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg} min/day</p>
-                <p>Completed Days: {exercisePlan.completedDays}</p>
-                <p>Rest Days: {exercisePlan.restDays}</p>
-              </Link>
-            )}
-          </div>
+              {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
+                <PlanHistoryCard
+                  plan={ exercisePlan }
+                  key={exercisePlan._id}
+                />
+              )}
+
+              {this.state.pages &&
+                <div className='column is-12 has-text-centered'>
+                  <Paginate
+                    currentPage={this.state.page}
+                    startPage={1}
+                    endPage={this.state.pages}
+                    handleClick={this.handlePageChange}
+                  />
+                </div>
+              }
+            </div>
+          }
         </section>
       </section>
 

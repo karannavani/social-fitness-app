@@ -8,7 +8,7 @@ import './scss/style.scss';
 //partials
 import Home from './components/Home';
 import Header from './components/Header';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 import FlashMessages from './components/common/FlashMessages';
 
 //Auth
@@ -18,6 +18,7 @@ import AuthRegister from './components/auth/Register';
 //dash - tribe
 import Dashboard from './components/dashboard/Dashboard.js';
 import Tribe from './components/tribe/Tribe';
+import TribesIndex from './components/tribe/Index';
 
 //user
 import UserShow from './components/profile/Show';
@@ -34,17 +35,17 @@ class App extends React.Component {
         <Header />
         <FlashMessages />
         {/* <Tribe /> */}
-        {/* <Switch>
-        </Switch> */}
         <Switch>
-
+          {/* Auth and home */}
           <Route exact path='/' component={Home} />
           <Route path='/login' component={AuthLogin} />
           <Route path='/register' component={AuthRegister} />
 
+          <Route exact path='/tribe' component={TribesIndex} />
           <Route path='/tribe/:tribeName' component={Tribe} />
 
           {/* user */}
+          {/* <HashRouter exact path='/profile/:id#history' component={UserShow} /> */}
           <Route path='/profile/:id' component={UserShow} />
           <Route path='/users/:id/edit' component={UserEdit} />
 
@@ -54,7 +55,7 @@ class App extends React.Component {
 
           <Route path='/dashboard' component={Dashboard} />
         </Switch>
-        {/* <Footer /> */}
+        <Footer />
       </main>
     );
   }

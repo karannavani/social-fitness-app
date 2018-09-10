@@ -20,16 +20,13 @@ export default class AuthLogin extends React.Component{
     event.preventDefault();
     axios.post('/api/login', this.state)
       .then(res => {
-        console.log('login response is', res.data);
         const token = res.data.token;
         Auth.setToken(token);
-        Flash.setMessage('success', res.data.messages );
+        Flash.setMessage('success', `Welcome back ${Auth.currentUsername()}` );
         this.props.history.push('/dashboard');
       })
-      .catch(err =>{
-        console.log('login err is ===>',err.response);
+      .catch(() =>{
         Flash.setMessage('danger', 'Invalid email/password');
-        console.log('flash messages is', Flash.getMessages());
         this.props.history.push(this.props.location.pathname);
       });
   }
