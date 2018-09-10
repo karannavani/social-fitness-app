@@ -4,29 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 export default class ExercisePlanNew extends React.Component {
-  state = {
-    day1: {
-      rest: false
-    },
-    day2: {
-      rest: false
-    },
-    day3: {
-      rest: false
-    },
-    day4: {
-      rest: false
-    },
-    day5: {
-      rest: false
-    },
-    day6: {
-      rest: false
-    },
-    day7: {
-      rest: false
-    }
-  }
+  state = {}
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -99,6 +77,8 @@ export default class ExercisePlanNew extends React.Component {
           </div>
 
           <div className= "columns is-multiline">
+
+            {/* DAY 1 */}
             <div className="column is-4 card create-card">
               <div className="column is-12">
                 <label className='label'>Day 1</label>
@@ -113,27 +93,35 @@ export default class ExercisePlanNew extends React.Component {
                 </div>
               </div>
 
-              <div className="column is-8">
-                <FormInput
-                  label='Duration (minutes)'
-                  name='day1.time'
-                  type='number'
-                  handleChange={this.handleChange}
-                  state={this.state}
-                />
+
+              {!this.state['day1.rest'] &&
+              <div>
+                <div className="column is-8">
+                  <FormInput
+                    label='Duration (minutes)'
+                    name='day1.time'
+                    type='number'
+                    handleChange={this.handleChange}
+                    state={this.state}
+                  />
+                </div>
+
+                <div className="column is-4">
+                  <label className='label'>Intensity</label>
+                  <select className = 'select'
+                    name='day1.intensity'
+                    state={ this.state }
+                    onChange={ this.handleChange }>
+                    <option value='Low'>Low</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='High'>High</option>
+                  </select>
+                </div>
               </div>
 
-              <div className="column is-4">
-                <label className='label'>Intensity</label>
-                <select className = 'select'
-                  name='day1.intensity'
-                  state={ this.state }
-                  onChange={ this.handleChange }>
-                  <option value='Low'>Low</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='High'>High</option>
-                </select>
-              </div>
+              }
+
+
             </div>
 
             {/* DAY 2 */}
@@ -151,27 +139,32 @@ export default class ExercisePlanNew extends React.Component {
                 </div>
               </div>
 
-              <div className="column is-8">
-                <FormInput
-                  label='Duration (minutes)'
-                  name='day2.time'
-                  type='number'
-                  handleChange={this.handleChange}
-                  state={this.state}
-                />
-              </div>
+              {!this.state['day2.rest'] && <div>
+                <div className="column is-8">
+                  <FormInput
+                    label='Duration (minutes)'
+                    name='day2.time'
+                    type='number'
+                    handleChange={this.handleChange}
+                    state={this.state}
+                  />
+                </div>
 
-              <div className="column is-4">
-                <label className='label'>Intensity</label>
-                <select className = 'select'
-                  name='day2.intensity'
-                  state={ this.state }
-                  onChange={ this.handleChange }>
-                  <option value='Low'>Low</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='High'>High</option>
-                </select>
+                <div className="column is-4">
+                  <label className='label'>Intensity</label>
+                  <select className = 'select'
+                    name='day2.intensity'
+                    state={ this.state }
+                    onChange={ this.handleChange }>
+                    <option value='Low'>Low</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='High'>High</option>
+                  </select>
+                </div>
               </div>
+              }
+
+
             </div>
 
             {/* DAY 3 */}
@@ -189,27 +182,31 @@ export default class ExercisePlanNew extends React.Component {
                 </div>
               </div>
 
-              <div className="column is-8">
-                <FormInput
-                  label='Duration (minutes)'
-                  name='day3.time'
-                  type='number'
-                  handleChange={this.handleChange}
-                  state={this.state}
-                />
-              </div>
+              {!this.state['day3.rest'] && <div>
+                <div className="column is-8">
+                  <FormInput
+                    label='Duration (minutes)'
+                    name='day3.time'
+                    type='number'
+                    handleChange={this.handleChange}
+                    state={this.state}
+                  />
+                </div>
 
-              <div className="column is-4">
-                <label className='label'>Intensity</label>
-                <select className = 'select'
-                  name='day3.intensity'
-                  state={ this.state }
-                  onChange={ this.handleChange }>
-                  <option value='Low'>Low</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='High'>High</option>
-                </select>
+                <div className="column is-4">
+                  <label className='label'>Intensity</label>
+                  <select className = 'select'
+                    name='day3.intensity'
+                    state={ this.state }
+                    onChange={ this.handleChange }>
+                    <option value='Low'>Low</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='High'>High</option>
+                  </select>
+                </div>
               </div>
+              }
+
             </div>
 
             {/* DAY 4 */}
@@ -227,27 +224,31 @@ export default class ExercisePlanNew extends React.Component {
                 </div>
               </div>
 
-              <div className="column is-8">
-                <FormInput
-                  label='Duration (minutes)'
-                  name='day4.time'
-                  type='number'
-                  handleChange={this.handleChange}
-                  state={this.state}
-                />
-              </div>
+              {!this.state['day4.rest'] && <div>
+                <div className="column is-8">
+                  <FormInput
+                    label='Duration (minutes)'
+                    name='day4.time'
+                    type='number'
+                    handleChange={this.handleChange}
+                    state={this.state}
+                  />
+                </div>
 
-              <div className="column is-4">
-                <label className='label'>Intensity</label>
-                <select className = 'select'
-                  name='day4.intensity'
-                  state={ this.state }
-                  onChange={ this.handleChange }>
-                  <option value='Low'>Low</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='High'>High</option>
-                </select>
+                <div className="column is-4">
+                  <label className='label'>Intensity</label>
+                  <select className = 'select'
+                    name='day4.intensity'
+                    state={ this.state }
+                    onChange={ this.handleChange }>
+                    <option value='Low'>Low</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='High'>High</option>
+                  </select>
+                </div>
               </div>
+              }
+
             </div>
 
             {/* DAY 5 */}
@@ -265,27 +266,30 @@ export default class ExercisePlanNew extends React.Component {
                 </div>
               </div>
 
-              <div className="column is-8">
-                <FormInput
-                  label='Duration (minutes)'
-                  name='day5.time'
-                  type='number'
-                  handleChange={this.handleChange}
-                  state={this.state}
-                />
-              </div>
+              {!this.state['day5.rest'] && <div>
+                <div className="column is-8">
+                  <FormInput
+                    label='Duration (minutes)'
+                    name='day5.time'
+                    type='number'
+                    handleChange={this.handleChange}
+                    state={this.state}
+                  />
+                </div>
 
-              <div className="column is-4">
-                <label className='label'>Intensity</label>
-                <select className = 'select'
-                  name='day5.intensity'
-                  state={ this.state }
-                  onChange={ this.handleChange }>
-                  <option value='Low'>Low</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='High'>High</option>
-                </select>
+                <div className="column is-4">
+                  <label className='label'>Intensity</label>
+                  <select className = 'select'
+                    name='day5.intensity'
+                    state={ this.state }
+                    onChange={ this.handleChange }>
+                    <option value='Low'>Low</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='High'>High</option>
+                  </select>
+                </div>
               </div>
+              }
             </div>
 
             {/* DAY 6 */}
@@ -303,27 +307,30 @@ export default class ExercisePlanNew extends React.Component {
                 </div>
               </div>
 
-              <div className="column is-8">
-                <FormInput
-                  label='Duration (minutes)'
-                  name='day6.time'
-                  type='number'
-                  handleChange={this.handleChange}
-                  state={this.state}
-                />
-              </div>
+              {!this.state['day6.rest'] && <div>
+                <div className="column is-8">
+                  <FormInput
+                    label='Duration (minutes)'
+                    name='day6.time'
+                    type='number'
+                    handleChange={this.handleChange}
+                    state={this.state}
+                  />
+                </div>
 
-              <div className="column is-4">
-                <label className='label'>Intensity</label>
-                <select className = 'select'
-                  name='day6.intensity'
-                  state={ this.state }
-                  onChange={ this.handleChange }>
-                  <option value='Low'>Low</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='High'>High</option>
-                </select>
+                <div className="column is-4">
+                  <label className='label'>Intensity</label>
+                  <select className = 'select'
+                    name='day6.intensity'
+                    state={ this.state }
+                    onChange={ this.handleChange }>
+                    <option value='Low'>Low</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='High'>High</option>
+                  </select>
+                </div>
               </div>
+              }
             </div>
 
             {/* DAY 7 */}
@@ -341,27 +348,32 @@ export default class ExercisePlanNew extends React.Component {
                 </div>
               </div>
 
-              <div className="column is-8">
-                <FormInput
-                  label='Duration (minutes)'
-                  name='day7.time'
-                  type='number'
-                  handleChange={this.handleChange}
-                  state={this.state}
-                />
-              </div>
 
-              <div className="column is-4">
-                <label className='label'>Intensity</label>
-                <select className = 'select'
-                  name='day7.intensity'
-                  state={ this.state }
-                  onChange={ this.handleChange }>
-                  <option value='Low'>Low</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='High'>High</option>
-                </select>
+              {!this.state['day7.rest'] && <div>
+                <div className="column is-8">
+                  <FormInput
+                    label='Duration (minutes)'
+                    name='day7.time'
+                    type='number'
+                    handleChange={this.handleChange}
+                    state={this.state}
+                  />
+                </div>
+
+                <div className="column is-4">
+                  <label className='label'>Intensity</label>
+                  <select className = 'select'
+                    name='day7.intensity'
+                    state={ this.state }
+                    onChange={ this.handleChange }>
+                    <option value='Low'>Low</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='High'>High</option>
+                  </select>
+                </div>
               </div>
+              }
+
             </div>
 
 
