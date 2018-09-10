@@ -61,8 +61,6 @@ export default class TribesIndex extends React.Component{
     });
   }
 
-
-
   tribeAverageAge = (users, name) => {
     const tribeAge = [];
     users.forEach(member => {
@@ -88,34 +86,33 @@ export default class TribesIndex extends React.Component{
   render() {
     return(
       <section>
-        <div className="columns">
-
+        <div className="columns is-multiline">
 
           {this.state.heightgargantuans &&
-            <div className="column card gargantuans has-text-centered">
-              <p className="title is-6">Gargantuans </p>
-              <p>Average Height: {this.state.heightgargantuans.toFixed(2)}</p>
-              <p>Average weight: {this.state.weightgargantuans.toFixed(2)}</p>
+            <div className="column is-4 card tribe-average-stats has-text-centered">
+              <p className="title is-6 tribe-average-stats">Gargantuans</p>
+              <p>Average Height: {this.state.heightgargantuans.toFixed(2)} cm</p>
+              <p>Average weight: {this.state.weightgargantuans.toFixed(2)} kg</p>
               <p>Average Age: {this.state.agegargantuans.toFixed(0)}</p>
               <p>Average Grit: {this.state.gritgargantuans.toFixed(2)}</p>
             </div>
           }
 
           {this.state.heightallNaturals &&
-            <div className="column card allNaturals has-text-centered">
-              <p className="title is-6">All Naturals </p>
-              <p>Average Height: {this.state.heightallNaturals.toFixed(2)}</p>
-              <p>Average weight: {this.state.weightallNaturals.toFixed(2)}</p>
+            <div className="column is-4 card tribe-average-stats has-text-centered">
+              <p className="title is-6 tribe-average-stats">All Naturals</p>
+              <p>Average Height: {this.state.heightallNaturals.toFixed(2)} cm</p>
+              <p>Average weight: {this.state.weightallNaturals.toFixed(2)} kg</p>
               <p>Average Age: {this.state.ageallNaturals.toFixed(0)}</p>
               <p>Average Grit: {this.state.gritallNaturals.toFixed(2)}</p>
             </div>
           }
 
           {this.state.heightinbetweeners &&
-            <div className="column card inbetweeners has-text-centered">
-              <p className="title is-6">Inbetweeners </p>
-              <p>Average Height: {this.state.heightinbetweeners.toFixed(2)}</p>
-              <p>Average weight: {this.state.weightinbetweeners.toFixed(2)}</p>
+            <div className="column is-4 card tribe-average-stats has-text-centered">
+              <p className="title is-6 tribe-average-stats">Inbetweeners</p>
+              <p>Average Height: {this.state.heightinbetweeners.toFixed(2)} cm</p>
+              <p>Average weight: {this.state.weightinbetweeners.toFixed(2)} kg</p>
               <p>Average Age: {this.state.ageinbetweeners.toFixed(0)}</p>
               <p>Average Grit: {this.state.gritinbetweeners.toFixed(2)}</p>
             </div>
