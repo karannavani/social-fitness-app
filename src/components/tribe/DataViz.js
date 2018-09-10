@@ -20,7 +20,11 @@ class Graphs extends React.Component{
       'limit': 2
     };
     axios.post('/api/exerciseplans/paginate', paginateOptions)
-      .then(res => console.log('past plans x 2', res.data));
+      .then(res => this.setState({ userAvailableGrit: res.data.docs }, () => {
+        console.log('1st state: userAvailableGrit is', res.data.docs);
+        this.userAvailableGrit();
+      }
+      ));
   }
 
   componentDidUpdate(previousProps) {
@@ -48,15 +52,37 @@ class Graphs extends React.Component{
     const user = this.state.user;
     let i = 0;
     const userGritHistory = [];
-    for(i = 0; i < 14; i++ ) {
+    for( i = 0; i < 14; i++ ) {
       userGritHistory.push(user.dailyGrit[i].grit);
     }
-    this.setState({ userGritHistory });
+    return this.incrementerV3(userGritHistory);
   }
 
-  // userGritAvailable = () => {
-  //
-  // }
+  incrementerV3 = (inputArr) => {
+    const resultArr = [];
+    const reduceSum = inputArr.reduce((sum, item, index ) => {
+      if(index > 0){
+        resultArr.push(sum);
+      }
+      return sum +  item;
+    }, 0);
+
+    resultArr.push(reduceSum);
+    this.setState({ userGritHistory: resultArr});
+  }
+
+  userAvailableGrit = () => {
+    const userAvailableGrit = this.state.userAvailableGrit;
+    const chartAvailableGrit = [];
+    if (userAvailableGrit.length > 0) {
+      for(let i = 0; i < userAvailableGrit.length; i++ ) {
+        chartAvailableGrit.push(userAvailableGrit[i].totalAvailableGrit);
+      }
+    }
+    this.setState({ userAvailableGrit: chartAvailableGrit }, () => {
+      console.log('2nd state: userAvailableGrit is', chartAvailableGrit);
+    });
+  }
 
   render() {
     return (

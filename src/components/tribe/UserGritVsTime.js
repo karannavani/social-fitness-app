@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-import Auth from '../../lib/Auth';
 import { Line } from 'react-chartjs-2';
 
 // get average daily grit of each tribe members
@@ -25,8 +23,6 @@ export default class UserGritVsTime extends React.Component{
   };
 
   componentDidMount() {
-    console.log('user grit from graph', this.props.userGritHistory);
-    console.log('inside the if', this.props.userGritHistory);
     const chartData = this.state.chartData;
     chartData.datasets[0].data = this.props.userGritHistory;
     this.setState({ chartData });
