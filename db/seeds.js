@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const ExercisePlan = require('../models/exercisePlan');
 const moment = require('moment');
+const Chance = require('chance');
+const chance = new Chance();
 
 const { dbUri } = require('../config/environment');
 mongoose.Promise = require('bluebird');
@@ -72,18 +74,18 @@ function addOtherUser(){
     otherUserData.push(
       {
         _id: userIds[i],
-        username: `username${randomNumber()}`,
-        email: `random${randomNumber()}@email.com`,
+        username: chance.first() + randomAge(),
+        email: chance.email(),
         password: 'pass',
         tribe: randomTribeName(),
-        firstName: `First${randomNumber()}`,
-        surname: `Last${randomNumber()}`,
+        firstName: chance.first(),
+        surname: chance.last(),
         age: randomAge(),
         height: randomHeight(),
         heightUnit: 'cms',
         weight: randomWeight(),
         weightUnit: 'kgs',
-        imageUrl: 'https://i0.wp.com/ebus.ca/wp-content/uploads/2017/08/profile-placeholder.jpg?ssl=1',
+        imageUrl: chance.avatar({protocol: 'https'}),
         followers: [],
         following: [userIds[0], userIds[2], userIds[1]],
         exercisePlan: exerciseIds[i],
