@@ -23,9 +23,9 @@ export default class TribesIndex extends React.Component{
         });
         this.setState({
           tribeGroup: [
-            {gritName: 'gritgargantuans', ageName: 'agegargantuans', heightName: 'heightgargantuans' , weightName: 'weightgargantuans', users: gargantuans},
-            {gritName: 'gritallNaturals', ageName: 'ageallNaturals', heightName: 'heightallNaturals' , weightName: 'weightallNaturals', users: allNaturals},
-            {gritName: 'gritinbetweeners', ageName: 'ageinbetweeners', heightName: 'heightinbetweeners' , weightName: 'weightinbetweeners', users: inbetweeners}
+            {todayName: 'todaygargantuans', gritName: 'gritgargantuans', ageName: 'agegargantuans', heightName: 'heightgargantuans' , weightName: 'weightgargantuans', users: gargantuans},
+            {todayName: 'todayallNaturals', gritName: 'gritallNaturals', ageName: 'ageallNaturals', heightName: 'heightallNaturals' , weightName: 'weightallNaturals', users: allNaturals},
+            {todayName: 'todayinbetweeners', gritName: 'gritinbetweeners', ageName: 'ageinbetweeners', heightName: 'heightinbetweeners' , weightName: 'weightinbetweeners', users: inbetweeners}
           ]
         },
         () => {
@@ -34,6 +34,7 @@ export default class TribesIndex extends React.Component{
             this.tribeAverageHeight(tribe.users, tribe.heightName);
             this.tribeAverageAge(tribe.users, tribe.ageName);
             this.tribeAverageGrit(tribe.users, tribe.gritName);
+            this.tribeEarnedToday(tribe.users, tribe.todayName);
           });
         });
       });
@@ -83,6 +84,25 @@ export default class TribesIndex extends React.Component{
     });
   }
 
+  tribeEarnedToday = (users, name) => {
+    const tribeToday = [];
+    users.forEach(member => {
+      tribeToday.push(member.dailyGrit[0].grit);
+      const reducedToday = (tribeToday.reduce((a, b) => {
+        return (a + b);
+      }));
+      this.setState({ [name]: reducedToday });
+    });
+  }
+
+
+
+
+
+  viewUsers = () => {
+    console.log('users are', this.state.tribeGroup[0].users);
+  }
+
   render() {
     return(
       <section>
@@ -95,6 +115,7 @@ export default class TribesIndex extends React.Component{
               <p>Average weight: {this.state.weightgargantuans.toFixed(2)} kg</p>
               <p>Average Age: {this.state.agegargantuans.toFixed(0)}</p>
               <p>Average Grit: {this.state.gritgargantuans.toFixed(2)}</p>
+              <p>Grit earned today: {this.state.todaygargantuans}</p>
             </div>
           }
 
@@ -105,6 +126,7 @@ export default class TribesIndex extends React.Component{
               <p>Average weight: {this.state.weightallNaturals.toFixed(2)} kg</p>
               <p>Average Age: {this.state.ageallNaturals.toFixed(0)}</p>
               <p>Average Grit: {this.state.gritallNaturals.toFixed(2)}</p>
+              <p>Grit earned today: {this.state.todayallNaturals}</p>
             </div>
           }
 
@@ -115,6 +137,7 @@ export default class TribesIndex extends React.Component{
               <p>Average weight: {this.state.weightinbetweeners.toFixed(2)} kg</p>
               <p>Average Age: {this.state.ageinbetweeners.toFixed(0)}</p>
               <p>Average Grit: {this.state.gritinbetweeners.toFixed(2)}</p>
+              <p>Grit earned today: {this.state.todayinbetweeners}</p>
             </div>
           }
 
