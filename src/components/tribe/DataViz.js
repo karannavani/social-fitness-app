@@ -95,11 +95,12 @@ class Graphs extends React.Component{
           style={{ height: '50vh', width: '50%'}}>
           {this.state.user && this.state.totalGritReduced &&
             <TribeVsUserChart tribeGrit={this.state.totalGritReduced}
-              userGrit={this.state.user.grit}/>}
+              userGrit={this.state.user.grit}
+            />}
         </div>
         <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
           {this.state.userGritHistory &&
-          <UserGritVsTime userGritHistory={this.state.userGritHistory} userAvailableGrit={this.state.userAvailableGrit}/>
+          <UserGritVsTime userGritHistory={this.state.userGritHistory} />
           }
         </div>
         <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
