@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const moment = require('moment');
 
@@ -56,6 +57,8 @@ const exercisePlanSchema = new mongoose.Schema({
   exercisePlanAdoptedFrom: { type: ObjectId, ref: 'ExercisePlan' }, //will have the program id
   startDate: Number
 }, { timestamps: true });
+
+exercisePlanSchema.plugin(mongoosePaginate);
 
 // make sure the virtuals get added
 exercisePlanSchema.set('toObject', { virtuals: true });

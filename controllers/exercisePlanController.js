@@ -2,14 +2,21 @@ const ExercisePlan = require('../models/exercisePlan');
 
 function exercisePlanIndex(req, res, next) {
   ExercisePlan.find()
-    // .populate('user')
+    .populate('user')
     .then(exercisePlan => res.json(exercisePlan))
+    .catch(next);
+}
+
+function exercisePlanPaginate( req, res, next ){
+  ExercisePlan
+    .paginate({user: req.body.userId}, req.body)
+    .then(exercisePlans => res.json(exercisePlans))
     .catch(next);
 }
 
 function exercisePlanShow(req, res, next) {
   ExercisePlan.findById(req.params.id)
-    // .populate('user')
+    .populate('user')
     .then(exercise => res.json(exercise))
     .catch(next);
 }
@@ -50,5 +57,6 @@ module.exports = {
   create: exercisePlanCreate,
   update: exercisePlanUpdate,
   delete: exercisePlanDelete,
-  updateDay: exercisePlanPatch
+  updateDay: exercisePlanPatch,
+  paginate: exercisePlanPaginate
 };

@@ -73,6 +73,9 @@ export default class UserShow extends React.Component{
     return this.sortPlans(filteredOptions);
   }
 
+  //sort the filtered plans by date newest to oldest.
+  //
+
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }
@@ -204,7 +207,7 @@ export default class UserShow extends React.Component{
                 />
               </div>
               <hr/>
-            </section> 
+            </section>
 
             {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
               <Link to={`/exerciseplan/${exercisePlan._id}`} key={exercisePlan._id} className='column is-3 box'>

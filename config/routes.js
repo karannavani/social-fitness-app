@@ -39,6 +39,9 @@ Router.route('/exerciseplans')
   .get(exercisePlanController.index)
   .post(exercisePlanController.create); // NOTE: also take care of adopt
 
+Router.route('/exerciseplans/paginate')
+  .get(exercisePlanController.paginate);
+
 Router.route('/exerciseplans/:id')
   .get(exercisePlanController.show)
   .put(exercisePlanController.update)
