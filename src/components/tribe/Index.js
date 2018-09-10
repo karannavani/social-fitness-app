@@ -23,9 +23,17 @@ export default class TribesIndex extends React.Component{
         });
         this.setState({
           tribeGroup: [
-            {todayName: 'todaygargantuans', gritName: 'gritgargantuans', ageName: 'agegargantuans', heightName: 'heightgargantuans' , weightName: 'weightgargantuans', users: gargantuans},
-            {todayName: 'todayallNaturals', gritName: 'gritallNaturals', ageName: 'ageallNaturals', heightName: 'heightallNaturals' , weightName: 'weightallNaturals', users: allNaturals},
-            {todayName: 'todayinbetweeners', gritName: 'gritinbetweeners', ageName: 'ageinbetweeners', heightName: 'heightinbetweeners' , weightName: 'weightinbetweeners', users: inbetweeners}
+            {todayName: 'todaygargantuans', gritName: 'gritgargantuans',
+              ageName: 'agegargantuans', heightName: 'heightgargantuans' ,
+              weightName: 'weightgargantuans', users: gargantuans},
+
+            {todayName: 'todayallNaturals', gritName: 'gritallNaturals',
+              ageName: 'ageallNaturals', heightName: 'heightallNaturals' ,
+              weightName: 'weightallNaturals', users: allNaturals},
+              
+            {todayName: 'todayinbetweeners', gritName: 'gritinbetweeners',
+              ageName: 'ageinbetweeners', heightName: 'heightinbetweeners' ,
+              weightName: 'weightinbetweeners', users: inbetweeners}
           ]
         },
         () => {
@@ -94,10 +102,6 @@ export default class TribesIndex extends React.Component{
       this.setState({ [name]: reducedToday });
     });
   }
-
-
-
-
 
   viewUsers = () => {
     console.log('users are', this.state.tribeGroup[0].users);
