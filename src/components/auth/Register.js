@@ -18,7 +18,11 @@ export default class AuthRegister extends React.Component{
     passwordConfirmation: 'pass',
     tribe: 'Inbetweeners',
     weight: 60,
-    height: 160
+    height: 160,
+    firstName: 'Kristi',
+    surname: 'Sayer',
+    username: 'Mooapples',
+    age: 28
   }
 
   handleSubmit = (event) => {

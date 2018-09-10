@@ -29,6 +29,7 @@ class Dashboard extends React.Component {
   }
 
   getExercise = () => { // sets the exercises from the current plan on the state
+    // NOTE: this should be run conditonally if there is no execiseplan for the user
     axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
       .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
         console.log('exercises are', this.state.exercises);
@@ -178,7 +179,8 @@ class Dashboard extends React.Component {
             handleEditSubmit = {this.handleEditSubmit}
           />
         }
-        {this.state.exercises && this.state.goRender &&
+        {/* // NOTE: put conditional render here when there is no data */}
+        {/* {this.state.exercises && this.state.goRender &&
         <Feed
           exercises = {this.state.exercises}
           forceUpdate = {this.state.forceUpdate}
@@ -186,7 +188,7 @@ class Dashboard extends React.Component {
           // onRef={ref => (this.child = ref)}
           ref={this.child}
         />
-        }
+        } */}
       </div>
     );
   }

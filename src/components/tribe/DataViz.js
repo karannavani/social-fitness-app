@@ -12,6 +12,7 @@ class Graphs extends React.Component{
   componentDidMount(){
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ user: res.data }));
+
     const paginateOptions = {
       'userId': Auth.currentUserId(),
       'page': 1,
@@ -53,7 +54,10 @@ class Graphs extends React.Component{
     let i = 0;
     const userGritHistory = [];
     for( i = 0; i < 14; i++ ) {
-      userGritHistory.push(user.dailyGrit[i].grit);
+      if(user.dailyGrit.length){
+        userGritHistory.push(user.dailyGrit[i].grit);
+
+      }
     }
     return this.incrementerV3(userGritHistory);
   }
@@ -106,7 +110,8 @@ class Graphs extends React.Component{
           <p>Time and intensity table</p>
 
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 

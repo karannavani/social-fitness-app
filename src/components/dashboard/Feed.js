@@ -23,7 +23,7 @@ class Feed extends React.Component {
     if (prevProps.exercises !== this.props.exercises) {
       console.log('this.props.exercise is', this.props.exercises);
       this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
-        this.createDots();
+          this.createDots();
       });
     }
   }
@@ -36,6 +36,7 @@ class Feed extends React.Component {
     const timeArr = [];
 
     for (let i = 1; i < 8; i++) {
+      if(this.props.exercises.day1.exerciseCompleted){
       switch(this.props.exercises[`day${i}`].exerciseCompleted) {
         case (null):
           // console.log('grey');
@@ -63,6 +64,7 @@ class Feed extends React.Component {
           this.state.dotsArr.push({color: 'red', grit: this.getGrit(this.props.exercises[`day${i}`]) });
           break;
       }
+    }
       // if (i === 7) this.forceUpdate();
       if (i === 7) {
         this.setState({ timeArr: this.reduceTimeArr(timeArr) });
