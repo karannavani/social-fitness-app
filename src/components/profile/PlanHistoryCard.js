@@ -10,7 +10,7 @@ const PlanHistoryCard = ({plan, key}) =>{
       key={key} className='column is-3 box'>
 
       <div className='columns is-multiline is-mobile'>
-        
+        <div>Program Name Goes Here</div>
         <div className='column is-6'>
           {plan.totalGrit &&<p><i className="fas fa-bolt fas-regular"></i>: {plan.totalGrit}</p>}
         </div>
