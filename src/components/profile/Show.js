@@ -173,7 +173,7 @@ export default class UserShow extends React.Component{
                       <hr/>
                       <p>Height: {user.height}{user.heightUnit}</p>
                       <p>Weight: {user.weight}{user.weightUnit}</p>
-                      <p>Age:{user.age}</p>
+                      <p>Age: {user.age}</p>
                     </div>
                   </div>
 
