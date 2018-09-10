@@ -11,6 +11,7 @@ import _ from 'lodash';
 import SortSelect from '../common/SortSelect';
 import Paginate from '../common/Paginate';
 import FilterBar from './FilterBar';
+import PlanHistoryCard from './PlanHistoryCard';
 
 export default class UserShow extends React.Component{
   state={
@@ -146,15 +147,6 @@ export default class UserShow extends React.Component{
     };
   };
 
-  // createListItems = (startPage, endPage) => {
-  //   const pageNumbers = [];
-  //   for(let i = startPage; i <= endPage; i++){
-  //     pageNumbers.push(<li> <a onClick={this.handlePageChange(i)} className={`pagination-link ${this.state.page === i ? 'is-current' : ''}`}>{i}</a> </li>)
-  //   }
-  //
-  //   return pageNumbers;
-  // }
-
   render(){
     const { user, exercisePlans, sortOptions } = this.state;
 
@@ -247,27 +239,16 @@ export default class UserShow extends React.Component{
                   <FilterBar
                     options={this.state.filterIntensityOptions}
                     handleChange={this.handleFilterChange}
-
                   />
                 </div>
                 <hr/>
               </section>
 
               {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
-                <Link
-                  to={`/exerciseplan/${exercisePlan._id}`}
-                  style={exercisePlan.activePlan ? {border: '1px solid red'} : null}
-                  key={exercisePlan._id} className='column is-3 box'>
-
-                  {exercisePlan.exercisePlanAdoptedFrom && <i className="far fa-copy"></i>}
-                  <p><i className="far fa-hand-rock"></i>: {exercisePlan.totalGrit}</p>
-                  <p><i className="far fa-calendar-times"></i>: {exercisePlan.formattedStartDate}</p>
-                  <p><i className="fab fa-gripfire"></i>: {exercisePlan.intensityAvg}</p>
-                  <p><i className="far fa-clock"></i> Total:{exercisePlan.totalTime} min</p>
-                  <p><i className="far fa-clock"></i> Average: {exercisePlan.workoutTimeAvg} min/day</p>
-                  <p>Completed Days: {exercisePlan.completedDays}</p>
-                  <p>Rest Days: {exercisePlan.restDays}</p>
-                </Link>
+                <PlanHistoryCard
+                  plan={ exercisePlan }
+                  key={exercisePlan._id}
+                />
               )}
 
               {this.state.pages &&
