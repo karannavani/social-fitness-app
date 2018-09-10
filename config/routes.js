@@ -51,6 +51,8 @@ Router.route('/exerciseplans/:id')
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
 
+Router.route('/tribes')
+  .get(tribeController.index);
 
 // Router.route('/exercise/:id/adopt');
 

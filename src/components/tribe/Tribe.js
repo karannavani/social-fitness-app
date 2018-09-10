@@ -33,9 +33,7 @@ class TribeAside extends React.Component {
       const reducedWeight = (tribeWeight.reduce((a, b) => {
         return (a + b);
       }, 0)/ tribeWeight.length);
-      console.log('reducedWeight', reducedWeight);
       this.setState({ tribeWeight: reducedWeight }, () => {
-        console.log('tribe weight on state is', this.state.tribeWeight);
       });
     });
   }

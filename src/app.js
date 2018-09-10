@@ -18,6 +18,7 @@ import AuthRegister from './components/auth/Register';
 //dash - tribe
 import Dashboard from './components/dashboard/Dashboard.js';
 import Tribe from './components/tribe/Tribe';
+import TribesIndex from './components/tribe/Index';
 
 //user
 import UserShow from './components/profile/Show';
@@ -40,6 +41,7 @@ class App extends React.Component {
           <Route path='/login' component={AuthLogin} />
           <Route path='/register' component={AuthRegister} />
 
+          <Route exact path='/tribe' component={TribesIndex} />
           <Route path='/tribe/:tribeName' component={Tribe} />
 
           {/* user */}
