@@ -37,20 +37,27 @@ export default class ExercisePlanShow extends React.Component{
       const adopting = true;
       this.setState({ adopting });
     }else if(this.state.adopting){
+      console.log('the start date is valid:', this.validateStartDate());
       if(this.validateStartDate()){
+        const formattedDate = moment.unix(this.state.startDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
+        Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${formattedDate}`);
       }else{
         const sevenDaysTime = moment.utc(moment.unix(this.state.startDate)).add(7, 'days');
         const formattedDate = moment(sevenDaysTime).format('dddd, MMMM Do YYYY');
-        Flash.setMessage('success', `You must choose a start date that starts after your current plan ends on ${formattedDate}`);
-        console.log(`You must choose a start date that starts after your current plan ends on ${formattedDate}`);
+        Flash.setMessage('danger', `You must choose a start date that starts after your current plan ends on ${formattedDate}`);
+        this.props.history.push(this.props.location.path);
       }
     }
   }
 
   validateStartDate = () => {
-    const momStartDate = moment.utc(moment.unix(this.state.newStartDate));
-    const sevenDaysTime = moment.utc(moment.unix(this.state.startDate)).add(7, 'days');
+    // console.log('from state ', this.state.newStartDate);
+    const momStartDate = moment(this.state.newStartDate).utc();
+    // console.log('the newStartDate is:', momStartDate);
+
+    const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
+    // console.log('the date sevenDaysTime is: ', sevenDaysTime);
     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
 
     return false;
