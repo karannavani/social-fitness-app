@@ -11,12 +11,23 @@ export default class UserGritVsTime extends React.Component{
       labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
       datasets: [
         {
-          label: 'grit',
+          label: 'grit earned',
           data: [],
           lineTension: 0,
           backgroundColor: [
             '#00d98b'
-          ]
+          ],
+          fill: false,
+          cubicInterpolationMode: 'default'
+        },
+        {
+          label: 'grit available',
+          data: [ 25, 59, 72, 96, 135, 170, 257, 280, 294, 337, 410, 437, 468, 546],
+          lineTension: 0,
+          backgroundColor: [
+            '#0045c6'
+          ],
+          fill: false
         }
       ]
     }
@@ -25,6 +36,7 @@ export default class UserGritVsTime extends React.Component{
   componentDidMount() {
     const chartData = this.state.chartData;
     chartData.datasets[0].data = this.props.userGritHistory;
+    // chartData.datasets[1].data = this.props.userAvailableGrit; // this would make the grit available work dynamically if handed in on props from dataviz.js
     this.setState({ chartData });
   }
 
