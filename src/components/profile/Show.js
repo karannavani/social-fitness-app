@@ -248,6 +248,7 @@ export default class UserShow extends React.Component{
                 <PlanHistoryCard
                   plan={ exercisePlan }
                   key={exercisePlan._id}
+                  keyId={exercisePlan._id}
                 />
               )}
 

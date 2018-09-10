@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const PlanHistoryCard = ({plan, key}) =>{
+const PlanHistoryCard = ({plan, keyId}) =>{
 
   return(
     <Link
       to={`/exerciseplan/${plan._id}`}
       style={plan.activePlan ? {border: '1px solid red'} : null}
-      key={key} className='column is-3 box'>
+      key={keyId} className='column is-3 box'>
 
       <div className='columns is-multiline is-mobile'>
         <div>Program Name Goes Here</div>
