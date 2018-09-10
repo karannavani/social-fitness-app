@@ -17,7 +17,19 @@ export default class ExercisePlanNew extends React.Component {
       'limit': 1
     };
     axios.post('/api/exerciseplans/paginate', paginateOptions)
-      .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}));
+      .then(res => this.setState({usersActivePlanStartDate: res.data.docs}, ()=> {
+        if (this.state.usersActivePlanStartDate.length) {
+          this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}, () => {
+            console.log('log', this.state.usersActivePlanStartDate);
+          });
+        } else {
+          this.setState({ autoValidate: true });
+        }
+        // console.log('active date is', this.state.usersActivePlanStartDate);
+      }));
+    // .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}, ()=> {
+    //   console.log('active date is', this.state.usersActivePlanStartDate);
+    // }));
 
   }
 
@@ -41,11 +53,11 @@ export default class ExercisePlanNew extends React.Component {
 
     } else if (name.includes('normalStartDate')){
       this.setState({[name]: value}, () =>{
-        if(this.validateStartDate()){
+        if(this.validateStartDate() || this.state.autoValidate){
           const unixValue = moment(value).unix();
           console.log('unix value is', unixValue);
           this.setState({errors: null, startDate: unixValue, validStartDate: true});
-        }else{
+        } else {
           //date is not valid
           this.setState({errors: { normalStartDate: 'Your start date is no valid'},[name]: value });
         }
