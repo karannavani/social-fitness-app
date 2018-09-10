@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Aside from './Aside';
 import Feed from './Feed';
+import SimpleDash from './SimpleDash';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
 
@@ -24,11 +25,17 @@ class Dashboard extends React.Component {
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
-          this.getExercise();
+          console.log('user is', this.state.users);
+
+          if (this.state.exerciseId.length) this.getExercise();
+
+          console.log('no exercises');
+          this.setState({ simpleDash: true });
         }));
   }
 
   getExercise = () => { // sets the exercises from the current plan on the state
+    // NOTE: this should be run conditonally if there is no execiseplan for the user
     axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
       .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
         console.log('exercises are', this.state.exercises);
@@ -74,7 +81,6 @@ class Dashboard extends React.Component {
       console.log('unlogged exercise is', exercise);
       this.state.unloggedDays.push(i);
       this.state.unloggedExercises.push(exercise);
-      // this.child.getParentData();
     }
 
   }
@@ -185,14 +191,18 @@ class Dashboard extends React.Component {
             handleEditSubmit = {this.handleEditSubmit}
           />
         }
+        {/* // NOTE: put conditional render here when there is no data */}
         {this.state.exercises && this.state.goRender &&
         <Feed
           exercises = {this.state.exercises}
           forceUpdate = {this.state.forceUpdate}
           userGrit = {this.state.userGrit}
-          // onRef={ref => (this.child = ref)}
           ref={this.child}
         />
+        }
+
+        {this.state.simpleDash &&
+          <SimpleDash />
         }
       </div>
     );

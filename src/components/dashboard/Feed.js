@@ -36,32 +36,34 @@ class Feed extends React.Component {
     const timeArr = [];
 
     for (let i = 1; i < 8; i++) {
-      switch(this.props.exercises[`day${i}`].exerciseCompleted) {
-        case (null):
-          // console.log('grey');
-          this.getGrit(this.props.exercises[`day${i}`]);
-          this.state.dotsArr.push({color: 'grey', grit: this.getGrit(this.props.exercises[`day${i}`]) });
-          break;
+      if(this.props.exercises.day1.exerciseCompleted){
+        switch(this.props.exercises[`day${i}`].exerciseCompleted) {
+          case (null):
+            // console.log('grey');
+            this.getGrit(this.props.exercises[`day${i}`]);
+            this.state.dotsArr.push({color: 'grey', grit: this.getGrit(this.props.exercises[`day${i}`]) });
+            break;
 
-        case (true):
-          // console.log('green');
-          this.getGrit(this.props.exercises[`day${i}`]);
-          if (this.props.exercises[`day${i}`].rest === true) {
-            this.state.dotsArr.push({color: 'orange', grit: this.getGrit(this.props.exercises[`day${i}`]) });
+          case (true):
+            // console.log('green');
+            this.getGrit(this.props.exercises[`day${i}`]);
+            if (this.props.exercises[`day${i}`].rest === true) {
+              this.state.dotsArr.push({color: 'orange', grit: this.getGrit(this.props.exercises[`day${i}`]) });
 
-          } else {
-            timeArr.push(this.getCompletedTime(this.props.exercises[`day${i}`]));
-            this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
-          }
-          // timeArr.push(this.getCompletedTime(this.props.exercises[`day${i}`]));
-          // this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
-          break;
+            } else {
+              timeArr.push(this.getCompletedTime(this.props.exercises[`day${i}`]));
+              this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
+            }
+            // timeArr.push(this.getCompletedTime(this.props.exercises[`day${i}`]));
+            // this.state.dotsArr.push({color: 'green', grit: this.getGrit(this.props.exercises[`day${i}`]) });
+            break;
 
-        case (false):
-          // console.log('red');
-          this.getGrit(this.props.exercises[`day${i}`]);
-          this.state.dotsArr.push({color: 'red', grit: this.getGrit(this.props.exercises[`day${i}`]) });
-          break;
+          case (false):
+            // console.log('red');
+            this.getGrit(this.props.exercises[`day${i}`]);
+            this.state.dotsArr.push({color: 'red', grit: this.getGrit(this.props.exercises[`day${i}`]) });
+            break;
+        }
       }
       // if (i === 7) this.forceUpdate();
       if (i === 7) {
