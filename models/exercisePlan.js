@@ -52,6 +52,7 @@ const exercisePlanSchema = new mongoose.Schema({
     intensity: String,
     dailyGrit: Number
   },
+  name: String,
   user: { type: ObjectId, ref: 'User' }, //references the user model
   exercisePlanAdoptedFrom: { type: ObjectId, ref: 'ExercisePlan' }, //will have the program id
   startDate: Number
