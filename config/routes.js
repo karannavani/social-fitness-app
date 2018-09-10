@@ -40,7 +40,7 @@ Router.route('/exerciseplans')
   .post(exercisePlanController.create); // NOTE: also take care of adopt
 
 Router.route('/exerciseplans/paginate')
-  .get(exercisePlanController.paginate);
+  .post(exercisePlanController.paginate);
 
 Router.route('/exerciseplans/:id')
   .get(exercisePlanController.show)

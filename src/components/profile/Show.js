@@ -28,7 +28,8 @@ export default class UserShow extends React.Component{
       {label: 'Low Intensity', value: 'Low', active: true},
       {label: 'Medium Intensity', value: 'Medium', active: true},
       {label: 'High Intensity', value: 'High', active: true}
-    ]
+    ],
+    page: 1
   };
 
   componentDidMount(){
@@ -46,10 +47,21 @@ export default class UserShow extends React.Component{
     axios.get(`/api/users/${userId}`)
       .then(res => this.setState({user: res.data}));
 
-    axios.get('/api/exerciseplans')
+    const paginateOptions = {
+      'userId': userId,
+      'page': this.state.page,
+      'sort': {'startDate': -1 },
+      'populate': 'user',
+      'limit': 10
+    };
+
+    axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => {
-        const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
-        this.setState({exercisePlans: usersExercisePlans});
+
+
+        console.log('the paginate data is', res.data);
+        // const usersExercisePlans = res.data.filter(exercisePlan => exercisePlan.user.includes(userId) );
+        this.setState({exercisePlans: res.data.docs, pages: res.data.pages});
       });
   }
 
