@@ -15,7 +15,10 @@ class Feed extends React.Component {
   componentDidMount() {
     axios.get('/api/challenges')
       .then(res => this.setState({ challenges: res.data },
-        () => console.log('challenges are', this.state.challenges)));
+        () => {
+          console.log('challenges are', this.state.challenges);
+          this.checkChallenges();
+        }));
 
     this.setState({ exercises: this.props.exercises }, () => {
       // console.log('feed looks like', this.state.exercises);
@@ -113,21 +116,24 @@ class Feed extends React.Component {
             <h3 className="title is-3">Your Grit: <i className="fas fa-bolt" style={{color: '#363636'}}></i> {this.props.userGrit}</h3>
           </div>
 
-          <div className="card program-card">
-            <div className="card-content">
-              <div className="columns is-multiline is-vcentered">
-                <div className="column is-1 is-pulled-left">
-                  <h3 className="title is-3"><i className="far fa-plus-square fas"></i></h3>
-                </div>
-                <div className="column is-pulled-left">
-                  <Link className="navbar-item" to="/exerciseplan/new">
+          {this.state.userChallenges.length &&
+            <div className="card program-card">
+              <div className="card-content">
+                <div className="columns is-multiline is-vcentered">
+                  <div className="column is-1 is-pulled-left">
+                    <h3 className="title is-3"><i className="far fa-plus-square fas"></i></h3>
+                  </div>
+                  <div className="column is-pulled-left">
                     <h4 className="title is-4 white">Current challenges:</h4>
-                  </Link>
+                    {this.state.userChallenges.map(challenge =>
+                      <h5 className="title is-5" key={challenge._id}>{challenge.name}</h5>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+          }
 
-          </div>
           <div className="card program-card">
             <div className="card-content">
               <div className="columns is-multiline is-vcentered">

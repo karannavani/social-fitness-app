@@ -19,11 +19,11 @@ export default class NewsFeed extends React.Component{
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('component tried to update outside');
-    console.log('prev state.limit is ', prevState.limit);
-    console.log('this.state.limit is ', this.state.limit);
+    // console.log('component tried to update outside');
+    // console.log('prev state.limit is ', prevState.limit);
+    // console.log('this.state.limit is ', this.state.limit);
     if(prevProps !== this.props || prevState.limit !== this.state.limit) {
-      console.log('component tried to update');
+      // console.log('component tried to update');
       const paginateOptions = {
         'page': this.state.page,
         'sort': {'createdAt': -1 },

@@ -80,7 +80,7 @@ export default class ExercisePlanNew extends React.Component {
           this.setState({errors: null, startDate: unixValue, validStartDate: true});
         } else {
           //date is not valid
-          this.setState({errors: { normalStartDate: 'Your start date is no valid'},[name]: value, validStartDate: false });
+          this.setState({errors: { normalStartDate: 'Your start date is not valid'},[name]: value, validStartDate: false });
         }
       });
     } else if (name.includes('rest')) {
