@@ -2,15 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../lib/Auth';
 import NewsFeed from './NewsFeed';
+import axios from 'axios';
 
 class Feed extends React.Component {
   state = {
     render: false,
     dotsArr: [],
-    timeArr: []
+    timeArr: [],
+    userChallenges: []
   }
 
   componentDidMount() {
+    axios.get('/api/challenges')
+      .then(res => this.setState({ challenges: res.data },
+        () => console.log('challenges are', this.state.challenges)));
+
     this.setState({ exercises: this.props.exercises }, () => {
       // console.log('feed looks like', this.state.exercises);
       this.createDots();
@@ -27,6 +33,17 @@ class Feed extends React.Component {
         this.createDots();
       });
     }
+  }
+
+  checkChallenges = () => {
+    const myChallenges = this.state.userChallenges;
+    this.state.challenges.forEach(challenge => {
+      if (challenge.challengers.includes(Auth.currentUserId())) {
+        myChallenges.push(challenge);
+        this.setState({ userChallenges: myChallenges },
+          () => console.log('updated user challenge is', this.state.userChallenges));
+      }
+    });
   }
 
   parentUpdate = () => {
@@ -95,6 +112,22 @@ class Feed extends React.Component {
           <div style={{marginBottom: '15px' }}>
             <h3 className="title is-3">Your Grit: <i className="fas fa-bolt" style={{color: '#363636'}}></i> {this.props.userGrit}</h3>
           </div>
+
+          <div className="card program-card">
+            <div className="card-content">
+              <div className="columns is-multiline is-vcentered">
+                <div className="column is-1 is-pulled-left">
+                  <h3 className="title is-3"><i className="far fa-plus-square fas"></i></h3>
+                </div>
+                <div className="column is-pulled-left">
+                  <Link className="navbar-item" to="/exerciseplan/new">
+                    <h4 className="title is-4 white">Current challenges:</h4>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+          </div>
           <div className="card program-card">
             <div className="card-content">
               <div className="columns is-multiline is-vcentered">
@@ -109,6 +142,8 @@ class Feed extends React.Component {
               </div>
             </div>
           </div>
+
+
           <div className="card program-card">
             <div className="card-content">
               <div className="columns is-multiline is-vcentered">
@@ -129,6 +164,7 @@ class Feed extends React.Component {
               </div>
             </div>
           </div>
+
 
           <div className="card program-card-unlogged">
             <div className="card-content">
