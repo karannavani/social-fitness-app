@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 //componenets
 import NewsCardNewRegister from './newsFeedCards/NewRegister.js';
+import NewFollow from './newsFeedCards/NewFollow.js';
 
 import AdoptPlan from './newsFeedCards/AdoptPlan';
 import CreatePlan from './newsFeedCards/CreatePlan';
@@ -27,7 +28,7 @@ export default class NewsFeed extends React.Component{
       const paginateOptions = {
         'page': this.state.page,
         'sort': {'createdAt': -1 },
-        'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
+        'populate': 'user exercisePlanId exercisePlanAdoptedFromId followedUserId',
         'limit': this.state.limit[0]
       };
 
@@ -90,6 +91,13 @@ export default class NewsFeed extends React.Component{
                 return(
                   <NewsCardNewRegister
                     user={newsFeedItem.user}
+                  />
+                );
+              case 'follow':
+                return(
+                  <NewFollow
+                    user={newsFeedItem.user}
+                    followedUser={newsFeedItem.followedUserId}
                   />
                 );
             }
