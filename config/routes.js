@@ -10,7 +10,7 @@ const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const exercisePlanController = require('../controllers/exercisePlanController');
 const tribeController = require('../controllers/tribeController');
-const challengesController = require('../controllers/challengesController');
+const challengeController = require('../controllers/challengeController');
 const feedController = require('../controllers/feedController');
 
 //-------- AUTH ROUTES
@@ -55,37 +55,24 @@ Router.route('/exerciseplans/:id')
   .patch(exercisePlanController.updateDay)
   .delete(exercisePlanController.delete);
 
-<<<<<<< HEAD
-
-//---------TRIBE ROUTES
-=======
-// TRIBE ROUTES
-
->>>>>>> tribe-index-leaders
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
 
 Router.route('/tribes')
   .get(tribeController.index);
 
-<<<<<<< HEAD
 //------- FEED ROUTES
 Router.route('/feed')
   .post(feedController.create)
   .get(feedController.index);
-=======
-// CHALLENGES ROUTES
-
-Router.route('/challenges')
-  .get(challengesController.index);
 
 // Router.route('/exercise/:id/adopt');
-
->>>>>>> tribe-index-leaders
-
 Router.route('/feed/:id')
   .get(feedController.show);
 
+// CHALLENGES ROUTES
+Router.route('/challenges')
+  .get(challengeController.index);
 
 
 
