@@ -4,7 +4,11 @@ import Auth from '../../lib/Auth';
 
 
 export default class ChallengesIndex extends React.Component{
-  state= {}
+  state= {
+
+    doing: false
+
+  }
 
   componentDidMount() {
     axios.get('/api/challenges')
@@ -14,9 +18,9 @@ export default class ChallengesIndex extends React.Component{
   acceptChallenge = (challengeId) => {
     return () => {
       axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()});
-      this.setState({ show: true });
     };
   }
+
 
 
   render() {
@@ -29,7 +33,7 @@ export default class ChallengesIndex extends React.Component{
             <p className = "challenge-details">{challenge.challengeGrit} grit points</p>
             <p>{challenge.challengers.length} challengers</p>
 
-            {!challenge.challengers.includes(Auth.currentUserId()) &&
+            {!challenge.challengers.includes(Auth.currentUserId()) && !this.state.doing &&
             <p>Accept?
               <button onClick={this.acceptChallenge(challenge._id)}>
                 <i className="far fa-check-circle"></i>
