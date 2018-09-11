@@ -6,8 +6,11 @@ import axios from 'axios';
 import _ from 'lodash';
 
 //componenets
-import NewsCardAdoptCreate from './newsFeedCards/AdoptCreate.js';
 import NewsCardNewRegister from './newsFeedCards/NewRegister.js';
+
+import AdoptPlan from './newsFeedCards/AdoptPlan';
+import CreatePlan from './newsFeedCards/CreatePlan';
+import LogWorkout from './newsFeedCards/LogWorkout';
 
 export default class NewsFeed extends React.Component{
   state={
@@ -53,33 +56,50 @@ export default class NewsFeed extends React.Component{
     return(
       <section className='container'>
         {newsFeedItems &&
-          <section className='columns is-multiline'>
-            <div className='column is-8 is-centered is-mobile'>
-              {newsFeedItems.map(newsFeedItem => {
-                switch(newsFeedItem.type){
-                  case 'adoptPlan':
-                    return(
-                      <NewsCardAdoptCreate
-                        key={newsFeedItem._id}
-                        user={newsFeedItem.user}
-                        type={newsFeedItem.type}
-                        exercisePlan={newsFeedItem.exercisePlanId}
-                      />
-                    );
-                  case 'register':
-                    return(
-                      <NewsCardNewRegister
-                        user={newsFeedItem.user}
-                      />
-                    );
-                }
-              }
-              )}
-            </div>
-            <div className='column is-full has-text-centered'>
-              <a onClick={this.handleLoadMoreNews}>Click to load more</a>
-            </div>
-          </section>
+      <section className='columns is-multiline'>
+        <div className='column is-8 is-centered is-mobile'>
+          {newsFeedItems.map(newsFeedItem => {
+            switch(newsFeedItem.type){
+              case 'adoptPlan':
+                return(
+                  <AdoptPlan
+                    key={newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    exercisePlan={newsFeedItem.exercisePlanId}
+                  />
+                );
+              case 'createPlan':
+                return(
+                  <CreatePlan
+                    key={newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    exercisePlan={newsFeedItem.exercisePlanId}
+                  />
+                );
+              case 'logWorkout':
+                return(
+                  <LogWorkout key = {newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    exercisePlan={newsFeedItem.exercisePlanId}
+                    grit = {newsFeedItem.grit}
+                    time = {newsFeedItem.time}
+                    intensity = {newsFeedItem.intensity}
+                  />
+                );
+              case 'register':
+                return(
+                  <NewsCardNewRegister
+                    user={newsFeedItem.user}
+                  />
+                );
+            }
+          }
+          )}
+        </div>
+        <div className='column is-full has-text-centered'>
+          <a onClick={this.handleLoadMoreNews}>Click to load more</a>
+        </div>
+      </section>
         }
       </section>
     );
