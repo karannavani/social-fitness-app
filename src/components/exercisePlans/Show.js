@@ -7,6 +7,7 @@ import moment from 'moment';
 import Auth from '../../lib/Auth';
 import Flash from '../../lib/Flash';
 import Request from '../../lib/Request';
+import Id from '../../lib/Id';
 
 //components
 import UpcomingCard from '../common/cards/UpcomingCard';
@@ -19,6 +20,9 @@ export default class ExercisePlanShow extends React.Component{
   };
 
   componentDidMount(){
+    const newExercisePlanId = Id.create();
+    this.setState({newExercisePlanId});
+
     axios.get(`/api/exerciseplans/${this.props.match.params.id}`)
       .then(res => this.setState(res.data));
   }
@@ -76,7 +80,7 @@ export default class ExercisePlanShow extends React.Component{
     const feedBody = {
       user: Auth.currentUserId(),
       type: 'adoptPlan',
-      exercisePlanId: this.state._id
+      exercisePlanId: this.state.newExercisePlanId
     };
     Request.updateFeed(feedBody);
   }
@@ -129,7 +133,8 @@ export default class ExercisePlanShow extends React.Component{
       },
       user: Auth.currentUserId(),
       startDate: unixStartDate,
-      exercisePlanAdoptedFrom: exercisePlanAdoptedFrom
+      exercisePlanAdoptedFrom: exercisePlanAdoptedFrom,
+      _id: this.state.newExercisePlanId
     };
 
     return packagedData;
