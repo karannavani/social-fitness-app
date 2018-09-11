@@ -16,7 +16,8 @@ class Dashboard extends React.Component {
     goRender: false,
     unloggedExercises: [],
     unloggedDays: [],
-    editProgram: false
+    editProgram: false,
+    feedUpdate: {}
   }
   // shareExercises = (exerciseData) =>{
   //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
@@ -25,8 +26,9 @@ class Dashboard extends React.Component {
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
-          console.log('user is', this.state.users);
-          console.log('exerciseId returns', this.state.users);
+          // console.log('user is', this.state.users);
+          // console.log('exerciseId returns', this.state.users);
+          // console.log('exercise id is', this.state.exerciseId[0]);
 
           if (this.state.exerciseId.length) {
             this.getExercise();
@@ -61,9 +63,9 @@ class Dashboard extends React.Component {
     if (this.state.exercises) {
       const { exercises: { startDate } } = this.state; // getting startDate of the exercise
       // const today = moment.utc();
-      const today = moment();
+      // const today = moment();
       // const tomorrow = moment.utc().add(1, 'days');
-      // const today = moment.utc().add(3, 'days'); //manual today for testing
+      const today = moment().add(3, 'days'); //manual today for testing
       // const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
       const tomorrow = moment(today).add(1, 'days');//manual tomorrowfor testing
       this.setState({ momentToday: moment(today).unix()});
@@ -94,7 +96,7 @@ class Dashboard extends React.Component {
 
   checkUnlogged = (exercise, i) => {
     if (exercise.exerciseCompleted === null) {
-      console.log('unlogged exercise is', exercise);
+      // console.log('unlogged exercise is', exercise);
       this.state.unloggedDays.push(i);
       this.state.unloggedExercises.push(exercise);
     }
@@ -110,7 +112,7 @@ class Dashboard extends React.Component {
   handleEditSubmit = ({ target }) => { // saves the edit to the exercise db or cancels it
     console.log('target is', target.id);
     const [id, day] = target.id.split(' ');
-    console.log('day is', day);
+
     if (id === 'complete') {
       this.setState({ editProgram: false });
       axios.patch(`/api/exerciseplans/${this.state.exerciseId}`,
@@ -127,6 +129,8 @@ class Dashboard extends React.Component {
     // console.log('day is ====>', day);
     // console.log('grit is ====>', grit);
     const newProgramState = this.state.exercises[day.toLowerCase()];
+    console.log('newProgramState before looks like', newProgramState);
+
     const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
 
     switch (id) {
@@ -134,8 +138,10 @@ class Dashboard extends React.Component {
       case ('complete'):
         newProgramState.exerciseCompleted = true;
         newProgramState.dailyGrit = parseInt(grit);
+        console.log('newProgramState after looks like', newProgramState);
         this.deleteUnlogged(unloggedIndex);
         this.programUpdate(day, newProgramState, grit);
+        this.feedUpdate(newProgramState.time, newProgramState.intensity, newProgramState.dailyGrit);
         return console.log('clicked complete');
 
       case ('edit'):
@@ -163,7 +169,6 @@ class Dashboard extends React.Component {
 
   programUpdate = (day, newProgramState, grit) => {
 
-
     axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState})
       // .then(res => console.log('res is', res.data))
       .then(res => this.setState({ exercises: res.data }));
@@ -171,20 +176,32 @@ class Dashboard extends React.Component {
     axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
       .then(res => this.setState({ userGrit: res.data.grit }));
 
+    // axios.post('/api/feed', this.state.feedUpdate)
+    //   .then(res => console.log('res from feed is', res));
+
     if (this.state.programDay.replace(' ', '') === day) {
       this.setState({ programToday: newProgramState });
     }
   }
-  // this.setState({
-  //   exercises: {...this.state.exercises, [day.toLowerCase()]: newProgramState }
-  // }, () => {
-  //   // console.log(this.state.exercises);
-  //   this.child.current.parentUpdate();
-  // })
 
-  // parentUpdate = (exercises) => {
-  //   this.setState({ exercises, forceUpdate: Math.random() }, () => console.log('parent state is', this.state.exercises));
-  // }
+  feedUpdate = (time, intensity, grit) => {
+    this.setState({
+      feedUpdate: {
+        user: this.state.users._id,
+        exercisePlanId: this.state.exerciseId[0],
+        type: 'logWorkout',
+        time,
+        intensity,
+        grit
+      }
+    }, () => {
+      console.log('feed update looks like', this.state.feedUpdate);
+      axios.post('/api/feed', this.state.feedUpdate)
+        .then(res => console.log('res from feed is', res));
+
+    });
+  }
+
 
   render() {
     return(
