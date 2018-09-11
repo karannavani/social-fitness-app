@@ -26,11 +26,8 @@ export default class ExercisePlanNew extends React.Component {
         } else {
           this.setState({ autoValidate: true });
         }
-        // console.log('active date is', this.state.usersActivePlanStartDate);
       }));
-    // .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}, ()=> {
-    //   console.log('active date is', this.state.usersActivePlanStartDate);
-    // }));
+
 
   }
 
@@ -105,15 +102,6 @@ export default class ExercisePlanNew extends React.Component {
     return false;
   }
 
-  // handleChecked = ({target: {name, checked}}) => {
-  //   console.log('event target is', checked);
-  //   console.log('event target name is', name);
-  //   this.setState({[name]: checked});
-  // }
-
-  // click submit to validate start date,
-  //  validate the start date on handle change
-  // disable the submit button if date is not valide
 
   render() {
     return(
