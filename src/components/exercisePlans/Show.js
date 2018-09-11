@@ -6,6 +6,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
 import Flash from '../../lib/Flash';
+import Request from '../../lib/Request';
 
 //components
 import UpcomingCard from '../common/cards/UpcomingCard';
@@ -48,13 +49,9 @@ export default class ExercisePlanShow extends React.Component{
   }
 
   validateStartDate = () => {
-    // console.log('from state ', this.state.newStartDate);
     const momStartDate = moment(this.state.newStartDate).utc();
-    // console.log('the newStartDate is:', momStartDate);
     const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-    // console.log('the date sevenDaysTime is: ', sevenDaysTime);
     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
-
     return false;
   }
 
@@ -81,14 +78,10 @@ export default class ExercisePlanShow extends React.Component{
       type: 'adoptPlan',
       exercisePlanId: this.state._id
     };
-
-    this.updateFeed(feedBody);
+    Request.updateFeed(feedBody);
   }
 
-  updateFeed = (feedBody) => {
-    axios.post('/feed', feedBody)
-      .catch(err => console.log('adopt feed error', err));
-  }
+
 
   // NOTE: this needs refactoring
   packageAdoptionData = () =>{
@@ -147,7 +140,6 @@ export default class ExercisePlanShow extends React.Component{
 
   render(){
     const { state } = this;
-    console.log('state is ===>', state);
     return(
       <section className='container'>
         {state &&
@@ -168,7 +160,6 @@ export default class ExercisePlanShow extends React.Component{
 
               {/* day cards */}
               <div className='column is-12'>
-                {/* // BUG: Day number is unreliable  */}
                 {Object.keys(state).map((key, i) => {
                   if(!state[key].rest && state[key].intensity){
                     return <UpcomingCard key={key} title={`Day ${i}`} programDetails={state[key]} />;
