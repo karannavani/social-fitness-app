@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 //Components
 import TodayCard from '../common/cards/TodayCard';
@@ -17,6 +16,21 @@ class Aside extends React.Component {
     unloggedExercises: [],
     unloggedDays: []
   }
+
+  componentDidMount() {
+    this.setState({ exercises: this.props.exercises }, () => {
+      // console.log('feed looks like', this.state.exercises);
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.exercises !== this.props.exercises) {
+      console.log('this.props.exercise is', this.props);
+
+      this.setState({ exercises: this.props.exercises });
+    }
+  }
+
 
   render() {
     const {programToday, programDay, programTomorrow,
