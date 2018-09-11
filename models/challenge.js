@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.schema.Types.ObjectId;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 // each challenge group decided by 'how far', 'how long for' and 'how many'
 const challengeSchema = new mongoose.Schema({
