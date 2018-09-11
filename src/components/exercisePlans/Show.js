@@ -140,6 +140,7 @@ export default class ExercisePlanShow extends React.Component{
 
   render(){
     const { state } = this;
+    console.log('state is ===>', state);
     return(
       <section className='container'>
         {state &&
