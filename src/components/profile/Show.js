@@ -5,6 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Auth from '../../lib/Auth';
+import Request from '../../lib/Request';
 import _ from 'lodash';
 
 //Components
@@ -118,10 +119,20 @@ export default class UserShow extends React.Component{
   }
 
   handleFollow = () =>{
-    axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
+    const viewedUserId = this.props.match.params.id;
+
+    axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: viewedUserId})
       .then(res => {
         this.setState({ user: res.data });
       });
+
+    const newFollowBody = {
+      user: Auth.currentUserId(),
+      type: 'follow',
+      followedUserId: viewedUserId
+    };
+
+    Request.updateFeed(newFollowBody);
   }
 
   handleSortSelectChange = ({ target }) => {
