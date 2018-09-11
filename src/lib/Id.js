@@ -12,4 +12,4 @@ Id.create = function() {
   });
 };
 
-module.exports = Id;
+export default Id;
