@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 
 import Auth from '../../lib/Auth';
 
-
-
 class TribeAside extends React.Component {
   state = {}
 
@@ -41,7 +39,6 @@ class TribeAside extends React.Component {
   dailyGrit = () => {
     return this.state.user.dailyGrit;
   }
-
 
   render() {
     return (

@@ -104,10 +104,6 @@ export default class TribesIndex extends React.Component{
     });
   }
 
-  viewUsers = () => {
-    console.log('users are', this.state.tribeGroup[0].users);
-  }
-
   render() {
     return(
       <section>

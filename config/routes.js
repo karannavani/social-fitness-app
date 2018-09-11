@@ -10,6 +10,7 @@ const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const exercisePlanController = require('../controllers/exercisePlanController');
 const tribeController = require('../controllers/tribeController');
+const challengesController = require('../controllers/challengesController');
 
 // // AUTH ROUTES
 Router.route('/login')
@@ -48,11 +49,18 @@ Router.route('/exerciseplans/:id')
   .patch(exercisePlanController.updateDay)
   .delete(exercisePlanController.delete);
 
+// TRIBE ROUTES
+
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
 
 Router.route('/tribes')
   .get(tribeController.index);
+
+// CHALLENGES ROUTES
+
+Router.route('/challenges')
+  .get(challengesController.index);
 
 // Router.route('/exercise/:id/adopt');
 
