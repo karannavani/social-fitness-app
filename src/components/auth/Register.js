@@ -1,19 +1,22 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Chance from 'chance';
+const chance = new Chance();
 
 // Common components
 import FormInput from '../common/FormInput';
 
 // Libraries
 import Auth from '../../lib/Auth';
-
+import Id from '../../lib/Id';
+import Request from '../../lib/Request';
 
 export default class AuthRegister extends React.Component{
   state = {
     passwordHidden: true,
     errors: {},
-    email: `email@${Math.floor(Math.random() * 100)}.com`,
+    email: chance.email(),
     password: 'pass',
     passwordConfirmation: 'pass',
     tribe: 'Inbetweeners',
@@ -25,6 +28,16 @@ export default class AuthRegister extends React.Component{
     age: 28
   }
 
+  componentDidMount(){
+    const newUserId = Id.create();
+    const registerFeedUpdateBody = {
+      type: 'register',
+      user: newUserId
+    };
+
+    this.setState({_id: newUserId, registerFeedUpdateBody: registerFeedUpdateBody});
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -33,6 +46,9 @@ export default class AuthRegister extends React.Component{
       errors.passwordConfirmation = 'Password confirmation does not match password';
       return this.setState({ errors });
     }
+
+    Request.updateFeed( this.state.registerFeedUpdateBody );
+
     axios.post('/api/register', this.state)
       .then(res => {
         const token = res.data.token;

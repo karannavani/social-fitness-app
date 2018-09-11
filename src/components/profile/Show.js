@@ -65,10 +65,7 @@ export default class UserShow extends React.Component{
     //returns 10 user exercises and sorts then by startDate with newest first.
     axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => {
-        console.log(`there are ${res.data.pages} pages for this user`);
-
-        // for(let i = 1; i <= res.data)
-
+        // console.log(`there are ${res.data.pages} pages for this user`);
         const planDateAsc = this.sortPlans(res.data.docs);
         this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
       });

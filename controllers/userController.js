@@ -72,6 +72,7 @@ function addUserGrit( req, res, next ){
 }
 
 function updateExercisePlan( req, res, next ){
+  console.log('req.body is', req.body);
   User
     .findById(req.params.id)
     .then(user => {
