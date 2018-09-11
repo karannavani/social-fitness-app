@@ -4,6 +4,8 @@ import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
 import Id from '../../lib/Id';
+import Request from '../../lib/Request';
+
 
 export default class ExercisePlanNew extends React.Component {
   state = {
@@ -26,11 +28,8 @@ export default class ExercisePlanNew extends React.Component {
         } else {
           this.setState({ autoValidate: true });
         }
-        // console.log('active date is', this.state.usersActivePlanStartDate);
       }));
-    // .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}, ()=> {
-    //   console.log('active date is', this.state.usersActivePlanStartDate);
-    // }));
+
 
   }
 
@@ -42,14 +41,24 @@ export default class ExercisePlanNew extends React.Component {
     newPlanData._id = planId;
     newPlanData.user = Auth.currentUserId();
 
+    const feedBody = {
+      user: Auth.currentUserId(),
+      type: 'createPlan',
+      exercisePlanId: planId
+    };
+    Request.updateFeed(feedBody);
+
     axios.post('/api/exerciseplans', newPlanData)
       .then(res => console.log('res is', res))
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
-    axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId} )
-      .then(res => console.log('res is', res.data))
-      .catch(err => console.log('add exerciseplan id error', err));
+    if(this.state.autoValidate) {
+      axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId} )
+        .then(res => console.log('res is', res.data))
+        .catch(err => console.log('add exerciseplan id error', err));
+    }
+
   }
 
   // }
@@ -105,15 +114,6 @@ export default class ExercisePlanNew extends React.Component {
     return false;
   }
 
-  // handleChecked = ({target: {name, checked}}) => {
-  //   console.log('event target is', checked);
-  //   console.log('event target name is', name);
-  //   this.setState({[name]: checked});
-  // }
-
-  // click submit to validate start date,
-  //  validate the start date on handle change
-  // disable the submit button if date is not valide
 
   render() {
     return(

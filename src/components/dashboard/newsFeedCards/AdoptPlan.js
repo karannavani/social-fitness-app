@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
-const NewsCardAdoptCreate = ({ user, type, exercisePlan }) => {
+const NewsCardAdoptCreate = ({ user, exercisePlan }) => {
   return(
     <article className="media">
       <figure className="media-left">
@@ -13,16 +14,20 @@ const NewsCardAdoptCreate = ({ user, type, exercisePlan }) => {
         <div className="content">
           <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
           <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+          {/* CHANGEBLE CONTENT */}
 
-          {/* CHANGEABLE CONTENT */}
+          {/* IF TYPE IS ADOPT PLAN */}
 
-          <p> Adopted a new exercise
+
+          <p> Adopted a new
             <Link to={`/exerciseplan/${exercisePlan._id}`}> plan </Link>
-             and has lined himself up for {exercisePlan.totalAvailableGrit} grit points
+            and has lined himself up for {exercisePlan.totalAvailableGrit} grit points, starting on {moment.unix(exercisePlan.startDate).format('DD/MM/YYYY')}
           </p>
           <p> The program is a total of {exercisePlan.totalTime} minutes and a {exercisePlan.intensityAvg} average intensity </p>
 
-          {/* CHANGEABLE CONTENT */}
+
+
+          {/* CHANGEBLE CONTENT */}
         </div>
 
         <nav className="level is-mobile">

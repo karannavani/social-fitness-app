@@ -137,7 +137,7 @@ class Feed extends React.Component {
                 { dotsArr.length === 7 && dotsArr.map((dot, i) =>
                   <div className="column is-1 has-text-centered" key={i}>
                     <i className={`animated infinite swing title is-4 fas fa-circle dot-${dotsArr[i].color}`} key={i}></i>
-                    <h5 className="subtitle is-5 white"><i className="fas fa-bolt animated infinite swing"></i> {dotsArr[i].grit}</h5>
+                    <h5 className="subtitle is-5 white animated infinite swing"><i className="fas fa-bolt animated infinite swing"></i> {dotsArr[i].grit}</h5>
                   </div>
                 )
                 }
