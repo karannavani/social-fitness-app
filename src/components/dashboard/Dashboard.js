@@ -73,7 +73,7 @@ class Dashboard extends React.Component {
         // generate 7 dates from the start date – these are the program dates
         // const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
         const date = moment.unix(startDate).add(i-1, 'days');
-        console.log('date is', date.format('DD/MM/YYYY'));
+        // console.log('date is', date.format('DD/MM/YYYY'));
 
         // if a program date matches today's date, get the program at that index and set it as today's program
         if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {

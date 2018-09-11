@@ -5,7 +5,8 @@ import axios from 'axios';
 import Auth from '../../lib/Auth';
 
 //componenets
-import NewsCardAdoptCreate from './newsFeedCards/AdoptCreate.js';
+import NewsCardAdoptCreate from './newsFeedCards/AdoptCreate';
+import LogWorkout from './newsFeedCards/LogWorkout';
 
 export default class NewsFeed extends React.Component{
   state={
@@ -34,14 +35,15 @@ export default class NewsFeed extends React.Component{
     const { newsFeedItems } = this.state;
     return(
       <section className='columns'>
-        {newsFeedItems &&
+        {/* {newsFeedItems &&
           <div className='column is-12'>
             <NewsCardAdoptCreate
               user={newsFeedItems[0].user}
               type={newsFeedItems[0].type}
-            />            
+            />
           </div>
-        }
+        } */}
+        <LogWorkout />
       </section>
     );
   }
