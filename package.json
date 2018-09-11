@@ -15,7 +15,7 @@
   "scripts": {
     "start:server": "nodemon",
     "start:client": "webpack-dev-server",
-    "build": "webpack",
+    "build": "webpack -p",
     "start": "yarn build && node index",
     "seed": "node db/seeds"
   },
