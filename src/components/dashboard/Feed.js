@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../lib/Auth';
+import NewsFeed from './NewsFeed';
 
 class Feed extends React.Component {
   state = {
@@ -146,6 +147,9 @@ class Feed extends React.Component {
             </div>
           </div>
 
+          <section className='container'>
+            <NewsFeed />
+          </section>
 
 
         </div>

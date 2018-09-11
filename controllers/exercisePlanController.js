@@ -8,7 +8,6 @@ function exercisePlanIndex(req, res, next) {
 }
 
 function exercisePlanPaginate( req, res, next ){
-  console.log('the req.body is ====> ', req.body);
   ExercisePlan
     .paginate({user: req.body.userId}, req.body)
     .then(exercisePlans => res.json(exercisePlans))

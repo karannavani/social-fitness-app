@@ -12,8 +12,8 @@
 *      tribe change,
 *      update to users details(similiar to register new user),
 *   details of the update
-*      workout logged:        Name of plan, plan id, grit earned, if adopted or not
-*      exerciseplan create:   Name of plan, plan id, available grit from program
+*      workout logged:        Name of plan, plan id, grit earned (workout summary),
+*      exerciseplan create:   Name of plan, plan id, available grit from program, tribe of creator
 *      exerciseplan adopted:  Name of plan, plan id, available grit from program, number of adoptions for that program
 *      user registration:     Users tribe,
 *      tribe change:          New tribe, old tribe
@@ -24,10 +24,11 @@
 */
 
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const modelTypeEnums = [
-  'logWorkout',
+  'logWorkout', // NOTE:
   'createPlan',
   'adoptPlan',
   'completePlan',
@@ -69,6 +70,10 @@ const feedSchema = new mongoose.Schema({
   unFollow: { type: Boolean }
 
 }, {timestamps: true});
+
+// Plugins
+feedSchema.plugin(mongoosePaginate);
+
 
 // make sure the virtuals get added
 feedSchema.set('toObject', { virtuals: true });
