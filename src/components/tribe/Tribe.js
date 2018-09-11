@@ -55,9 +55,13 @@ class TribeAside extends React.Component {
               <div className="tribeAsideContainer">
                 <h2 className="subtitle is-4 has-text-grey">LEADER BOARD</h2>
                 {this.state.members && this.leadersSort().slice(0, 10).map(leader =>
-                  <Link to={`/profile/${leader._id}`} key={leader._id}>
-                    {leader.username} Grit: {leader.grit}
-                  </Link>
+                  <div className="columns" key={leader._id}>
+                    <Link to={`/profile/${leader._id}`} >
+                      <div className="column card each-leader">
+                        {leader.username} Grit: {leader.grit}
+                      </div>
+                    </Link>
+                  </div>
                 )}
               </div>
               <div className="tribeAsideContainer">

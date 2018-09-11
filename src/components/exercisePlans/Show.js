@@ -6,6 +6,8 @@ import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
 import Flash from '../../lib/Flash';
+import Request from '../../lib/Request';
+import Id from '../../lib/Id';
 
 //components
 import UpcomingCard from '../common/cards/UpcomingCard';
@@ -18,14 +20,12 @@ export default class ExercisePlanShow extends React.Component{
   };
 
   componentDidMount(){
+    const newExercisePlanId = Id.create();
+    this.setState({newExercisePlanId});
+
     axios.get(`/api/exerciseplans/${this.props.match.params.id}`)
       .then(res => this.setState(res.data));
   }
-
-  // componentDidUpdate(prevProps, prevState){
-  //   console.log('previous state is', prevState);
-  //   console.log('state is', this.state);
-  // }
 
   handleChange = ({ target: { name, value }}) => {
     this.setState({[name]: value});
@@ -53,25 +53,21 @@ export default class ExercisePlanShow extends React.Component{
   }
 
   validateStartDate = () => {
-    // console.log('from state ', this.state.newStartDate);
     const momStartDate = moment(this.state.newStartDate).utc();
-    // console.log('the newStartDate is:', momStartDate);
     const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-    // console.log('the date sevenDaysTime is: ', sevenDaysTime);
     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
-
     return false;
   }
 
   //gets the users most recent program and sets the start date to state
   getUsersCurrentPlan = () =>{
-    const paginateOptions = {
+    const findOneOptions = {
       'userId': Auth.currentUserId(),
       'page': 1,
       'sort': { 'startDate': -1 },
       'limit': 1
     };
-    axios.post('/api/exerciseplans/paginate', paginateOptions)
+    axios.post('/api/exerciseplans/paginate', findOneOptions)
       .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}));
   }
 
@@ -81,7 +77,15 @@ export default class ExercisePlanShow extends React.Component{
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
+    const feedBody = {
+      user: Auth.currentUserId(),
+      type: 'adoptPlan',
+      exercisePlanId: this.state.newExercisePlanId
+    };
+    Request.updateFeed(feedBody);
   }
+
+
 
   // NOTE: this needs refactoring
   packageAdoptionData = () =>{
@@ -129,7 +133,8 @@ export default class ExercisePlanShow extends React.Component{
       },
       user: Auth.currentUserId(),
       startDate: unixStartDate,
-      exercisePlanAdoptedFrom: exercisePlanAdoptedFrom
+      exercisePlanAdoptedFrom: exercisePlanAdoptedFrom,
+      _id: this.state.newExercisePlanId
     };
 
     return packagedData;
@@ -140,7 +145,6 @@ export default class ExercisePlanShow extends React.Component{
 
   render(){
     const { state } = this;
-    console.log('state is ===>', state);
     return(
       <section className='container'>
         {state &&
@@ -161,7 +165,6 @@ export default class ExercisePlanShow extends React.Component{
 
               {/* day cards */}
               <div className='column is-12'>
-                {/* // BUG: Day number is unreliable  */}
                 {Object.keys(state).map((key, i) => {
                   if(!state[key].rest && state[key].intensity){
                     return <UpcomingCard key={key} title={`Day ${i}`} programDetails={state[key]} />;

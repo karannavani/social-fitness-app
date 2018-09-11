@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../lib/Auth';
+import NewsFeed from './NewsFeed';
+import axios from 'axios';
 
 class Feed extends React.Component {
   state = {
@@ -10,9 +12,10 @@ class Feed extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ exercises: this.props.exercises }, () => {
-      // console.log('feed looks like', this.state.exercises);
-      this.createDots();
+
+    this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
+      console.log('feed looks like', this.state.exercises);
+      if (this.props.exercises) this.createDots();
     });
 
   }
@@ -21,23 +24,18 @@ class Feed extends React.Component {
     // console.log('prev props is ==>', prevProps.exercises);
     // console.log('state exercises is ==>', this.state.exercises);
     if (prevProps.exercises !== this.props.exercises) {
-      // console.log('this.props.exercise is', this.props.exercises);
+      console.log('this.props.exercise is', this.props.exercises);
       this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
-        this.createDots();
+        if (this.props.exercises) this.createDots();
       });
     }
   }
 
-  parentUpdate = () => {
-    // console.log('feed called');
-  }
-
   createDots = () => {
     const timeArr = [];
-
     for (let i = 1; i < 8; i++) {
-      if(this.props.exercises.day1.exerciseCompleted){
-        switch(this.props.exercises[`day${i}`].exerciseCompleted) {
+      if(this.state.exercises.day1.exerciseCompleted || !this.state.exercises.day1.exerciseCompleted  ){
+        switch(this.state.exercises[`day${i}`].exerciseCompleted) {
           case (null):
             // console.log('grey');
             this.getGrit(this.props.exercises[`day${i}`]);
@@ -95,6 +93,25 @@ class Feed extends React.Component {
           <div style={{marginBottom: '15px' }}>
             <h3 className="title is-3">Your Grit: <i className="fas fa-bolt" style={{color: '#363636'}}></i> {this.props.userGrit}</h3>
           </div>
+
+          {/* {this.props.userChallenges.length &&
+            <div className="card program-card">
+              <div className="card-content">
+                <div className="columns is-multiline is-vcentered">
+                  <div className="column is-1 is-pulled-left">
+                    <h3 className="title is-3"><i className="far fa-plus-square fas"></i></h3>
+                  </div>
+                  <div className="column is-pulled-left">
+                    <h4 className="title is-4 white">Current challenges:</h4>
+                    {this.props.userChallenges.map(challenge =>
+                      <h5 className="title is-5" key={challenge._id}>{challenge.name}</h5>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          } */}
+
           <div className="card program-card">
             <div className="card-content">
               <div className="columns is-multiline is-vcentered">
@@ -109,6 +126,8 @@ class Feed extends React.Component {
               </div>
             </div>
           </div>
+
+
           <div className="card program-card">
             <div className="card-content">
               <div className="columns is-multiline is-vcentered">
@@ -130,6 +149,7 @@ class Feed extends React.Component {
             </div>
           </div>
 
+
           <div className="card program-card-unlogged">
             <div className="card-content">
               <h4 className="title is-4 white">This week</h4>
@@ -137,7 +157,7 @@ class Feed extends React.Component {
                 { dotsArr.length === 7 && dotsArr.map((dot, i) =>
                   <div className="column is-1 has-text-centered" key={i}>
                     <i className={`animated infinite swing title is-4 fas fa-circle dot-${dotsArr[i].color}`} key={i}></i>
-                    <h5 className="subtitle is-5 white"><i className="fas fa-bolt animated infinite swing"></i> {dotsArr[i].grit}</h5>
+                    <h5 className="subtitle is-5 white animated infinite swing"><i className="fas fa-bolt animated infinite swing"></i> {dotsArr[i].grit}</h5>
                   </div>
                 )
                 }
@@ -147,6 +167,9 @@ class Feed extends React.Component {
             </div>
           </div>
 
+          <section className='container'>
+            <NewsFeed />
+          </section>
 
 
         </div>

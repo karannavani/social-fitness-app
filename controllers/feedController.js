@@ -16,6 +16,13 @@ function feedIndex( req, res, next ){
     .catch(next);
 }
 
+function feedPaginate( req, res, next ){
+  Feed
+    .paginate({}, req.body )
+    .then(exercisePlans => res.json(exercisePlans))
+    .catch(next);
+}
+
 function feedShow( req, res, next ){
   Feed
     .findById(req.params.id)
@@ -26,5 +33,6 @@ function feedShow( req, res, next ){
 module.exports = {
   create: feedCreate,
   index: feedIndex,
-  show: feedShow
+  show: feedShow,
+  paginate: feedPaginate
 };

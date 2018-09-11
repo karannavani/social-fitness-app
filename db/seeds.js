@@ -10,7 +10,6 @@ const Challenge = require('../models/challenge');
 const moment = require('moment');
 const Chance = require('chance');
 const chance = new Chance();
-const Id = require('../src/lib/Id');
 
 //MONGOOSE CONNECTION
 const { dbUri } = require('../config/environment');
@@ -37,6 +36,18 @@ const userIds = [
   '5b91752666708bc8b1622763', '5b91752666708bc8b1622764', '5b91752666708bc8b1622765', '5b91752666708bc8b1622766', '5b91752666708bc8b1622767'
 
 ]; //60 ids
+
+function createId() {
+  const m = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Math;
+  const d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Date;
+  const h = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 16;
+  const s = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function (s) {
+    return m.floor(s).toString(h);
+  };
+  return s(d.now() / 1000) + ' '.repeat(h).replace(/./g, function () {
+    return s(m.random() * h);
+  });
+}
 
 // function randomNumber(){
 //   return Math.floor(Math.random() * 10000000000000);
@@ -80,7 +91,7 @@ function addOtherUser(){
   for(let i = 3; i < userIds.length; i++ ){
     otherUserData.push(
       {
-        _id: Id.create(),
+        _id: createId(),
         username: chance.first() + randomAge(),
         email: chance.email(),
         password: 'pass',
@@ -112,7 +123,8 @@ const challengeData = [
     name: '10km Run',
     type: 'Distance',
     distance: 10,
-    challengeGrit: 60
+    challengeGrit: 60,
+    challengers: ['5b91752666708bc8b1622705']
   },
   {
     name: '5km Run',
@@ -121,13 +133,13 @@ const challengeData = [
     challengeGrit: 30
   },
   {
-    name: 'Swimming',
+    name: '30min Swim',
     type: 'Timed',
     time: 30,
     challengeGrit: 30
   },
   {
-    name: 'Swimming',
+    name: '1hr Swim',
     type: 'Timed',
     time: 60,
     challengeGrit: 60

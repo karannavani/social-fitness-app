@@ -55,6 +55,7 @@ Router.route('/exerciseplans/:id')
   .patch(exercisePlanController.updateDay)
   .delete(exercisePlanController.delete);
 
+//------- TRIBE ROUTES
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
 
@@ -66,14 +67,19 @@ Router.route('/feed')
   .post(feedController.create)
   .get(feedController.index);
 
-// Router.route('/exercise/:id/adopt');
+Router.route('/feed/paginate')
+  .post(feedController.paginate);
+  
 Router.route('/feed/:id')
   .get(feedController.show);
 
-// CHALLENGES ROUTES
+//-------- CHALLENGES ROUTES
 Router.route('/challenges')
   .get(challengeController.index);
 
+Router.route('/challenges/:id')
+  .get(challengeController.show)
+  .post(challengeController.update);
 
 
 module.exports = Router;
