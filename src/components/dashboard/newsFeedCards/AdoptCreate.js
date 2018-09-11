@@ -13,12 +13,15 @@ const NewsCardAdoptCreate = ({ user, type, exercisePlan }) => {
         <div className="content">
           <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
           <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
-          {/* <hr/> */}
+          {/* CHANGEBLE CONTENT */}
+          
           <p> Adopted a new exercise
             <Link to={`/exerciseplan/${exercisePlan._id}`}> plan </Link>
              and has lined himself up for {exercisePlan.totalAvailableGrit} grit points
           </p>
           <p> The program is a total of {exercisePlan.totalTime} minutes and a {exercisePlan.intensityAvg} average intensity </p>
+
+          {/* CHANGEBLE CONTENT */}
         </div>
 
         <nav className="level is-mobile">

@@ -36,7 +36,6 @@ const modelTypeEnums = [
   'completeChallenge',
   'tribeChange',
   'register',
-  'updateDetails',
   'follow'
 ];
 
@@ -48,21 +47,10 @@ const feedSchema = new mongoose.Schema({
   // NOTE: if we give our own ID then we can access the populated virtuals for each plan
   time: Number,
   intensity: String,
-  dailyEarnedGrit: Number,
+  grit: Number,
   exercisePlanName: String, // NOTE: can get this out of the populated plan
   exercisePlanId: { type: ObjectId, ref: 'ExercisePlan' }, // NOTE: populate this to get all the workout details
   exercisePlanAdoptedFromId: { type: ObjectId, ref: 'ExercisePlan' },
-
-  //  register - details update
-  // NOTE: if we have our own ID then we can access all the data, more important to know what has changed was
-  firstNameChanged: { type: Boolean },
-  surnameChanged: { type: Boolean },
-  ageChanged: { type: Boolean },
-  heightChanged: { type: Boolean },
-  heightUnitChanged: { type: Boolean },
-  weightChanged: { type: Boolean },
-  weightUnitChanged: { type: Boolean },
-  imageUrlChanged: { type: Boolean },
 
   // follow
   followUserId: { type: ObjectId, ref: 'User' }, // NOTE: populate this if available

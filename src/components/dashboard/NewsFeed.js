@@ -5,8 +5,7 @@ import axios from 'axios';
 import Auth from '../../lib/Auth';
 
 //componenets
-import NewsCardAdoptCreate from './newsFeedCards/AdoptCreate';
-import LogWorkout from './newsFeedCards/LogWorkout';
+import NewsCardAdoptCreate from './newsFeedCards/AdoptCreate.js';
 
 export default class NewsFeed extends React.Component{
   state={
@@ -37,13 +36,19 @@ export default class NewsFeed extends React.Component{
       <section className='columns'>
         {newsFeedItems &&
           <div className='column is-8 is-centered is-mobile'>
-            {newsFeedItems.map(newsFeedItem =>
-              <NewsCardAdoptCreate
-                key={newsFeedItem._id}
-                user={newsFeedItem.user}
-                type={newsFeedItem.type}
-                exercisePlan={newsFeedItem.exercisePlanId}
-              />
+            {newsFeedItems.map(newsFeedItem => {
+              switch(newsFeedItem.type){
+                case 'adoptPlan':
+                  return(
+                    <NewsCardAdoptCreate
+                      key={newsFeedItem._id}
+                      user={newsFeedItem.user}
+                      type={newsFeedItem.type}
+                      exercisePlan={newsFeedItem.exercisePlanId}
+                    />
+                  );
+              }
+            }
 
             )}
           </div>
