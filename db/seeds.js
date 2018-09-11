@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const ExercisePlan = require('../models/exercisePlan');
 const Feed = require('../models/feed');
+const Challenge = require('../models/challenge');
 
 //DEPENDANCIES
 const moment = require('moment');
@@ -101,6 +102,49 @@ function addOtherUser(){
   }
   return otherUserData;
 }
+
+/////////////////////////////////////////////////////////////////////
+//////////-----------CREATE CHALLENGES--------///////////////////////
+/////////////////////////////////////////////////////////////////////
+
+const challengeData = [
+  {
+    name: '10km Run',
+    type: 'Distance',
+    distance: 10,
+    challengeGrit: 60
+  },
+  {
+    name: '5km Run',
+    type: 'Distance',
+    distance: 5,
+    challengeGrit: 30
+  },
+  {
+    name: 'Swimming',
+    type: 'Timed',
+    time: 30,
+    challengeGrit: 30
+  },
+  {
+    name: 'Swimming',
+    type: 'Timed',
+    time: 60,
+    challengeGrit: 60
+  },
+  {
+    name: '100 Push Ups',
+    type: 'Body Weight Exercise',
+    reps: 100,
+    challengeGrit: 30
+  },
+  {
+    name: '50 Push Ups',
+    type: 'Body Weight Exercise',
+    reps: 50,
+    challengeGrit: 15
+  }
+];
 
 /////////////////////////////////////////////////////////////////////
 ////////////----------CREATE  GRIT------------///////////////////////
@@ -442,12 +486,19 @@ const exerciseData = [...activeExercisePlans, ...origionalHistoricExercisePlans,
 ExercisePlan.collection.drop();
 User.collection.drop();
 Feed.collection.drop();
+Challenge.collection.drop();
 
 User.create(userData)
   .then(users => {
     console.log(`Created ${users.length} new users`);
     return ExercisePlan.create(exerciseData);
   })
-  .then(exercisePlans => console.log(`created ${exercisePlans.length} exercises`))
+  .then(exercisePlans => {
+    console.log(`created ${exercisePlans.length} exercises`);
+    return Challenge.create(challengeData);
+  })
+  .then(challenges => {
+    console.log(`Created ${challenges.length} challenges`);
+  })
   .catch(err => console.log(err))
   .finally(() => mongoose.connection.close());

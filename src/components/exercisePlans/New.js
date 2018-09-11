@@ -65,7 +65,9 @@ export default class ExercisePlanNew extends React.Component {
       this.setState({[name]: value}, () =>{
         if(this.validateStartDate() || this.state.autoValidate){
           const unixValue = moment(value).unix();
+          console.log('value is', value);
           console.log('unix value is', unixValue);
+          // console.log('unix converted is', moment(unixValue).unix());
           this.setState({errors: null, startDate: unixValue, validStartDate: true});
         } else {
           //date is not valid
@@ -73,11 +75,13 @@ export default class ExercisePlanNew extends React.Component {
         }
       });
     } else if (name.includes('rest')) {
+      const day = name.split('.')[0];
       if (checked) {
-        console.log('checked');
+        this.setState({ [`${day}.exerciseCompleted`]: true });
       } else {
-        console.log('not checked');
+        this.setState({ [`${day}.exerciseCompleted`]: null });
       }
+
       this.setState({[name]: checked}, () => {
         console.log('state is', this.state);
       });

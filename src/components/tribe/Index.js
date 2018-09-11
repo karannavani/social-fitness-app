@@ -30,7 +30,7 @@ export default class TribesIndex extends React.Component{
             {todayName: 'todayallNaturals', gritName: 'gritallNaturals',
               ageName: 'ageallNaturals', heightName: 'heightallNaturals' ,
               weightName: 'weightallNaturals', users: allNaturals},
-              
+
             {todayName: 'todayinbetweeners', gritName: 'gritinbetweeners',
               ageName: 'ageinbetweeners', heightName: 'heightinbetweeners' ,
               weightName: 'weightinbetweeners', users: inbetweeners}
@@ -95,16 +95,13 @@ export default class TribesIndex extends React.Component{
   tribeEarnedToday = (users, name) => {
     const tribeToday = [];
     users.forEach(member => {
+      console.log('made it here');
       tribeToday.push(member.dailyGrit[0].grit);
       const reducedToday = (tribeToday.reduce((a, b) => {
         return (a + b);
       }));
       this.setState({ [name]: reducedToday });
     });
-  }
-
-  viewUsers = () => {
-    console.log('users are', this.state.tribeGroup[0].users);
   }
 
   render() {
