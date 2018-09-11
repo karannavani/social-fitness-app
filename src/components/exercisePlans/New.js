@@ -3,6 +3,7 @@ import FormInput from '../common/FormInput';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Id from '../../lib/Id';
 
 export default class ExercisePlanNew extends React.Component {
   state = {
@@ -35,13 +36,19 @@ export default class ExercisePlanNew extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const planId = Id.create();
     const newPlanData = this.state;
+
+    newPlanData._id = planId;
     newPlanData.user = Auth.currentUserId();
 
     axios.post('/api/exerciseplans', newPlanData)
       .then(res => console.log('res is', res))
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
+
+    axios.post(`/api/users/${Auth.currentUserId}/exerciseplan`, {exercisePlanId: planId} )
+      .catch(err => console.log('add exerciseplan id error', err));
   }
 
   // }
@@ -61,7 +68,7 @@ export default class ExercisePlanNew extends React.Component {
           this.setState({errors: null, startDate: unixValue, validStartDate: true});
         } else {
           //date is not valid
-          this.setState({errors: { normalStartDate: 'Your start date is no valid'},[name]: value });
+          this.setState({errors: { normalStartDate: 'Your start date is no valid'},[name]: value, validStartDate: false });
         }
       });
     } else if (name.includes('rest')) {
