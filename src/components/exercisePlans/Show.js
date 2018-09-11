@@ -22,11 +22,6 @@ export default class ExercisePlanShow extends React.Component{
       .then(res => this.setState(res.data));
   }
 
-  // componentDidUpdate(prevProps, prevState){
-  //   console.log('previous state is', prevState);
-  //   console.log('state is', this.state);
-  // }
-
   handleChange = ({ target: { name, value }}) => {
     this.setState({[name]: value});
   };
@@ -65,13 +60,13 @@ export default class ExercisePlanShow extends React.Component{
 
   //gets the users most recent program and sets the start date to state
   getUsersCurrentPlan = () =>{
-    const paginateOptions = {
+    const findOneOptions = {
       'userId': Auth.currentUserId(),
       'page': 1,
       'sort': { 'startDate': -1 },
       'limit': 1
     };
-    axios.post('/api/exerciseplans/paginate', paginateOptions)
+    axios.post('/api/exerciseplans/paginate', findOneOptions)
       .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}));
   }
 
@@ -81,6 +76,18 @@ export default class ExercisePlanShow extends React.Component{
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
+    const feedBody = {
+      user: Auth.currentUserId(),
+      type: 'adoptPlan',
+      exercisePlanId: this.state._id
+    };
+
+    this.updateFeed(feedBody);
+  }
+
+  updateFeed = (feedBody) => {
+    axios.post('/feed', feedBody)
+      .catch(err => console.log('adopt feed error', err));
   }
 
   // NOTE: this needs refactoring
