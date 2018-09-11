@@ -26,8 +26,9 @@ class Dashboard extends React.Component {
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
           console.log('user is', this.state.users);
+          console.log('exerciseId returns', this.state.users);
 
-          if (this.state.exerciseId) {
+          if (this.state.exerciseId.length) {
             this.getExercise();
             this.setState({ simpleDash: false });
           }
@@ -35,6 +36,15 @@ class Dashboard extends React.Component {
           console.log('no exercises');
           this.setState({ simpleDash: true });
         }));
+
+    // const paginateOptions = {
+    //   'userId': Auth.currentUserId(),
+    //   'page': 1,
+    //   'sort': { 'startDate': -1 },
+    //   'limit': 1
+    // };
+    // axios.post('/api/exerciseplans/paginate', paginateOptions)
+    //   .then(res => console.log(res.data));
   }
 
   getExercise = () => { // sets the exercises from the current plan on the state

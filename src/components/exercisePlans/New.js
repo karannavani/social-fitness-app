@@ -47,7 +47,8 @@ export default class ExercisePlanNew extends React.Component {
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
-    axios.post(`/api/users/${Auth.currentUserId}/exerciseplan`, {exercisePlanId: planId} )
+    axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId} )
+      .then(res => console.log('res is', res.data))
       .catch(err => console.log('add exerciseplan id error', err));
   }
 
@@ -72,6 +73,11 @@ export default class ExercisePlanNew extends React.Component {
         }
       });
     } else if (name.includes('rest')) {
+      if (checked) {
+        console.log('checked');
+      } else {
+        console.log('not checked');
+      }
       this.setState({[name]: checked}, () => {
         console.log('state is', this.state);
       });
