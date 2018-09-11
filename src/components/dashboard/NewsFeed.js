@@ -35,11 +35,16 @@ export default class NewsFeed extends React.Component{
     return(
       <section className='columns'>
         {newsFeedItems &&
-          <div className='column is-12'>
-            <NewsCardAdoptCreate
-              user={newsFeedItems[0].user}
-              type={newsFeedItems[0].type}
-            />            
+          <div className='column is-8 is-centered is-mobile'>
+            {newsFeedItems.map(newsFeedItem =>
+              <NewsCardAdoptCreate
+                key={newsFeedItem._id}
+                user={newsFeedItem.user}
+                type={newsFeedItem.type}
+                exercisePlan={newsFeedItem.exercisePlanId}
+              />
+
+            )}
           </div>
         }
       </section>

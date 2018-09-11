@@ -1,19 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NewsCardAdoptCreate = ({ user, type }) => {
+const NewsCardAdoptCreate = ({ user, type, exercisePlan }) => {
   return(
     <article className="media">
       <figure className="media-left">
-        <p className="image is-64x64">
+        <p className="image is-96x96">
           <img src={user.imageUrl}/>
         </p>
       </figure>
       <div className="media-content">
         <div className="content">
-          <Link to={`/profile/${user._id}`} className='title is-4' >{user.username}</Link>
-          <p className='subtitle'>{user.tribe} </p>
+          <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
+          <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+          {/* <hr/> */}
+          <p> Adopted a new exercise
+            <Link to={`/exerciseplan/${exercisePlan._id}`}> plan </Link>
+             and has lined himself up for {exercisePlan.totalAvailableGrit} grit points
+          </p>
+          <p> The program is a total of {exercisePlan.totalTime} minutes and a {exercisePlan.intensityAvg} average intensity </p>
         </div>
+
         <nav className="level is-mobile">
           <div className="level-left">
             <a className="level-item">
@@ -27,9 +34,6 @@ const NewsCardAdoptCreate = ({ user, type }) => {
             </a>
           </div>
         </nav>
-      </div>
-      <div className="media-right">
-        <button className="delete"></button>
       </div>
     </article>
   );
