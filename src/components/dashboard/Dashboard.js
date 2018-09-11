@@ -61,16 +61,19 @@ class Dashboard extends React.Component {
     if (this.state.exercises) {
       const { exercises: { startDate } } = this.state; // getting startDate of the exercise
       // const today = moment.utc();
+      const today = moment();
       // const tomorrow = moment.utc().add(1, 'days');
-      const today = moment.utc().add(3, 'days'); //manual today for testing
-      const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
+      // const today = moment.utc().add(3, 'days'); //manual today for testing
+      // const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
+      const tomorrow = moment(today).add(1, 'days');//manual tomorrowfor testing
       this.setState({ momentToday: moment(today).unix()});
 
       for (let i = 1; i < 8; i++) {
 
         // generate 7 dates from the start date – these are the program dates
-        const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
-        // console.log('date is', date.format('DD/MM/YYYY'));
+        // const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
+        const date = moment.unix(startDate).add(i-1, 'days');
+        console.log('date is', date.format('DD/MM/YYYY'));
 
         // if a program date matches today's date, get the program at that index and set it as today's program
         if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
