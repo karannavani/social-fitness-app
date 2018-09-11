@@ -35,10 +35,9 @@ class Feed extends React.Component {
 
   createDots = () => {
     const timeArr = [];
-
     for (let i = 1; i < 8; i++) {
-      if(this.props.exercises.day1.exerciseCompleted){
-        switch(this.props.exercises[`day${i}`].exerciseCompleted) {
+      if(this.state.exercises.day1.exerciseCompleted || !this.state.exercises.day1.exerciseCompleted  ){
+        switch(this.state.exercises[`day${i}`].exerciseCompleted) {
           case (null):
             // console.log('grey');
             this.getGrit(this.props.exercises[`day${i}`]);

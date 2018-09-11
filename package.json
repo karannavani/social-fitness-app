@@ -9,9 +9,14 @@
       "src/*"
     ]
   },
+  "engines": {
+  "node": "9.10.0"
+  },
   "scripts": {
     "start:server": "nodemon",
     "start:client": "webpack-dev-server",
+    "build": "webpack -p",
+    "start": "yarn build && node index",
     "seed": "node db/seeds"
   },
   "dependencies": {
