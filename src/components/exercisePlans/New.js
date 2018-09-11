@@ -35,8 +35,10 @@ export default class ExercisePlanNew extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const newPlanData = this.state;
+    newPlanData.user = Auth.currentUserId();
 
-    axios.post('/api/exerciseplans', this.state)
+    axios.post('/api/exerciseplans', newPlanData)
       .then(res => console.log('res is', res))
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
