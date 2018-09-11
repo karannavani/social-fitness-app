@@ -27,7 +27,7 @@ class Dashboard extends React.Component {
         () => {
           console.log('user is', this.state.users);
 
-          if (this.state.exerciseId.length) {
+          if (this.state.exerciseId) {
             this.getExercise();
             this.setState({ simpleDash: false });
           }

@@ -30,41 +30,48 @@ const modelTypeEnums = [
   'logWorkout',
   'createPlan',
   'adoptPlan',
+  'completePlan',
   'createChallenge',
   'completeChallenge',
   'tribeChange',
   'register',
-  'updateDetails'
+  'updateDetails',
+  'follow'
 ];
 
 const feedSchema = new mongoose.Schema({
-  user: {type: ObjectId, required: true, ref: 'User'},     // NOTE: populated
-  type: {type: String, enum: modelTypeEnums},
+  user: { type: ObjectId, required: true, ref: 'User' },     // NOTE: populated
+  type: { type: String, enum: modelTypeEnums, requried: true },
 
   // logWorkout - create/adopt plan
-  // NOTE: if we give out own ID then we can access the populated virtuals for each plan
+  // NOTE: if we give our own ID then we can access the populated virtuals for each plan
   time: Number,
   intensity: String,
   dailyEarnedGrit: Number,
-  planName: String,
-  planId: {type: ObjectId, ref: 'ExercisePlan'}, // NOTE: populate this to get all the workout details
-  planAdoptedFromId: {type: ObjectId, ref: 'ExercisePlan'},
+  exercisePlanName: String, // NOTE: can get this out of the populated plan
+  exercisePlanId: { type: ObjectId, ref: 'ExercisePlan' }, // NOTE: populate this to get all the workout details
+  exercisePlanAdoptedFromId: { type: ObjectId, ref: 'ExercisePlan' },
 
   //  register - details update
   // NOTE: if we have our own ID then we can access all the data, more important to know what has changed was
-  firstNameChanged: {type: Boolean, default: false },
-  surnameChanged: {type: Boolean, default: false },
-  ageChanged: {type: Boolean, default: false },
-  heightChanged: {type: Boolean, default: false },
-  heightUnitChanged: {type: Boolean, default: false },
-  weightChanged: {type: Boolean, default: false },
-  weightUnitChanged: {type: Boolean, default: false },
-  imageUrlChanged: {type: Boolean, default: false },
+  firstNameChanged: { type: Boolean },
+  surnameChanged: { type: Boolean },
+  ageChanged: { type: Boolean },
+  heightChanged: { type: Boolean },
+  heightUnitChanged: { type: Boolean },
+  weightChanged: { type: Boolean },
+  weightUnitChanged: { type: Boolean },
+  imageUrlChanged: { type: Boolean },
 
   // follow
-  followId: { type: ObjectId, ref: 'User' } // NOTE: populate this if available
-
+  followUserId: { type: ObjectId, ref: 'User' }, // NOTE: populate this if available
+  newFollow: { type: Boolean },
+  unFollow: { type: Boolean }
 
 }, {timestamps: true});
+
+// make sure the virtuals get added
+feedSchema.set('toObject', { virtuals: true });
+feedSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('Feed', feedSchema);

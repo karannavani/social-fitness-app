@@ -10,15 +10,16 @@ const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const exercisePlanController = require('../controllers/exercisePlanController');
 const tribeController = require('../controllers/tribeController');
+const feedController = require('../controllers/feedController');
 
-// // AUTH ROUTES
+//-------- AUTH ROUTES
 Router.route('/login')
   .post(authController.login);
 //
 Router.route('/register')
   .post(authController.register);
 
-// USER ROUTES
+//------- USER ROUTES
 Router.route('/users')
   .get(userController.index);
 
@@ -30,15 +31,19 @@ Router.route('/users/:id')
 
 Router.route('/users/:userId/follow')
   .post(userController.createFollow)
-  .put(userController.deleteFollow); // NOTE: will follow have its own ID?
+  .put(userController.deleteFollow);
 
 Router.route('/users/:id/grit')
   .post(userController.createGrit);
 
-// EXERCISE ROUTES
+Router.route('/users/:id/exerciseplan')
+  .post(userController.updateExercisePlan);
+
+
+//------- EXERCISE ROUTES
 Router.route('/exerciseplans')
   .get(exercisePlanController.index)
-  .post(exercisePlanController.create); // NOTE: also take care of adopt
+  .post(exercisePlanController.create); // NOTE: also takes care of adopt
 
 Router.route('/exerciseplans/paginate')
   .post(exercisePlanController.paginate);
@@ -49,15 +54,21 @@ Router.route('/exerciseplans/:id')
   .patch(exercisePlanController.updateDay)
   .delete(exercisePlanController.delete);
 
+
+//---------TRIBE ROUTES
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
 
 Router.route('/tribes')
   .get(tribeController.index);
 
-// Router.route('/exercise/:id/adopt');
+//------- FEED ROUTES
+Router.route('/feed')
+  .post(feedController.create)
+  .get(feedController.index);
 
-
+Router.route('/feed/:id')
+  .get(feedController.show);
 
 
 

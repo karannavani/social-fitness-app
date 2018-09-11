@@ -1,18 +1,24 @@
 const mongoose = require('mongoose');
+
+//MODELS
 const User = require('../models/user');
 const ExercisePlan = require('../models/exercisePlan');
+const Feed = require('../models/feed');
+
+//DEPENDANCIES
 const moment = require('moment');
 const Chance = require('chance');
 const chance = new Chance();
+const Id = require('../src/lib/Id');
 
+//MONGOOSE CONNECTION
 const { dbUri } = require('../config/environment');
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbUri);
 
+// GLOGBAL VARIABLE
 const today = moment().unix();
 const dayInSeconds = 86400;
-
-
 
 //////// NOTE: make sure to increase number of ids so can increase the number of seeds
 const userIds = [
@@ -31,9 +37,9 @@ const userIds = [
 
 ]; //60 ids
 
-function randomNumber(){
-  return Math.floor(Math.random() * 10000000000000);
-}
+// function randomNumber(){
+//   return Math.floor(Math.random() * 10000000000000);
+// }
 
 /////////////////////////////////////////////////////////////////////
 ////////////----------CREATE  USERS-----------///////////////////////
@@ -73,7 +79,7 @@ function addOtherUser(){
   for(let i = 3; i < userIds.length; i++ ){
     otherUserData.push(
       {
-        _id: userIds[i],
+        _id: Id.create(),
         username: chance.first() + randomAge(),
         email: chance.email(),
         password: 'pass',
@@ -435,6 +441,7 @@ const exerciseData = [...activeExercisePlans, ...origionalHistoricExercisePlans,
 ////////////------SEED PROMISE CHAIN----------///////////////////////
 ExercisePlan.collection.drop();
 User.collection.drop();
+Feed.collection.drop();
 
 User.create(userData)
   .then(users => {

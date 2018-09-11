@@ -112,14 +112,11 @@ exercisePlanSchema.virtual('intensityAvg')
 // Returns the total exercise time required in a program
 exercisePlanSchema.virtual('totalTime')
   .get( function() {
-    const timesArray = [];
+    const timesArray = [0];
     for(let i = 1; i < 8; i++){
       if(this[`day${i}`].time){
         timesArray.push(this[`day${i}`].time);
       }
-    }
-    if(!timesArray.length){
-      return null;
     }
     return timesArray.reduce((sum, time) => sum + time);
   });
@@ -127,14 +124,11 @@ exercisePlanSchema.virtual('totalTime')
 //returns the average workout time per day. totalTime/#non rest days in plan
 exercisePlanSchema.virtual('workoutTimeAvg')
   .get( function() {
-    const timesArray = [];
+    const timesArray = [0];
     for(let i = 1; i < 8; i++){
       if(this[`day${i}`].time){
         timesArray.push(this[`day${i}`].time);
       }
-    }
-    if(!timesArray.length){
-      return null;
     }
     return Math.floor(timesArray.reduce((sum, time) => sum + time) / 7);
   });
@@ -142,24 +136,19 @@ exercisePlanSchema.virtual('workoutTimeAvg')
 // returns the total grit earned in a program is it is historical, returns null if not
 exercisePlanSchema.virtual('totalGrit')
   .get( function() {
-    const gritArray = [];
+    const gritArray = [0];
     for(let i = 1; i < 8; i++){
       if(this[`day${i}`].dailyGrit){
         gritArray.push(this[`day${i}`].dailyGrit);
       }
     }
-    if(!gritArray.length){
-      return null;
-    }
-    return gritArray.reduce((sum, grit) =>{
-      return sum + grit;
-    }, 0);
+    return gritArray.reduce((sum, grit) => sum + grit );
   });
 
 // returns the total avialable grit for created plans
 exercisePlanSchema.virtual('totalAvailableGrit')
   .get( function(){
-    const planAvailableGrit = [];
+    const planAvailableGrit = [0];
 
     for(let i = 1; i < 8; i++){
 
@@ -173,9 +162,6 @@ exercisePlanSchema.virtual('totalAvailableGrit')
       }
     }
 
-    if(!planAvailableGrit.length){
-      return null;
-    }
     return planAvailableGrit.reduce((sum, grit) => sum + grit);
   });
 
@@ -212,10 +198,6 @@ exercisePlanSchema.virtual('activePlan')
 
     return true;
   });
-
-// LIFECYCLE HOOKS
-//  set the date for each day based on the start date prior to saving
-//  NOTE: might be worth moving the program day logic here if we need day dates on more than one place
 
 module.exports = mongoose.model('ExercisePlan', exercisePlanSchema);
 

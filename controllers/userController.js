@@ -71,6 +71,17 @@ function addUserGrit( req, res, next ){
   // body needs to be an object containing a date and a grit number
 }
 
+function updateExercisePlan( req, res, next ){
+  User
+    .findById(req.params.id)
+    .then(user => {
+      user.exercisePlan = req.body.exercisePlanId;
+      return user.save();
+    })
+    .then(user => res.json(user))
+    .catch(next);
+}
+
 
 //------------- SOCIAL ------------//
 function userFollowDelete( req, res, next ){
@@ -92,8 +103,6 @@ function userFollowDelete( req, res, next ){
     })
     .then(user2 => res.json(user2))
     .catch(next);
-
-
   //remove the user from the other users followers array
   //remove the other user from the users following array
 }
@@ -135,6 +144,7 @@ module.exports = {
 
   // Application
   createGrit: addUserGrit,
+  updateExercisePlan: updateExercisePlan,
 
   //social
   createFollow: userFollowCreate,
