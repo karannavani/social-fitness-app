@@ -16,6 +16,9 @@ app.use(morgan('dev'));
 app.use('/api', Router);
 app.use(errorHandler);
 
+app.use(express.static(`${__dirname}/public`));
+app.get('/*', (req, res) => res.sendFile(`${__dirname}/public/index.html`));
+
 app.listen(port, () => console.log(`Express is running on port ${port}`));
 
 module.exports = app;
