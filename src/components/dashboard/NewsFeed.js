@@ -35,7 +35,6 @@ export default class NewsFeed extends React.Component{
     const { newsFeedItems } = this.state;
     return(
       <section className='columns'>
-<<<<<<< HEAD
         {newsFeedItems &&
           <div className='column is-8 is-centered is-mobile'>
             {newsFeedItems.map(newsFeedItem =>
@@ -47,17 +46,8 @@ export default class NewsFeed extends React.Component{
               />
 
             )}
-=======
-        {/* {newsFeedItems &&
-          <div className='column is-12'>
-            <NewsCardAdoptCreate
-              user={newsFeedItems[0].user}
-              type={newsFeedItems[0].type}
-            />
->>>>>>> user-dashboard
           </div>
-        } */}
-        <LogWorkout />
+        }
       </section>
     );
   }
