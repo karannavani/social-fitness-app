@@ -18,6 +18,21 @@ export default class NewsFeed extends React.Component{
     limit: [3]
   };
 
+  // componentDidMount() {
+  //   const paginateOptions = {
+  //     'page': this.state.page,
+  //     'sort': {'createdAt': -1 },
+  //     'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
+  //     'limit': this.state.limit[0]
+  //   };
+  //
+  //   axios.post('/api/feed/paginate', paginateOptions)
+  //     .then(res => {
+  //       const sortedFeed = this.sortFeed(res.data.docs);
+  //       this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
+  //     });
+  // }
+
   componentDidUpdate(prevProps, prevState) {
     // console.log('component tried to update outside');
     // console.log('prev state.limit is ', prevState.limit);
@@ -86,12 +101,12 @@ export default class NewsFeed extends React.Component{
                     intensity = {newsFeedItem.intensity}
                   />
                 );
-              case 'register':
-                return(
-                  <NewsCardNewRegister
-                    user={newsFeedItem.user}
-                  />
-                );
+              // case 'register':
+              //   return(
+              //     <NewsCardNewRegister
+              //       user={newsFeedItem.user}
+              //     />
+              //   );
             }
           }
           )}

@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import Aside from './Aside';
 import Feed from './Feed';
-import SimpleDash from './SimpleDash';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
 
@@ -17,36 +16,43 @@ class Dashboard extends React.Component {
     unloggedExercises: [],
     unloggedDays: [],
     editProgram: false,
-    feedUpdate: {}
+    feedUpdate: {},
+    userChallenges: []
   }
   // shareExercises = (exerciseData) =>{
   //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
   // }
   componentDidMount() {
+    axios.get('/api/challenges')
+      .then(res => this.setState({ challenges: res.data },
+        () => {
+          console.log('challenges are', this.state.challenges);
+          this.checkChallenges();
+        }));
+
+
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
-          // console.log('user is', this.state.users);
-          // console.log('exerciseId returns', this.state.users);
-          // console.log('exercise id is', this.state.exerciseId[0]);
-
           if (this.state.exerciseId.length) {
             this.getExercise();
-            this.setState({ simpleDash: false });
           }
 
-          console.log('no exercises');
-          this.setState({ simpleDash: true });
         }));
 
-    // const paginateOptions = {
-    //   'userId': Auth.currentUserId(),
-    //   'page': 1,
-    //   'sort': { 'startDate': -1 },
-    //   'limit': 1
-    // };
-    // axios.post('/api/exerciseplans/paginate', paginateOptions)
-    //   .then(res => console.log(res.data));
+  }
+
+
+
+  checkChallenges = () => {
+    const myChallenges = this.state.userChallenges;
+    this.state.challenges.forEach(challenge => {
+      if (challenge.challengers.includes(Auth.currentUserId())) {
+        myChallenges.push(challenge);
+        this.setState({ userChallenges: myChallenges },
+          () => console.log('updated user challenge is', this.state.userChallenges));
+      }
+    });
   }
 
   getExercise = () => { // sets the exercises from the current plan on the state
@@ -225,18 +231,15 @@ class Dashboard extends React.Component {
           />
         }
         {/* // NOTE: put conditional render here when there is no data */}
-        {this.state.exercises && this.state.goRender &&
+
         <Feed
           exercises = {this.state.exercises}
           forceUpdate = {this.state.forceUpdate}
           userGrit = {this.state.userGrit}
           ref={this.child}
+          userChallenges = {this.state.userChallenges}
         />
-        }
 
-        {this.state.simpleDash &&
-          <SimpleDash />
-        }
       </div>
     );
   }

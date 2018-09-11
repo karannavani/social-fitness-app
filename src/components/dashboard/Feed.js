@@ -8,21 +8,14 @@ class Feed extends React.Component {
   state = {
     render: false,
     dotsArr: [],
-    timeArr: [],
-    userChallenges: []
+    timeArr: []
   }
 
   componentDidMount() {
-    axios.get('/api/challenges')
-      .then(res => this.setState({ challenges: res.data },
-        () => {
-          console.log('challenges are', this.state.challenges);
-          this.checkChallenges();
-        }));
 
-    this.setState({ exercises: this.props.exercises }, () => {
-      // console.log('feed looks like', this.state.exercises);
-      this.createDots();
+    this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
+      console.log('feed looks like', this.state.exercises);
+      if (this.props.exercises) this.createDots();
     });
 
   }
@@ -31,26 +24,11 @@ class Feed extends React.Component {
     // console.log('prev props is ==>', prevProps.exercises);
     // console.log('state exercises is ==>', this.state.exercises);
     if (prevProps.exercises !== this.props.exercises) {
-      // console.log('this.props.exercise is', this.props.exercises);
+      console.log('this.props.exercise is', this.props.exercises);
       this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
-        this.createDots();
+        if (this.props.exercises) this.createDots();
       });
     }
-  }
-
-  checkChallenges = () => {
-    const myChallenges = this.state.userChallenges;
-    this.state.challenges.forEach(challenge => {
-      if (challenge.challengers.includes(Auth.currentUserId())) {
-        myChallenges.push(challenge);
-        this.setState({ userChallenges: myChallenges },
-          () => console.log('updated user challenge is', this.state.userChallenges));
-      }
-    });
-  }
-
-  parentUpdate = () => {
-    // console.log('feed called');
   }
 
   createDots = () => {
@@ -116,7 +94,7 @@ class Feed extends React.Component {
             <h3 className="title is-3">Your Grit: <i className="fas fa-bolt" style={{color: '#363636'}}></i> {this.props.userGrit}</h3>
           </div>
 
-          {this.state.userChallenges.length &&
+          {/* {this.props.userChallenges.length &&
             <div className="card program-card">
               <div className="card-content">
                 <div className="columns is-multiline is-vcentered">
@@ -125,14 +103,14 @@ class Feed extends React.Component {
                   </div>
                   <div className="column is-pulled-left">
                     <h4 className="title is-4 white">Current challenges:</h4>
-                    {this.state.userChallenges.map(challenge =>
+                    {this.props.userChallenges.map(challenge =>
                       <h5 className="title is-5" key={challenge._id}>{challenge.name}</h5>
                     )}
                   </div>
                 </div>
               </div>
             </div>
-          }
+          } */}
 
           <div className="card program-card">
             <div className="card-content">
