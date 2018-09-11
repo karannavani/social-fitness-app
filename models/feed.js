@@ -47,26 +47,24 @@ const feedSchema = new mongoose.Schema({
   intensity: String,
   dailyEarnedGrit: Number,
   planName: String,
-  planId: {type: ObjectId, ref: 'ExercisePlan'},
+  planId: {type: ObjectId, ref: 'ExercisePlan'}, // NOTE: populate this to get all the workout details
   planAdoptedFromId: {type: ObjectId, ref: 'ExercisePlan'},
 
   //  register - details update
-  // NOTE: if we have our own ID then we can access all the data, more important to know what the type was
-  firstName: { type: String},
-  surname: { type: String},
-  age: { type: Number},
-  height: { type: Number, default: 0 },
-  heightUnit: { type: String, default: 'cm'},
-  weight: { type: Number, default: 0 },
-  weightUnit: { type: String, default: 'kg'},
-  imageUrl: { type: String, default: 'https://i0.wp.com/ebus.ca/wp-content/uploads/2017/08/profile-placeholder.jpg?ssl=1'},
+  // NOTE: if we have our own ID then we can access all the data, more important to know what has changed was
+  firstNameChanged: {type: Boolean, default: false },
+  surnameChanged: {type: Boolean, default: false },
+  ageChanged: {type: Boolean, default: false },
+  heightChanged: {type: Boolean, default: false },
+  heightUnitChanged: {type: Boolean, default: false },
+  weightChanged: {type: Boolean, default: false },
+  weightUnitChanged: {type: Boolean, default: false },
+  imageUrlChanged: {type: Boolean, default: false },
 
   // follow
-  followId: { type: ObjectId, ref: 'User' }
+  followId: { type: ObjectId, ref: 'User' } // NOTE: populate this if available
 
 
 }, {timestamps: true});
-
-
 
 module.exports = mongoose.model('Feed', feedSchema);
