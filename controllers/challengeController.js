@@ -14,9 +14,23 @@ function challengesShow(req, res, next) {
     .catch(next);
 }
 
+function challengeUpdate(req, res, next) {
+  Challenge
+    .findById(req.params.id)
+    .then(challenge => {
+      challenge.challengers.push(req.body.id);
+      // .then(challenge => challenge.set(req.body))
+      return challenge.save();
+    })
+    .then(challenge => res.json(challenge))
+    .catch(next);
+
+}
+
 
 
 module.exports = {
   index: challengesIndex,
-  show: challengesShow
+  show: challengesShow,
+  update: challengeUpdate
 };

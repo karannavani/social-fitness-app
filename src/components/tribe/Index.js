@@ -55,7 +55,7 @@ export default class TribesIndex extends React.Component{
       const reducedWeight = (tribeWeight.reduce((a, b) => {
         return (a + b);
       }, 0)/ tribeWeight.length);
-      this.setState({ [name]: reducedWeight }, () => console.log('state is', this.state));
+      this.setState({ [name]: reducedWeight });
     });
   }
 
@@ -95,7 +95,6 @@ export default class TribesIndex extends React.Component{
   tribeEarnedToday = (users, name) => {
     const tribeToday = [];
     users.forEach(member => {
-      console.log('made it here');
       tribeToday.push(member.dailyGrit[0].grit);
       const reducedToday = (tribeToday.reduce((a, b) => {
         return (a + b);

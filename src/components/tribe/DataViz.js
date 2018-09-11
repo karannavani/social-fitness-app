@@ -23,7 +23,6 @@ class Graphs extends React.Component{
     };
     axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => this.setState({ userAvailableGrit: res.data.docs }, () => {
-        console.log('1st state: userAvailableGrit is', res.data.docs);
         this.userAvailableGrit();
       }
       ));
@@ -84,9 +83,7 @@ class Graphs extends React.Component{
         chartAvailableGrit.push(userAvailableGrit[i].totalAvailableGrit);
       }
     }
-    this.setState({ userAvailableGrit: chartAvailableGrit }, () => {
-      console.log('2nd state: userAvailableGrit is', chartAvailableGrit);
-    });
+    this.setState({ userAvailableGrit: chartAvailableGrit });
   }
 
   render() {
@@ -99,19 +96,15 @@ class Graphs extends React.Component{
               userGrit={this.state.user.grit}
             />}
         </div>
-        <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
+        <div className="column is-half user-grit-vs-time" style={{ height: '50vh', width: '50%'}}>
           {this.state.userGritHistory &&
           <UserGritVsTime userGritHistory={this.state.userGritHistory} />
           }
         </div>
-        <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
-          <p className="title is-6">Challenges</p>
+        <div className="column challenges-index" style={{ height: '50vh', width: '50%'}}>
+          <p className="title is-12 has-text-centered">Challenges</p>
           <hr />
           <ChallengesIndex />
-
-        </div>
-        <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
-          <p>Time and intensity table</p>
 
         </div>
       </div>

@@ -121,13 +121,13 @@ const challengeData = [
     challengeGrit: 30
   },
   {
-    name: 'Swimming',
+    name: '30min Swim',
     type: 'Timed',
     time: 30,
     challengeGrit: 30
   },
   {
-    name: 'Swimming',
+    name: '1hr Swim',
     type: 'Timed',
     time: 60,
     challengeGrit: 60
