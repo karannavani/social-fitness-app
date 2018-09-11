@@ -75,7 +75,8 @@ function updateExercisePlan( req, res, next ){
   User
     .findById(req.params.id)
     .then(user => {
-      user.exercisePlan = req.body.exercisePlanId;
+      user.exercisePlan.pop();
+      user.exercisePlan.push(req.body.exercisePlanId);
       return user.save();
     })
     .then(user => res.json(user))

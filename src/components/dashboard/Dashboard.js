@@ -26,8 +26,9 @@ class Dashboard extends React.Component {
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
           console.log('user is', this.state.users);
+          console.log('exerciseId returns', this.state.users);
 
-          if (this.state.exerciseId) {
+          if (this.state.exerciseId.length) {
             this.getExercise();
             this.setState({ simpleDash: false });
           }

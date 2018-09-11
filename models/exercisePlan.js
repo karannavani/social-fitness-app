@@ -156,9 +156,9 @@ exercisePlanSchema.virtual('totalAvailableGrit')
         const dayIntensity = this[`day${i}`].intensity.toLowerCase();
         const dayTime = this[`day${i}`].time;
         const dailyAvailableGrit = calculateGrit(dayIntensity, dayTime );
-
-
         planAvailableGrit.push(dailyAvailableGrit);
+      } else {
+        return null;
       }
     }
 
