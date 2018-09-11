@@ -4,6 +4,8 @@ import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
 import Id from '../../lib/Id';
+import Request from '../../lib/Request';
+
 
 export default class ExercisePlanNew extends React.Component {
   state = {
@@ -39,14 +41,24 @@ export default class ExercisePlanNew extends React.Component {
     newPlanData._id = planId;
     newPlanData.user = Auth.currentUserId();
 
+    const feedBody = {
+      user: Auth.currentUserId(),
+      type: 'createPlan',
+      exercisePlanId: planId
+    };
+    Request.updateFeed(feedBody);
+
     axios.post('/api/exerciseplans', newPlanData)
       .then(res => console.log('res is', res))
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
-    axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId} )
-      .then(res => console.log('res is', res.data))
-      .catch(err => console.log('add exerciseplan id error', err));
+    if(this.state.autoValidate) {
+      axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId} )
+        .then(res => console.log('res is', res.data))
+        .catch(err => console.log('add exerciseplan id error', err));
+    }
+
   }
 
   // }

@@ -5,7 +5,8 @@ import axios from 'axios';
 import Auth from '../../lib/Auth';
 
 //componenets
-import NewsCardAdoptCreate from './newsFeedCards/AdoptCreate';
+import AdoptPlan from './newsFeedCards/AdoptPlan';
+import CreatePlan from './newsFeedCards/CreatePlan';
 import LogWorkout from './newsFeedCards/LogWorkout';
 
 export default class NewsFeed extends React.Component{
@@ -49,10 +50,17 @@ export default class NewsFeed extends React.Component{
               switch(newsFeedItem.type){
                 case 'adoptPlan':
                   return(
-                    <NewsCardAdoptCreate
+                    <AdoptPlan
                       key={newsFeedItem._id}
                       user={newsFeedItem.user}
-                      type={newsFeedItem.type}
+                      exercisePlan={newsFeedItem.exercisePlanId}
+                    />
+                  );
+                case 'createPlan':
+                  return(
+                    <CreatePlan
+                      key={newsFeedItem._id}
+                      user={newsFeedItem.user}
                       exercisePlan={newsFeedItem.exercisePlanId}
                     />
                   );
