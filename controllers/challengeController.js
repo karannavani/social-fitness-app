@@ -7,8 +7,16 @@ function challengesIndex( req, res, next) {
     .catch(next);
 }
 
+function challengesShow(req, res, next) {
+  Challenge
+    .findById(req.params.id)
+    .then(challenge => res.json(challenge))
+    .catch(next);
+}
+
 
 
 module.exports = {
-  index: challengesIndex
+  index: challengesIndex,
+  show: challengesShow
 };

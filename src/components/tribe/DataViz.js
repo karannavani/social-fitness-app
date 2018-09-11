@@ -4,6 +4,7 @@ import Auth from '../../lib/Auth';
 
 import TribeVsUserChart from './TribeVsUserChart';
 import UserGritVsTime from './UserGritVsTime';
+import ChallengesIndex from '../challenges/Index'
 
 
 class Graphs extends React.Component{
@@ -104,8 +105,10 @@ class Graphs extends React.Component{
           }
         </div>
         <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
+          <p className="title is-6">Challenges</p>
+          <hr />
+          <ChallengesIndex />
 
-          <p>Tribe grit available vs achieved</p>
         </div>
         <div className="column is-half" style={{ height: '50vh', width: '50%'}}>
           <p>Time and intensity table</p>

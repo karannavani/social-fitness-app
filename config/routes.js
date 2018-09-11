@@ -74,6 +74,8 @@ Router.route('/feed/:id')
 Router.route('/challenges')
   .get(challengeController.index);
 
+Router.route('/challenges/:id')
+  .get(challengeController.show);
 
 
 module.exports = Router;
