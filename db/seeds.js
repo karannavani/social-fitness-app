@@ -123,7 +123,8 @@ const challengeData = [
     name: '10km Run',
     type: 'Distance',
     distance: 10,
-    challengeGrit: 60
+    challengeGrit: 60,
+    challengers: ['5b91752666708bc8b1622705']
   },
   {
     name: '5km Run',
