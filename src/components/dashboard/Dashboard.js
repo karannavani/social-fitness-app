@@ -36,12 +36,7 @@ class Dashboard extends React.Component {
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
-          console.log('user on dash looks like', this.state.users);
-          console.log('exerciseId looks like', this.state.exerciseId);
-          if (this.state.exerciseId.length) {
-            this.getExercise();
-          }
-
+          this.getExercise();
         }));
 
   }
@@ -74,8 +69,8 @@ class Dashboard extends React.Component {
     });
   }
 
-  completeChallenge = () => {
-
+  handleChallenge = (event) => {
+    console.log('clicked', event.target.id);
   }
 
   // ************ CHALLENGES LOGIC **************
@@ -278,6 +273,7 @@ class Dashboard extends React.Component {
           ref={this.child}
           userChallenges = {this.state.userChallenges}
           user = {this.state.users}
+          handleChallenge = {this.handleChallenge}
         />
         }
 
