@@ -261,39 +261,48 @@ class Dashboard extends React.Component {
 
   render() {
     return(
-      <div className="columns">
-        {this.state.exercises && this.state.goRender &&
-          <Aside
-            exercises = {this.state.exercises}
-            exerciseId = {this.state.exerciseId}
-            editProgram = {this.state.editProgram}
-            programToday = {this.state.programToday}
-            programDay = {this.state.programDay}
-            programTomorrow = {this.state.programTomorrow}
-            tomorrowRest =  {this.state.tomorrowRest}
-            rest = {this.state.rest}
-            unloggedExercises = {this.state.unloggedExercises}
-            unloggedDays = {this.state.unloggedDays}
-            parentUpdate = {this.parentUpdate}
-            handleEdit = {this.handleEdit}
-            handleProgramClick = {this.handleProgramClick}
-            handleEditSubmit = {this.handleEditSubmit}
-          />
-        }
-        {/* // NOTE: put conditional render here when there is no data */}
+      <section className="container">
 
-        {this.state.users && <Feed
-          exercises = {this.state.exercises}
-          forceUpdate = {this.state.forceUpdate}
-          userGrit = {this.state.userGrit}
-          ref={this.child}
-          userChallenges = {this.state.userChallenges}
-          user = {this.state.users}
-          handleChallenge = {this.handleChallenge}
-        />
-        }
+        <div className="columns">
+          <div className="column is-3">
+
+            {this.state.exercises && this.state.goRender &&
+              <Aside
+                exercises = {this.state.exercises}
+                exerciseId = {this.state.exerciseId}
+                editProgram = {this.state.editProgram}
+                programToday = {this.state.programToday}
+                programDay = {this.state.programDay}
+                programTomorrow = {this.state.programTomorrow}
+                tomorrowRest =  {this.state.tomorrowRest}
+                rest = {this.state.rest}
+                unloggedExercises = {this.state.unloggedExercises}
+                unloggedDays = {this.state.unloggedDays}
+                parentUpdate = {this.parentUpdate}
+                handleEdit = {this.handleEdit}
+                handleProgramClick = {this.handleProgramClick}
+                handleEditSubmit = {this.handleEditSubmit}
+              />
+            }
+            {/* // NOTE: put conditional render here when there is no data */}
+
+          </div>
+          <div className="column is-9">
+
+            {this.state.users && <Feed
+              exercises = {this.state.exercises}
+              forceUpdate = {this.state.forceUpdate}
+              userGrit = {this.state.userGrit}
+              ref={this.child}
+              userChallenges = {this.state.userChallenges}
+              user = {this.state.users}
+              handleChallenge = {this.handleChallenge}
+            />
+          }
+        </div>
 
       </div>
+      </section>
     );
   }
 }

@@ -6,7 +6,7 @@ const TodayCard = ({editProgram, programToday, programDay, handleEdit, handleEdi
   return(
     <div className="card aside-program-card">
       <div className="card-content">
-        <h3 key="0" className="title is-3 white">{programDay}</h3>
+        <h3 key="0" className="title is-3 sub-text">{programDay}</h3>
         {/* <h4 className="title is-4 white">{'Today\'s Plan:'}</h4> */}
 
         {editProgram ?

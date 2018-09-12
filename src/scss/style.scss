@@ -126,10 +126,14 @@ a:hover {
 // ============================== inputs and forms ====================
 
 .input {
-  background-color: #ffffff00;
+  background-color: #4c546099;
   border: none;
   box-shadow: none;
   color: white;
+}
+
+.input::placeholder {
+  color: #eaeaed;
 }
 
 .input-text {
@@ -169,7 +173,7 @@ a:hover {
 
 .aside-program-card {
   margin-bottom: 5px;
-  background-color: green;
+  background-color: #00aff7;
 }
 
 .card-content {
@@ -235,7 +239,7 @@ a:hover {
 }
 
 
-.program-card-completed {
+.card-completed {
   background: linear-gradient(90deg, #f8ff00 0%, #3ad59f 100%);  // margin-right: auto;
   margin: auto;
   margin-bottom: 20px;
@@ -250,11 +254,10 @@ a:hover {
 }
 
 .card-unlogged {
-  background: #232526;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-color: #555668;
   margin: auto;
   margin-bottom: 20px;
+  color: #eaeaed !important;
 }
 
 

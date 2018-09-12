@@ -204,8 +204,8 @@ export default class ExercisePlanShow extends React.Component{
                       min={today}
                       handleChange={this.handleChange}
                       state={this.state}
-                      // label='Choose your preferred start date'
                     />
+                    <hr />
                     <button onClick={this.handleAdoption} className='button auth-button'>Adopt</button>
                   </div>
                 }

@@ -91,6 +91,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-third">
@@ -101,6 +102,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
 
@@ -112,6 +114,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-full">
@@ -122,6 +125,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-half">
@@ -132,6 +136,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-half">
@@ -142,6 +147,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
 
@@ -153,6 +159,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-quarter">
@@ -163,6 +170,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-quarter">
@@ -173,6 +181,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-quarter">
@@ -194,6 +203,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
             <button className="button column is-info is-rounded is-3 is-offset-2">Register</button>
 

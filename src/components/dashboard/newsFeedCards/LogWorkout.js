@@ -17,7 +17,7 @@ const LogWorkout = ({ user, exercisePlan, grit, time, intensity }) => {
           <p>Completed a {time} minutes long workout today at {intensity.toLowerCase()} intensity,
             bringing in {grit} grit points!</p>
           <div className="card">
-            <div className="card-content program-card-completed">
+            <div className="card-content card-completed">
               <span className="feedLogWorkout"><i className="fas fa-stopwatch fas-regular"></i> {time}</span>
               <span className="feedLogWorkout"><i className="fas fa-fire fas-regular"></i> {intensity}</span>
               <span className="feedLogWorkout"><i className="fas fa-bolt fas-regular"></i> {grit}</span>
