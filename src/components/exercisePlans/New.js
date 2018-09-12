@@ -29,8 +29,6 @@ export default class ExercisePlanNew extends React.Component {
           this.setState({ autoValidate: true });
         }
       }));
-
-
   }
 
   handleSubmit = (event) => {

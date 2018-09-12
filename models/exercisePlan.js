@@ -159,7 +159,6 @@ exercisePlanSchema.virtual('totalAvailableGrit')
         planAvailableGrit.push(dailyAvailableGrit);
       }
     }
-
     return planAvailableGrit.reduce((sum, grit) => sum + grit);
   });
 
@@ -194,7 +193,6 @@ exercisePlanSchema.virtual('activePlan')
     const momEndDate = moment(momStartDate).add(6, 'days');
     const today = moment();
     if(moment(today).isBetween(momStartDate, momEndDate)) return true;
-
     return false;
   });
 

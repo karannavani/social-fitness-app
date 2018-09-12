@@ -39,12 +39,12 @@ export default class ExercisePlanShow extends React.Component{
 
     }else if(this.state.adopting){
 
-      if(this.validateStartDate()){
-        // const formattedDate = moment.unix(this.state.startDate).format('dddd, MMMM Do YYYY');
+      if(this.VstartDate(Auth.currentUserId(), this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans)){
+        const formattedDate = moment(this.state.newStartDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
-        Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${this.state.newStartDate}`);
+        Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${formattedDate}`);
       }else{
-        const sevenDaysTime = moment.utc(moment.unix(this.state.startDate)).add(7, 'days');
+        const sevenDaysTime = moment.unix(this.state.usersActivePlanStartDate).add(7, 'days');
         const formattedDate = moment(sevenDaysTime).format('dddd, MMMM Do YYYY');
         Flash.setMessage('danger', `You must choose a start date that starts after your current plan ends on ${formattedDate}`);
         this.props.history.push(this.props.location.path);
@@ -62,35 +62,53 @@ export default class ExercisePlanShow extends React.Component{
       return true;
     }
   }
+  // the usersActiveplan start date is correct on the server
+  // the usersActiveplan start date is correct on the client
+  // the correct future start date is displayed when wrong date is chosen
+  // the correct start date is displayed when correct date is chosen
 
-  //gets the users most recent program and sets the start date to state
+  // VstartDate = (userId, chosenStartDate, activePlanStartDate, futurePlans) => {
+  //   //get active plan
+  //   const momChosenStartDate = moment(chosenStartDate);
+  //   const activePlanEndDate = moment.unix(activePlanStartDate).add(6, 'days');
+  //
+  //   if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
+  //
+  //   console.log('made it past end of active date');
+  //   const futurePeriods = [];
+  //   futurePlans.forEach(plan => {
+  //     const momStartDate = moment.unix(plan.startDate);
+  //     console.log('the period moment start date is', momStartDate);
+  //     futurePeriods.push({
+  //       beforeDate: moment(momStartDate).subtract(7, 'days'),
+  //       endDate: moment(momStartDate).add(6, 'days')
+  //     });
+  //   });
+  //   console.log('the chosen moment start date is', momChosenStartDate);
+  //   console.log('the future periods are', futurePeriods);
+  //   return futurePlans.every( futurePeriod => {
+  //     console.log('the chosen date is not between the period====> ', !moment(momChosenStartDate).isBetween(futurePeriod.beforeDate, futurePeriod.endDate));
+  //     !moment(momChosenStartDate).isBetween(futurePeriod.beforeDate, futurePeriod.endDate);
+  //   });
+  // }
+
+  // Gets the users most recent program and sets the start date to state
   getUsersCurrentPlan = () =>{
-    const findOneOptions = {
-      'userId': Auth.currentUserId(),
-      'page': 1,
-      'sort': { 'startDate': -1 },
-      'limit': 1
-    };
-    axios.post('/api/exerciseplans/paginate', findOneOptions)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
       .then(res => {
-        this.setState({usersActivePlanStartDate: res.data.docs}, () => {
-          if(res.data.docs.length) {
-            this.setState({ usersActivePlanStartDate: res.data.docs[0].startDate });
-          }
-        });
-      }
-      );
+        this.setState({usersActivePlanStartDate: res.data[0].startDate});
+      });
+
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
+      .then(res => this.setState({futurePlans: res.data}));
   }
+
 
   createAdoptedPlan = () => {
     const adoptedPlan = this.packageAdoptionData();
     axios.post('/api/exerciseplans', adoptedPlan)
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
-
-    axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: this.state.newExercisePlanId} )
-      .then(res => console.log('res is', res.data))
-      .catch(err => console.log('add exerciseplan id error', err));
 
     const feedBody = {
       user: Auth.currentUserId(),
@@ -99,6 +117,8 @@ export default class ExercisePlanShow extends React.Component{
     };
     Request.updateFeed(feedBody);
   }
+
+
 
   // NOTE: this needs refactoring
   packageAdoptionData = () =>{
@@ -153,6 +173,9 @@ export default class ExercisePlanShow extends React.Component{
     return packagedData;
   }
 
+  //start date can only be after current program completes
+  //validte date input
+
   render(){
     const { state } = this;
     const today = moment().format('YYYY-MM-DD');
@@ -164,7 +187,8 @@ export default class ExercisePlanShow extends React.Component{
             <div className=' column is-8 columns is-mobile is-multiline'>
               <div className='column is-5'>
                 <h1 className='title is-5 white-title'>{state.name}</h1>
-                <h1 className='title is-5 white-title'>{!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  }</h1>
+                {/* {!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  } */}
+                <h1 className='title is-5 white-title'>Tribe name goes here</h1>
                 <p className="white-title"><i className="fas fa-stopwatch fas-regular"></i> Average: {state.workoutTimeAvg} minutes</p>
                 <p className="white-title"><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
               </div>
@@ -172,14 +196,15 @@ export default class ExercisePlanShow extends React.Component{
                 {!this.state.adopting ?
                   <button onClick={this.handleAdoption} className='button auth-button'>Want to Adopt?</button>
                   :
-                  <div>
+                  <div className="white-title">
+                    <h4 className="sub-text">Choose a start date</h4>
                     <FormInput
                       name='newStartDate'
                       type='date'
                       min={today}
                       handleChange={this.handleChange}
                       state={this.state}
-                      label='Choose your preferred start date'
+                      // label='Choose your preferred start date'
                     />
                     <button onClick={this.handleAdoption} className='button auth-button'>Adopt</button>
                   </div>

@@ -19,14 +19,11 @@ class Aside extends React.Component {
 
   componentDidMount() {
     this.setState({ exercises: this.props.exercises }, () => {
-      // console.log('feed looks like', this.state.exercises);
     });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.exercises !== this.props.exercises) {
-      console.log('this.props.exercise is', this.props);
-
       this.setState({ exercises: this.props.exercises });
     }
   }

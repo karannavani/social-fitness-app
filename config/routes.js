@@ -58,6 +58,9 @@ Router.route('/exerciseplans/:id')
 Router.route('/exerciseplans/:userId/active')
   .get(exercisePlanController.active);
 
+Router.route('/exerciseplans/:userId/future')
+  .get(exercisePlanController.future);
+
 //------- TRIBE ROUTES
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
