@@ -155,6 +155,8 @@ export default class ExercisePlanShow extends React.Component{
 
   render(){
     const { state } = this;
+    const today = moment().format('YYYY-MM-DD');
+
     return(
       <section className='container'>
         {state.day1 &&
@@ -197,10 +199,12 @@ export default class ExercisePlanShow extends React.Component{
                     <FormInput
                       name='newStartDate'
                       type='date'
+                      min={today}
                       handleChange={this.handleChange}
                       state={this.state}
                       label='Choose your preferred start date'
                     />
+
                     <button onClick={this.handleAdoption} className='button is-primary'>Adopt</button>
                   </div>
                 }

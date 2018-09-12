@@ -69,21 +69,18 @@ class Dashboard extends React.Component {
     });
   }
 
-  handleChallenge = (event) => {
-    console.log('clicked', event.target.id);
+  handleChallenge = ({target: {id}}) => {
+    console.log('clicked', id);
+    const [action, challengeId] = id.split(' ');
+    console.log('action is', action);
+    console.log('id is', challengeId);
+
+    
+
+    // if ()
   }
 
   // ************ CHALLENGES LOGIC **************
-
-  // getExercise = () => { // sets the exercises from the current plan on the state
-  //   // NOTE: this should be run conditonally if there is no execiseplan for the user
-  //   axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
-  //     .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
-  //       console.log('exercises are', this.state.exercises);
-  //       this.getProgram();
-  //     }
-  //     ));
-  // }
 
   getExercise = () => { // sets the exercises from the current plan on the state
     // NOTE: this should be run conditonally if there is no execiseplan for the user
