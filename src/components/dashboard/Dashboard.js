@@ -22,6 +22,8 @@ class Dashboard extends React.Component {
   // shareExercises = (exerciseData) =>{
   //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
   // }
+
+  // Getting all the challenges
   componentDidMount() {
     axios.get('/api/challenges')
       .then(res => this.setState({ challenges: res.data },
@@ -30,7 +32,7 @@ class Dashboard extends React.Component {
           this.checkChallenges();
         }));
 
-
+    //Getting user exercises
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
@@ -46,6 +48,21 @@ class Dashboard extends React.Component {
 
 
 
+
+  // getExercise = () => { // sets the exercises from the current plan on the state
+  //   // NOTE: this should be run conditonally if there is no execiseplan for the user
+  //   axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+  //     .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
+  //       console.log('exercise is', this.state.exercises);
+  //       this.getProgram();
+  //     }
+  //     ));
+  // }
+
+  // ************** CORE FEED FUNCTIONS ******************************
+
+  // ************ CHALLENGES LOGIC **************
+
   checkChallenges = () => {
     const myChallenges = this.state.userChallenges;
     this.state.challenges.forEach(challenge => {
@@ -56,6 +73,12 @@ class Dashboard extends React.Component {
       }
     });
   }
+
+  completeChallenge = () => {
+    
+  }
+
+  // ************ CHALLENGES LOGIC **************
 
   getExercise = () => { // sets the exercises from the current plan on the state
     // NOTE: this should be run conditonally if there is no execiseplan for the user
@@ -209,6 +232,9 @@ class Dashboard extends React.Component {
 
     });
   }
+
+  // ************** CORE FEED FUNCTIONS ******************************
+
 
 
   render() {
