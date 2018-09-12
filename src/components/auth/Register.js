@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import Chance from 'chance';
 const chance = new Chance();
 
@@ -25,7 +26,11 @@ export default class AuthRegister extends React.Component{
     firstName: 'Kristi',
     surname: 'Sayer',
     username: 'Mooapples',
-    age: 28
+    age: 28,
+    dailyGrit: [{
+      date: moment().unix(),
+      grit: 100
+    }]
   }
 
   componentDidMount(){
@@ -59,6 +64,8 @@ export default class AuthRegister extends React.Component{
         const errors = {...this.state.errors, ...err.response.data.errors};
         this.setState({ errors });
       });
+
+
   }
 
   handleChange = (event) => {
