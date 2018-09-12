@@ -21,6 +21,19 @@ function exercisePlanShow(req, res, next) {
     .catch(next);
 }
 
+function exercisePlanActive( req, res, next ){
+  ExercisePlan
+    .find()
+    .then(exercisePlans => {
+      return exercisePlans.filter(exercisePlan => exercisePlan.user.toString() === req.params.userId);
+    })
+    .then(usersPlans =>{
+      return usersPlans.filter(usersPlan => usersPlan.activePlan);
+    } )
+    .then(activePlan => res.json(activePlan))
+    .catch(next);
+}
+
 function exercisePlanCreate(req, res, next) {
   ExercisePlan.create(req.body)
     .then(exercise => res.json(exercise))
@@ -44,7 +57,6 @@ function exercisePlanPatch(req, res, next) {
 }
 
 function exercisePlanDelete(req, res, next) {
-  console.log('exercise controller fired');
   ExercisePlan.findById(req.params.id)
     .then(exercise => exercise.remove())
     .then(() => res.sendStatus(204)) // NO CONTENT
@@ -58,5 +70,6 @@ module.exports = {
   update: exercisePlanUpdate,
   delete: exercisePlanDelete,
   updateDay: exercisePlanPatch,
-  paginate: exercisePlanPaginate
+  paginate: exercisePlanPaginate,
+  active: exercisePlanActive
 };

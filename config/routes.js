@@ -55,6 +55,9 @@ Router.route('/exerciseplans/:id')
   .patch(exercisePlanController.updateDay)
   .delete(exercisePlanController.delete);
 
+Router.route('/exerciseplans/:userId/active')
+  .get(exercisePlanController.active);
+
 //------- TRIBE ROUTES
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
@@ -69,7 +72,7 @@ Router.route('/feed')
 
 Router.route('/feed/paginate')
   .post(feedController.paginate);
-  
+
 Router.route('/feed/:id')
   .get(feedController.show);
 
