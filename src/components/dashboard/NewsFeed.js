@@ -19,21 +19,6 @@ export default class NewsFeed extends React.Component{
     limit: [3]
   };
 
-  // componentDidMount() {
-  //   const paginateOptions = {
-  //     'page': this.state.page,
-  //     'sort': {'createdAt': -1 },
-  //     'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
-  //     'limit': this.state.limit[0]
-  //   };
-  //
-  //   axios.post('/api/feed/paginate', paginateOptions)
-  //     .then(res => {
-  //       const sortedFeed = this.sortFeed(res.data.docs);
-  //       this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
-  //     });
-  // }
-
   componentDidUpdate(prevProps, prevState) {
     // console.log('prev state.limit is ', prevState.limit);
     // console.log('this.state.limit is ', this.state.limit);
@@ -93,7 +78,8 @@ export default class NewsFeed extends React.Component{
                 );
               case 'logWorkout':
                 return(
-                  <LogWorkout key = {newsFeedItem._id}
+                  <LogWorkout
+                    key = {newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
                     grit = {newsFeedItem.grit}
@@ -104,12 +90,14 @@ export default class NewsFeed extends React.Component{
               case 'register':
                 return(
                   <NewsCardNewRegister
+                    key={newsFeedItem._id}
                     user={newsFeedItem.user}
                   />
                 );
               case 'follow':
                 return(
                   <NewFollow
+                    key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     followedUser={newsFeedItem.followedUserId}
                   />
