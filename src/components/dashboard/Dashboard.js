@@ -74,24 +74,18 @@ class Dashboard extends React.Component {
   }
 
   handleChallenge = ({target: {id}}) => {
-    console.log('clicked', id);
     const [action, challengeId] = id.split(' ');
-    console.log('action is', action);
-    console.log('id is', challengeId);
 
     if (action === 'complete') {
       axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()})
-        .then(res => console.log('res is', res))
-        .then(this.deleteChallenge(challengeId));
+        .then(() => this.awardGrit(challengeId))
+        .then(() => this.deleteChallenge(challengeId));
 
-
-
-      // post to completed array
-      // add grit points
+      // get grit of clicked challenge
+      // add that to user grit
 
     } else if (action === 'skip') {
       //delete from challengers array
-      console.log('user is', Auth.currentUserId());
       this.deleteChallenge(challengeId);
 
     }
@@ -111,6 +105,15 @@ class Dashboard extends React.Component {
         this.setState({ userChallenges: newState.userChallenges});
 
       });
+  }
+
+  awardGrit = (challengeId) => {
+    this.state.userChallenges.forEach(challenge => {
+      if (challenge._id === challengeId) {
+        const grit = challenge.challengeGrit;
+        this.updateGrit(grit);
+      }
+    });
   }
 
   // ************ CHALLENGES LOGIC **************
@@ -230,8 +233,7 @@ class Dashboard extends React.Component {
     axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState})
       .then(res => this.setState({ exercises: res.data }));
 
-    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
-      .then(res => this.setState({ userGrit: res.data.grit }));
+    this.updateGrit(grit);
 
     if (this.state.programDay.replace(' ', '') === day) {
       this.setState({ programToday: newProgramState });
@@ -249,10 +251,13 @@ class Dashboard extends React.Component {
         grit
       }
     }, () => {
-      axios.post('/api/feed', this.state.feedUpdate)
-        .then(res => console.log('res from feed is', res));
-
+      axios.post('/api/feed', this.state.feedUpdate);
     });
+  }
+
+  updateGrit = (grit) => {
+    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
+      .then(res => this.setState({ userGrit: res.data.grit }));
   }
 
   // ************** CORE FEED FUNCTIONS ******************************
