@@ -9,7 +9,8 @@ const challengeSchema = new mongoose.Schema({
   distance: Number,
   time: Number,
   reps: Number,
-  challengers: [{ type: ObjectId, ref: 'User'}],
+  challengers: [{ type: ObjectId, ref: 'User' }],
+  completedBy: [{ type: ObjectId, ref: 'User' }],
   createdBy: { type: ObjectId, ref: 'User'}
 },
 { timestamps: true });

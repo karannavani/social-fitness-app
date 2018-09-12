@@ -84,5 +84,8 @@ Router.route('/challenges/:id')
   .get(challengeController.show)
   .post(challengeController.update);
 
+Router.route('/challenges/:id/completed')
+  .post(challengeController.complete);
+
 
 module.exports = Router;

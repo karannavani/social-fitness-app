@@ -1,28 +1,89 @@
-//
-// main{
-//   position: relative;
-// }
-
 header {
-  margin-bottom: 64px;
+  margin-bottom: 84px;
 }
 
 html {
-  background-color: #F5F5F5;
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #747696, #1c1f2e);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #747696, #1c1f2e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100%;
 }
 
+a {
+  color: #eaeaed;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+
+}
+
+hr {
+  background-color: #77798f;
+  height: 3px;
+}
+
+.hr2 {
+  background-color: #77798f;
+  height: 8px;
+}
+
+.button {
+  background-color: #00d6f4 ;
+  background-color: -webkit-linear-gradient(to bottom, #00d6f4, #009ff3)!important;  /* Chrome 10-25, Safari 5.1-6 */
+  background-color: linear-gradient(to bottom, #00d6f4, #009ff3)!important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.auth-button {
+  background-color: #00d6f4AA ;
+  background-color: -webkit-linear-gradient(to left, #00d6f4, #009ff3);  /* Chrome 10-25, Safari 5.1-6 */
+  background-color: linear-gradient(to left, #00d6f4, #009ff3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-radius: 40px;
+  color: white;
+  margin-top: 60px;
+}
+
+.about {
+  width: 90%;
+}
+
+.page-title-large {
+  font-size: 35px;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+
+.sub-text {
+  font-family: 'Montserrat', sans-serif;
+  color: #eaeaed;
+  font-size: 24px;
+}
+
+.bold-sub-text{
+  font-family: 'Montserrat', sans-serif;
+  color: #eaeaed;
+  letter-spacing: 2px;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
 .navbar, .navbar-menu {
-  background: #000000;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #ffffff00;
 }
 
 .navbar-menu a:hover {
-  background: grey;
+  background-color: #43465f;
+  font-weight: 700;
+  font-size: 18px;
 }
 
 .navbar-item {
-    color: white !important;
+    color: #eaeaed !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
 }
 
 .white {
@@ -175,5 +236,10 @@ input.programEdit  {
 
 .feedLogWorkout {
   margin-right: 10px;
+}
+
+.footer {
+  background: #ffffff00;  /* fallback for old browsers */
+
 }
 @import './partials/_flash.scss';
