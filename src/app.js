@@ -8,7 +8,7 @@ import './scss/style.scss';
 //partials
 import Home from './components/Home';
 import Header from './components/Header';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import FlashMessages from './components/common/FlashMessages';
 
 //Auth
@@ -55,7 +55,7 @@ class App extends React.Component {
 
           <Route path='/dashboard' component={Dashboard} />
         </Switch>
-        <Footer />
+        {/* <Footer /> */}
       </main>
     );
   }
