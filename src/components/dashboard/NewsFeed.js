@@ -7,7 +7,6 @@ import _ from 'lodash';
 
 //componenets
 import NewsCardNewRegister from './newsFeedCards/NewRegister.js';
-import NewFollow from './newsFeedCards/NewFollow.js';
 
 import AdoptPlan from './newsFeedCards/AdoptPlan';
 import CreatePlan from './newsFeedCards/CreatePlan';
@@ -16,25 +15,23 @@ import LogWorkout from './newsFeedCards/LogWorkout';
 export default class NewsFeed extends React.Component{
   state={
     page: 1,
-    limit: [10]
+    limit: [3]
   };
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prev state.limit is ', prevState.limit);
-    // console.log('this.state.limit is ', this.state.limit);
     if(prevProps !== this.props || prevState.limit !== this.state.limit) {
-      // console.log('component tried to update');
       const paginateOptions = {
         'page': this.state.page,
         'sort': {'createdAt': -1 },
-        'populate': 'user exercisePlanId exercisePlanAdoptedFromId followedUserId',
+        'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
         'limit': this.state.limit[0]
       };
 
       axios.post('/api/feed/paginate', paginateOptions)
         .then(res => {
           const sortedFeed = this.sortFeed(res.data.docs);
-          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
+          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages},
+            () => console.log('news feed state is', this.state));
         });
     }
   }
@@ -46,7 +43,7 @@ export default class NewsFeed extends React.Component{
 
   handleLoadMoreNews = () => {
     const newLimit = this.state.limit.slice();
-    newLimit[0] += 10;
+    newLimit[0] += 3;
 
     this.setState({limit: newLimit}, ()=> console.log('the new state is', this.state));
   }
@@ -60,14 +57,14 @@ export default class NewsFeed extends React.Component{
         <div className='column is-8 is-centered is-mobile'>
           {newsFeedItems.map(newsFeedItem => {
             switch(newsFeedItem.type){
-              case 'adoptPlan':
-                return(
-                  <AdoptPlan
-                    key={newsFeedItem._id}
-                    user={newsFeedItem.user}
-                    exercisePlan={newsFeedItem.exercisePlanId}
-                  />
-                );
+              // case 'adoptPlan':
+              //   return(
+              //     <AdoptPlan
+              //       key={newsFeedItem._id}
+              //       user={newsFeedItem.user}
+              //       exercisePlan={newsFeedItem.exercisePlanId}
+              //     />
+              //   );
               // case 'createPlan':
               //   return(
               //     <CreatePlan
@@ -76,33 +73,23 @@ export default class NewsFeed extends React.Component{
               //       exercisePlan={newsFeedItem.exercisePlanId}
               //     />
               //   );
-              case 'logWorkout':
-                return(
-                  <LogWorkout
-                    key = {newsFeedItem._id}
-                    user={newsFeedItem.user}
-                    exercisePlan={newsFeedItem.exercisePlanId}
-                    grit = {newsFeedItem.grit}
-                    time = {newsFeedItem.time}
-                    intensity = {newsFeedItem.intensity}
-                  />
-                );
-              case 'register':
-                return(
-                  <NewsCardNewRegister
-                    key={newsFeedItem._id}
-                    user={newsFeedItem.user}
-                  />
-                );
-              case 'follow':
-                return(
-                  <NewFollow
-                    key={newsFeedItem._id}
-                    user={newsFeedItem.user}
-                    followedUser={newsFeedItem.followedUserId}
-                  />
-                );
-
+              // case 'logWorkout':
+              //   return(
+              //     <LogWorkout key = {newsFeedItem._id}
+              //       user={newsFeedItem.user}
+              //       exercisePlan={newsFeedItem.exercisePlanId}
+              //       grit = {newsFeedItem.grit}
+              //       time = {newsFeedItem.time}
+              //       intensity = {newsFeedItem.intensity}
+              //     />
+              //   );
+              // case 'register':
+              //   return(
+              //     <NewsCardNewRegister
+              //       key = {newsFeedItem._id}
+              //       user={newsFeedItem.user}
+              //     />
+              //   );
             }
           }
           )}

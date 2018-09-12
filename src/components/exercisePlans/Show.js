@@ -40,9 +40,9 @@ export default class ExercisePlanShow extends React.Component{
     }else if(this.state.adopting){
 
       if(this.validateStartDate()){
-        const formattedDate = moment.unix(this.state.startDate).format('dddd, MMMM Do YYYY');
+        // const formattedDate = moment.unix(this.state.startDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
-        Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${formattedDate}`);
+        Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${this.state.newStartDate}`);
       }else{
         const sevenDaysTime = moment.utc(moment.unix(this.state.startDate)).add(7, 'days');
         const formattedDate = moment(sevenDaysTime).format('dddd, MMMM Do YYYY');
@@ -54,9 +54,13 @@ export default class ExercisePlanShow extends React.Component{
 
   validateStartDate = () => {
     const momStartDate = moment(this.state.newStartDate).utc();
-    const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-    if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
-    return false;
+    if (this.state.usersActivePlanStartDate) {
+      const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
+      if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
+      return false;
+    } else {
+      return true;
+    }
   }
 
   //gets the users most recent program and sets the start date to state
@@ -68,8 +72,16 @@ export default class ExercisePlanShow extends React.Component{
       'limit': 1
     };
     axios.post('/api/exerciseplans/paginate', findOneOptions)
-      .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}));
+      .then(res => {
+        this.setState({usersActivePlanStartDate: res.data.docs}, () => {
+          if(res.data.docs.length) {
+            this.setState({ usersActivePlanStartDate: res.data.docs[0].startDate });
+          }
+        });
+      }
+      );
   }
+
 
   createAdoptedPlan = () => {
     const adoptedPlan = this.packageAdoptionData();
