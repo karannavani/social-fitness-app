@@ -19,8 +19,8 @@ const AdoptPlan = ({ user, exercisePlan }) => {
           {/* IF TYPE IS ADOPT PLAN */}
 
 
-          <p> Adopted a new
-            <Link to={`/exerciseplan/${exercisePlan._id}`}> plan </Link>
+          <p> Adopted a new plan –
+            <Link to={`/exerciseplan/${exercisePlan._id}`}> {exercisePlan.name} </Link>
             and has lined himself up for {exercisePlan.totalAvailableGrit} grit points, starting on {moment.unix(exercisePlan.startDate).format('DD/MM/YYYY')}
           </p>
           <p> The program is a total of {exercisePlan.totalTime} minutes and a {exercisePlan.intensityAvg} average intensity </p>
