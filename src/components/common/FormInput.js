@@ -1,12 +1,13 @@
 import React from 'react';
 
-function FormInput({ name, label, placeholder, handleChange, type, state }){
+function FormInput({ name, label, placeholder, handleChange, type, state, min }){
   return(
     <div className="field">
       <label htmlFor={ name } className='label' >{ label }</label>
       <input
         name={ name }
         type={ type }
+        min={min}
         value={ state[ name ] || '' }
         onChange={ handleChange }
         placeholder={ placeholder }

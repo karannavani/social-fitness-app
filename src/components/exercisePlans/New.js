@@ -61,6 +61,9 @@ export default class ExercisePlanNew extends React.Component {
 
   // }
   handleChange = ({ target: { name, value, checked } }) => {
+    const day = name.split('.')[0];
+    this.setState({ [`${day}.intensity`]: 'Low' });
+    
     if(name.includes('time')) {
       value = parseInt(value);
       this.setState({[name]: value}, () => {
@@ -82,9 +85,9 @@ export default class ExercisePlanNew extends React.Component {
         }
       });
     } else if (name.includes('rest')) {
-      const day = name.split('.')[0];
+
       if (checked) {
-        this.setState({ [`${day}.exerciseCompleted`]: true });
+        this.setState({ [`${day}.exerciseCompleted`]: true, [`${day}.intensity`]: null });
       } else {
         this.setState({ [`${day}.exerciseCompleted`]: null });
       }
@@ -94,7 +97,7 @@ export default class ExercisePlanNew extends React.Component {
       });
 
     } else {
-      this.setState({[name]: value}, () => {
+      this.setState({[name]: value }, () => {
         console.log('state is', this.state);
         // console.log(this.state.day1.rest);
       });
