@@ -65,8 +65,12 @@ class Dashboard extends React.Component {
     console.log('id is', challengeId);
 
     if (action === 'complete') {
-      this.deleteChallenge(challengeId);
-      //delete from challengers array
+      axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()})
+        .then(res => console.log('res is', res))
+        .then(this.deleteChallenge(challengeId));
+
+
+
       // post to completed array
       // add grit points
 
