@@ -18,13 +18,11 @@ export default class ChallengeCard extends React.Component{
   }
 
   acceptChallenge = (challengeId) => {
-    console.log('acceptChallenge fires');
     axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()});
   }
 
   handleClick = () => {
 
-    console.log('_onclick fires');
     this.acceptChallenge(this.props.challenge._id);
     const accepted = true;
     this.setState({accepted}, () => console.log('the new state is ', this.state, this.props));
