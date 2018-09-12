@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-const NewsCardAdoptCreate = ({ user, exercisePlan }) => {
+const CreatePlan = ({ user, exercisePlan }) => {
   return(
     <article className="media">
       <figure className="media-left">
@@ -47,4 +47,4 @@ const NewsCardAdoptCreate = ({ user, exercisePlan }) => {
   );
 };
 
-export default NewsCardAdoptCreate;
+export default CreatePlan;

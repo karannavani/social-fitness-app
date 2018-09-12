@@ -16,7 +16,7 @@ import LogWorkout from './newsFeedCards/LogWorkout';
 export default class NewsFeed extends React.Component{
   state={
     page: 1,
-    limit: [3]
+    limit: [10]
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -46,7 +46,7 @@ export default class NewsFeed extends React.Component{
 
   handleLoadMoreNews = () => {
     const newLimit = this.state.limit.slice();
-    newLimit[0] += 3;
+    newLimit[0] += 10;
 
     this.setState({limit: newLimit}, ()=> console.log('the new state is', this.state));
   }
@@ -68,14 +68,14 @@ export default class NewsFeed extends React.Component{
                     exercisePlan={newsFeedItem.exercisePlanId}
                   />
                 );
-              case 'createPlan':
-                return(
-                  <CreatePlan
-                    key={newsFeedItem._id}
-                    user={newsFeedItem.user}
-                    exercisePlan={newsFeedItem.exercisePlanId}
-                  />
-                );
+              // case 'createPlan':
+              //   return(
+              //     <CreatePlan
+              //       key={newsFeedItem._id}
+              //       user={newsFeedItem.user}
+              //       exercisePlan={newsFeedItem.exercisePlanId}
+              //     />
+              //   );
               case 'logWorkout':
                 return(
                   <LogWorkout
