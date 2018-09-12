@@ -61,7 +61,6 @@ class Graphs extends React.Component{
     for( i = 0; i < stopCondition; i++ ) {
       if(user.dailyGrit.length){
         userGritHistory.push(user.dailyGrit[i].grit);
-
       }
     }
     return this.incrementerV3(userGritHistory);

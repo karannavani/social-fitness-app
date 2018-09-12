@@ -92,9 +92,6 @@ export default class UserShow extends React.Component{
     return this.sortPlans(filteredOptions);
   }
 
-  //sort the filtered plans by date newest to oldest.
-  //
-
   handleGoToTribe = () => {
     this.props.history.push(`/tribe/${this.state.user.tribe}`);
   }

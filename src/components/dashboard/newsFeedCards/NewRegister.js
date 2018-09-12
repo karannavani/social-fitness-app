@@ -17,8 +17,13 @@ const NewsCardNewRegister = ({ user }) => {
 
           {/* CHANGEBLE CONTENT */}
 
-          <p> Just join GRIT!
-            {Auth.currentUserTribe() === user.tribe ? 'Give your tribe mate some love by recommending a program to do' : 'They will be hot on your heels, keep cracking'}</p>
+          {Auth.currentUserId() === user._id ?
+            <p>Welcome to Grit. Here are 100 grit points to say welcome to the tribe. </p>
+            :
+            <p> Just join GRIT!
+              {Auth.currentUserTribe() === user.tribe ? 'Give your tribe mate some love by recommending a program to do' : 'They will be hot on your heels, keep cracking'}</p>
+          }
+
 
           {/* CHANGEBLE CONTENT */}
         </div>

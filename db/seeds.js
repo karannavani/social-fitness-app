@@ -308,7 +308,7 @@ function createActiveExercisePlan(){
       day5: createExerciseDay(),
       day6: createExerciseDay(),
       day7: createExerciseDay(),
-      _id: exerciseIds[i],
+      _id: createId(),
       user: userIds[i],
       startDate: today
     });
@@ -382,7 +382,7 @@ function createOrigionalHistoricExercisePlans(){
       day5: createHistoricExerciseDay(),
       day6: createHistoricExerciseDay(),
       day7: createHistoricExerciseDay(),
-      _id: exerciseIds[i],
+      _id: createId(),
       user: randomUserId(),
       startDate: randomStartDate(randomOrigionalStartDatesArray)
     });
@@ -402,7 +402,7 @@ function createAdoptedHistoricExercisePlans(){
       day5: createHistoricExerciseDay(),
       day6: createHistoricExerciseDay(),
       day7: createHistoricExerciseDay(),
-      _id: exerciseIds[i],
+      _id: createId(),
       user: randomUserId(),
       exercisePlanAdoptedFrom: randomExerciseId(), // NOTE: this should always be the original program id
       startDate: randomStartDate(randomAdoptedStartDatesArray)
@@ -497,7 +497,6 @@ const exerciseData = [...activeExercisePlans, ...origionalHistoricExercisePlans,
 ////////////------SEED PROMISE CHAIN----------///////////////////////
 ExercisePlan.collection.drop();
 User.collection.drop();
-Feed.collection.drop();
 Challenge.collection.drop();
 
 User.create(userData)
