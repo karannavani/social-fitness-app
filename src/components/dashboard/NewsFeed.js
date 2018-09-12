@@ -68,14 +68,14 @@ export default class NewsFeed extends React.Component{
                     exercisePlan={newsFeedItem.exercisePlanId}
                   />
                 );
-              // case 'createPlan':
-              //   return(
-              //     <CreatePlan
-              //       key={newsFeedItem._id}
-              //       user={newsFeedItem.user}
-              //       exercisePlan={newsFeedItem.exercisePlanId}
-              //     />
-              //   );
+              case 'createPlan':
+                return(
+                  <CreatePlan
+                    key={newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    exercisePlan={newsFeedItem.exercisePlanId}
+                  />
+                );
               case 'logWorkout':
                 return(
                   <LogWorkout

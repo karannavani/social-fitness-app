@@ -157,7 +157,7 @@ exercisePlanSchema.virtual('totalAvailableGrit')
         const dayTime = this[`day${i}`].time;
         const dailyAvailableGrit = calculateGrit(dayIntensity, dayTime );
         planAvailableGrit.push(dailyAvailableGrit);
-      } 
+      }
     }
 
     return planAvailableGrit.reduce((sum, grit) => sum + grit);
