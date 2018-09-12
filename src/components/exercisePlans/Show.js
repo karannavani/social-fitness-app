@@ -166,8 +166,9 @@ export default class ExercisePlanShow extends React.Component{
               {/* day cards */}
               <div className='column is-12'>
                 {Object.keys(state).map((key, i) => {
+                  if(key === key.match(/'day'/))
                   if(!state[key].rest && state[key].intensity){
-                    return <UpcomingCard key={key} title={`Day ${i}`} programDetails={state[key]} />;
+                    return <UpcomingCard key={key} title={ i should be function of key   `Day ${i}`} programDetails={state[key]} />;
 
                   }else if(state[key].rest){
                     return  <RestCard key={key} programDay={`Day ${i}`} title='Rest Day' />;
