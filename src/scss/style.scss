@@ -1,20 +1,28 @@
-//
-// main{
-//   position: relative;
-// }
-
 header {
   margin-bottom: 64px;
 }
 
 html {
-  background-color: #F5F5F5;
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #747696, #1c1f2e);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #747696, #1c1f2e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.button {
+  background-color: #00d6f4 !important;
+  background-color: -webkit-linear-gradient(to bottom, #00d6f4, #009ff3)!important;  /* Chrome 10-25, Safari 5.1-6 */
+  background-color: linear-gradient(to bottom, #00d6f4, #009ff3)!important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.page-title-large {
+  font-size: 35px;
+  font-family: 'Gruppo', 'cursive';
+  color: white;
 }
 
 .navbar, .navbar-menu {
-  background: #000000;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #ffffff00;
 }
 
 .navbar-menu a:hover {
@@ -175,5 +183,10 @@ input.programEdit  {
 
 .feedLogWorkout {
   margin-right: 10px;
+}
+
+.footer {
+  background: #ffffff00;  /* fallback for old browsers */
+
 }
 @import './partials/_flash.scss';

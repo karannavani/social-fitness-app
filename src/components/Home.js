@@ -6,7 +6,7 @@ function Home() {
   return(
     <div className="columns  is-multiline">
       <div className="column has-text-centered is-multiline">
-        <h1 className="title is-1">Welcome to Grit!</h1>
+        <h1 className="title is-1 page-title-large">Welcome to Grit!</h1>
         <hr />
       </div>
       <p className="column is-full has-text-centered">Join a Tribe based on your exercise routines and earn Grit Points by taking on challenges, completing plans and showing that you have Grit.</p>
