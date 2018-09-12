@@ -24,7 +24,7 @@ export default class ExercisePlanShow extends React.Component{
     this.setState({newExercisePlanId});
 
     axios.get(`/api/exerciseplans/${this.props.match.params.id}`)
-      .then(res => this.setState(res.data, () => console.log('the state is', this.state)));
+      .then(res => this.setState(res.data));
   }
 
   handleChange = ({ target: { name, value }}) => {
@@ -82,7 +82,6 @@ export default class ExercisePlanShow extends React.Component{
       );
   }
 
-
   createAdoptedPlan = () => {
     const adoptedPlan = this.packageAdoptionData();
     axios.post('/api/exerciseplans', adoptedPlan)
@@ -100,8 +99,6 @@ export default class ExercisePlanShow extends React.Component{
     };
     Request.updateFeed(feedBody);
   }
-
-
 
   // NOTE: this needs refactoring
   packageAdoptionData = () =>{
@@ -155,9 +152,6 @@ export default class ExercisePlanShow extends React.Component{
 
     return packagedData;
   }
-
-  //start date can only be after current program completes
-  //validte date input
 
   render(){
     const { state } = this;
