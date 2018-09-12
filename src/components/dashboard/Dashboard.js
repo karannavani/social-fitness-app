@@ -22,12 +22,6 @@ class Dashboard extends React.Component {
 
   // Getting all the challenges
   componentDidMount() {
-    axios.get('/api/challenges')
-      .then(res => this.setState({ challenges: res.data },
-        () => {
-          this.checkChallenges();
-        }));
-
 
     this.getChallenges();
     //Getting user exercises
@@ -38,16 +32,6 @@ class Dashboard extends React.Component {
         }));
 
   }
-
-  // getExercise = () => { // sets the exercises from the current plan on the state
-  //   // NOTE: this should be run conditonally if there is no execiseplan for the user
-  //   axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
-  //     .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
-  //       console.log('exercise is', this.state.exercises);
-  //       this.getProgram();
-  //     }
-  //     ));
-  // }
 
 
   // ************** CORE FEED FUNCTIONS ******************************
@@ -68,7 +52,8 @@ class Dashboard extends React.Component {
     this.state.challenges.forEach(challenge => {
       if (challenge.challengers.includes(Auth.currentUserId())) {
         myChallenges.push(challenge);
-        this.setState({ userChallenges: myChallenges });
+        this.setState({ userChallenges: myChallenges },
+          () => console.log('updated user challenge is', this.state.userChallenges));
       }
     });
   }
@@ -122,6 +107,7 @@ class Dashboard extends React.Component {
     // NOTE: this should be run conditonally if there is no execiseplan for the user
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
       .then(res => this.setState({ exercises: res.data[0], goRender: true }, () => {
+        console.log('exercise is', this.state.exercises);
         this.getProgram();
       }
       ));
@@ -164,6 +150,7 @@ class Dashboard extends React.Component {
 
   checkUnlogged = (exercise, i) => {
     if (exercise.exerciseCompleted === null) {
+      // console.log('unlogged exercise is', exercise);
       this.state.unloggedDays.push(i);
       this.state.unloggedExercises.push(exercise);
     }
@@ -177,6 +164,7 @@ class Dashboard extends React.Component {
   }
 
   handleEditSubmit = ({ target }) => { // saves the edit to the exercise db or cancels it
+    console.log('target is', target.id);
     const [id, day] = target.id.split(' ');
 
     if (id === 'complete') {
@@ -192,6 +180,7 @@ class Dashboard extends React.Component {
   handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
     const [id, day, grit] = target.id.split(' ');
     const newProgramState = this.state.exercises[day.toLowerCase()];
+    console.log('newProgramState before looks like', newProgramState);
 
     const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
 
@@ -200,6 +189,7 @@ class Dashboard extends React.Component {
       case ('complete'):
         newProgramState.exerciseCompleted = true;
         newProgramState.dailyGrit = parseInt(grit);
+        console.log('newProgramState after looks like', newProgramState);
         this.deleteUnlogged(unloggedIndex);
         this.programUpdate(day, newProgramState, grit);
         this.feedUpdate(newProgramState.time, newProgramState.intensity, newProgramState.dailyGrit);
@@ -231,6 +221,7 @@ class Dashboard extends React.Component {
   programUpdate = (day, newProgramState, grit) => {
 
     axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState})
+      // .then(res => console.log('res is', res.data))
       .then(res => this.setState({ exercises: res.data }));
 
     this.updateGrit(grit);
