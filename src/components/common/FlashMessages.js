@@ -1,14 +1,11 @@
 import React from 'react';
 import Flash from '../../lib/Flash';
 
-
 class FlashMessages extends React.Component{
   state= {}
 
   componentDidUpdate() {
     const messages = Flash.getMessages();
-    console.log('Flash messages did update', messages);
-
     //  if there are no messages, return false
     if(!messages) return false;
 

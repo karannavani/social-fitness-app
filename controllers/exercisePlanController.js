@@ -1,4 +1,5 @@
 const ExercisePlan = require('../models/exercisePlan');
+const moment = require('moment');
 
 function exercisePlanIndex(req, res, next) {
   ExercisePlan.find()
@@ -23,14 +24,22 @@ function exercisePlanShow(req, res, next) {
 
 function exercisePlanActive( req, res, next ){
   ExercisePlan
-    .find()
-    .then(exercisePlans => {
-      return exercisePlans.filter(exercisePlan => exercisePlan.user.toString() === req.params.userId);
-    })
+    .find({user: req.params.userId})
     .then(usersPlans =>{
       return usersPlans.filter(usersPlan => usersPlan.activePlan);
     } )
     .then(activePlan => res.json(activePlan))
+    .catch(next);
+}
+
+function exercisePlansFuture( req, res, next ){
+  ExercisePlan
+    .find({user: req.params.userId})
+    .then(exercisePlans => {
+      //return only the future plans
+      return exercisePlans.filter(exercisePlan => exercisePlan.startDate >= moment().unix());
+    })
+    .then(futurePlans => res.json(futurePlans))
     .catch(next);
 }
 
@@ -71,5 +80,6 @@ module.exports = {
   delete: exercisePlanDelete,
   updateDay: exercisePlanPatch,
   paginate: exercisePlanPaginate,
-  active: exercisePlanActive
+  active: exercisePlanActive,
+  future: exercisePlansFuture
 };

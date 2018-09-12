@@ -2,7 +2,6 @@ import React from 'react';
 
 //dependancies
 import axios from 'axios';
-// import Auth from '../../lib/Auth';
 import _ from 'lodash';
 
 //componenets
@@ -30,8 +29,7 @@ export default class NewsFeed extends React.Component{
       axios.post('/api/feed/paginate', paginateOptions)
         .then(res => {
           const sortedFeed = this.sortFeed(res.data.docs);
-          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages},
-            () => console.log('news feed state is', this.state));
+          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
         });
     }
   }
@@ -45,7 +43,7 @@ export default class NewsFeed extends React.Component{
     const newLimit = this.state.limit.slice();
     newLimit[0] += 3;
 
-    this.setState({limit: newLimit}, ()=> console.log('the new state is', this.state));
+    this.setState({limit: newLimit});
   }
 
   render(){
@@ -57,14 +55,14 @@ export default class NewsFeed extends React.Component{
         <div className='column is-8 is-centered is-mobile'>
           {newsFeedItems.map(newsFeedItem => {
             switch(newsFeedItem.type){
-              // case 'adoptPlan':
-              //   return(
-              //     <AdoptPlan
-              //       key={newsFeedItem._id}
-              //       user={newsFeedItem.user}
-              //       exercisePlan={newsFeedItem.exercisePlanId}
-              //     />
-              //   );
+              case 'adoptPlan':
+                return(
+                  <AdoptPlan
+                    key={newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    exercisePlan={newsFeedItem.exercisePlanId}
+                  />
+                );
               case 'createPlan':
                 return(
                   <CreatePlan

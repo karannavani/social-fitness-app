@@ -14,18 +14,13 @@ class Feed extends React.Component {
   componentDidMount() {
 
     this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
-      console.log('feed looks like', this.state.exercises);
       if (this.props.exercises) this.createDots();
     });
 
   }
 
   componentDidUpdate(prevProps) {
-    // console.log('prev props is ==>', prevProps.exercises);
-    // console.log('state exercises is ==>', this.state.exercises);
     if (prevProps.exercises !== this.props.exercises) {
-      console.log('props looks like', this.props);
-      console.log('this.props.exercise is', this.props.exercises);
       this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
         if (this.props.exercises) this.createDots();
       });
@@ -38,13 +33,11 @@ class Feed extends React.Component {
       if(this.state.exercises.day1.exerciseCompleted || !this.state.exercises.day1.exerciseCompleted  ){
         switch(this.state.exercises[`day${i}`].exerciseCompleted) {
           case (null):
-            // console.log('grey');
             this.getGrit(this.props.exercises[`day${i}`]);
             this.state.dotsArr.push({color: 'grey', grit: this.getGrit(this.props.exercises[`day${i}`]) });
             break;
 
           case (true):
-            // console.log('green');
             this.getGrit(this.props.exercises[`day${i}`]);
             if (this.props.exercises[`day${i}`].rest === true) {
               this.state.dotsArr.push({color: 'orange', grit: this.getGrit(this.props.exercises[`day${i}`]) });
@@ -58,13 +51,11 @@ class Feed extends React.Component {
             break;
 
           case (false):
-            // console.log('red');
             this.getGrit(this.props.exercises[`day${i}`]);
             this.state.dotsArr.push({color: 'red', grit: this.getGrit(this.props.exercises[`day${i}`]) });
             break;
         }
       }
-      // if (i === 7) this.forceUpdate();
       if (i === 7) {
         this.setState({ timeArr: this.reduceTimeArr(timeArr) });
       }
