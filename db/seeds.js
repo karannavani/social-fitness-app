@@ -512,6 +512,7 @@ const exerciseData = [...activeExercisePlans, ...origionalHistoricExercisePlans,
 ExercisePlan.collection.drop();
 User.collection.drop();
 Challenge.collection.drop();
+Feed.collection.drop();
 
 User.create(userData)
   .then(users => {
