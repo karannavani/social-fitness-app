@@ -89,6 +89,10 @@ export default class ExercisePlanShow extends React.Component{
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
+    axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: this.state.newExercisePlanId} )
+      .then(res => console.log('res is', res.data))
+      .catch(err => console.log('add exerciseplan id error', err));
+
     const feedBody = {
       user: Auth.currentUserId(),
       type: 'adoptPlan',
@@ -176,7 +180,7 @@ export default class ExercisePlanShow extends React.Component{
               </div>
 
               {/* day cards */}
-              
+
               <div className='column is-12'>
                 {Object.keys(state).map((key) => {
                   const dayNumber = key.slice(3);

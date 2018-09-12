@@ -65,31 +65,31 @@ export default class NewsFeed extends React.Component{
               //       exercisePlan={newsFeedItem.exercisePlanId}
               //     />
               //   );
-              // case 'createPlan':
-              //   return(
-              //     <CreatePlan
-              //       key={newsFeedItem._id}
-              //       user={newsFeedItem.user}
-              //       exercisePlan={newsFeedItem.exercisePlanId}
-              //     />
-              //   );
-              // case 'logWorkout':
-              //   return(
-              //     <LogWorkout key = {newsFeedItem._id}
-              //       user={newsFeedItem.user}
-              //       exercisePlan={newsFeedItem.exercisePlanId}
-              //       grit = {newsFeedItem.grit}
-              //       time = {newsFeedItem.time}
-              //       intensity = {newsFeedItem.intensity}
-              //     />
-              //   );
-              // case 'register':
-              //   return(
-              //     <NewsCardNewRegister
-              //       key = {newsFeedItem._id}
-              //       user={newsFeedItem.user}
-              //     />
-              //   );
+              case 'createPlan':
+                return(
+                  <CreatePlan
+                    key={newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    exercisePlan={newsFeedItem.exercisePlanId}
+                  />
+                );
+              case 'logWorkout':
+                return(
+                  <LogWorkout key = {newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    exercisePlan={newsFeedItem.exercisePlanId}
+                    grit = {newsFeedItem.grit}
+                    time = {newsFeedItem.time}
+                    intensity = {newsFeedItem.intensity}
+                  />
+                );
+              case 'register':
+                return(
+                  <NewsCardNewRegister
+                    key = {newsFeedItem._id}
+                    user={newsFeedItem.user}
+                  />
+                );
             }
           }
           )}
