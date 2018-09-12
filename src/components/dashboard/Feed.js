@@ -105,7 +105,9 @@ class Feed extends React.Component {
                   <div className="column is-pulled-left">
                     <h4 className="title is-4 white">Current challenges:</h4>
                     {this.props.userChallenges.map(challenge =>
-                      <h5 className="title is-5" key={challenge._id}>{challenge.name}</h5>
+                      <p key={challenge._id}><span className="title is-5">{challenge.name}
+                        <i className="fas fa-check" style={{ marginLeft: '15px' }} id={`complete ${challenge._id}`} onClick={this.props.handleChallenge}></i>
+                        <i className="fas fa-times" style={{ marginLeft: '15px' }} id={`skip ${challenge._id}`} onClick={this.props.handleChallenge}></i></span></p>
                     )}
                   </div>
                 </div>

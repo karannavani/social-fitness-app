@@ -82,7 +82,6 @@ export default class ExercisePlanShow extends React.Component{
       );
   }
 
-
   createAdoptedPlan = () => {
     const adoptedPlan = this.packageAdoptionData();
     axios.post('/api/exerciseplans', adoptedPlan)
@@ -100,8 +99,6 @@ export default class ExercisePlanShow extends React.Component{
     };
     Request.updateFeed(feedBody);
   }
-
-
 
   // NOTE: this needs refactoring
   packageAdoptionData = () =>{
@@ -156,19 +153,18 @@ export default class ExercisePlanShow extends React.Component{
     return packagedData;
   }
 
-  //start date can only be after current program completes
-  //validte date input
-
   render(){
     const { state } = this;
+    const today = moment().format('YYYY-MM-DD');
+
     return(
       <section className='container'>
         {state &&
           <div className='columns is-multiline is-centered'>
             <div className=' column is-8 columns is-mobile is-multiline'>
               <div className='column is-5'>
-                <h1 className='title is-5 white-title'>Plan Name</h1>
-                <h1 className='title is-5 white-title'>Tribe</h1>
+                <h1 className='title is-5 white-title'>{state.name}</h1>
+                <h1 className='title is-5 white-title'>{!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  }</h1>
                 <p className="white-title"><i className="fas fa-stopwatch fas-regular"></i> Average: {state.workoutTimeAvg} minutes</p>
                 <p className="white-title"><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
               </div>
@@ -180,6 +176,7 @@ export default class ExercisePlanShow extends React.Component{
                     <FormInput
                       name='newStartDate'
                       type='date'
+                      min={today}
                       handleChange={this.handleChange}
                       state={this.state}
                       label='Choose your preferred start date'
@@ -193,6 +190,7 @@ export default class ExercisePlanShow extends React.Component{
               {/* day cards */}
 
               <div className='column is-12'>
+
                 {Object.keys(state).map((key) => {
                   const dayNumber = key.slice(3);
                   if(!state[key].rest && state[key].intensity){

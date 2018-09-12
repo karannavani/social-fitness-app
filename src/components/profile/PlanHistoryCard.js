@@ -10,7 +10,7 @@ const PlanHistoryCard = ({plan, keyId}) =>{
       className={`column is-3 historic-plans  ${plan.activePlan ? 'active-plan-glow' : ''}`}>
 
       <div className='columns is-centered is-multiline is-mobile'>
-        <div>Program Name Goes Here</div>
+        <div>{plan.name}</div>
         <div className='column is-6'>
           {plan.totalGrit &&<p><i className="fas fa-bolt fas-regular"></i>: {plan.totalGrit}</p>}
         </div>

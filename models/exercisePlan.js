@@ -190,11 +190,12 @@ exercisePlanSchema.virtual('restDays')
 // Returns true if program start date is within 7 days of current date
 exercisePlanSchema.virtual('activePlan')
   .get(function(){
-    const momStartDate = moment.utc(moment.unix(this.startDate));
-    const sevenDaysAgo = moment().subtract(7, 'days');
-    if(moment(momStartDate).isBefore(sevenDaysAgo)) return false;
+    const momStartDate = moment.unix(this.startDate);
+    const momEndDate = moment(momStartDate).add(6, 'days');
+    const today = moment();
+    if(moment(today).isBetween(momStartDate, momEndDate)) return true;
 
-    return true;
+    return false;
   });
 
 module.exports = mongoose.model('ExercisePlan', exercisePlanSchema);

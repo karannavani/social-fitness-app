@@ -19,49 +19,33 @@ class Dashboard extends React.Component {
     feedUpdate: {},
     userChallenges: []
   }
-  // shareExercises = (exerciseData) =>{
-  //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
-  // }
 
   // Getting all the challenges
   componentDidMount() {
+
+    this.getChallenges();
+    //Getting user exercises
+    axios.get(`/api/users/${Auth.currentUserId()}`)
+      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
+        () => {
+          this.getExercise();
+        }));
+
+  }
+
+
+  // ************** CORE FEED FUNCTIONS ******************************
+
+  // ************ CHALLENGES LOGIC **************
+
+  getChallenges = () => {
     axios.get('/api/challenges')
       .then(res => this.setState({ challenges: res.data },
         () => {
           console.log('challenges are', this.state.challenges);
           this.checkChallenges();
         }));
-
-    //Getting user exercises
-    axios.get(`/api/users/${Auth.currentUserId()}`)
-      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
-        () => {
-          console.log('user on dash looks like', this.state.users);
-          console.log('exerciseId looks like', this.state.exerciseId);
-          if (this.state.exerciseId.length) {
-            this.getExercise();
-          }
-
-        }));
-
   }
-
-
-
-
-  // getExercise = () => { // sets the exercises from the current plan on the state
-  //   // NOTE: this should be run conditonally if there is no execiseplan for the user
-  //   axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
-  //     .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
-  //       console.log('exercise is', this.state.exercises);
-  //       this.getProgram();
-  //     }
-  //     ));
-  // }
-
-  // ************** CORE FEED FUNCTIONS ******************************
-
-  // ************ CHALLENGES LOGIC **************
 
   checkChallenges = () => {
     const myChallenges = this.state.userChallenges;
@@ -74,17 +58,53 @@ class Dashboard extends React.Component {
     });
   }
 
-  completeChallenge = () => {
-    
+  handleChallenge = ({target: {id}}) => {
+    console.log('clicked', id);
+    const [action, challengeId] = id.split(' ');
+    console.log('action is', action);
+    console.log('id is', challengeId);
+
+    if (action === 'complete') {
+      axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()})
+        .then(res => console.log('res is', res))
+        .then(this.deleteChallenge(challengeId));
+
+
+
+      // post to completed array
+      // add grit points
+
+    } else if (action === 'skip') {
+      //delete from challengers array
+      console.log('user is', Auth.currentUserId());
+      this.deleteChallenge(challengeId);
+
+    }
+  }
+
+  deleteChallenge = (challengeId) => {
+    let index;
+    axios.post(`/api/challenges/${challengeId}/delete`, { id: Auth.currentUserId()})
+      .then(() => {
+        this.state.userChallenges.map(challenge => {
+          if (challenge._id === challengeId) {
+            index = this.state.userChallenges.indexOf(challenge);
+          }
+        });
+        const newState = this.state;
+        newState.userChallenges.splice(index, index+1);
+        this.setState({ userChallenges: newState.userChallenges});
+
+      });
   }
 
   // ************ CHALLENGES LOGIC **************
 
   getExercise = () => { // sets the exercises from the current plan on the state
     // NOTE: this should be run conditonally if there is no execiseplan for the user
-    axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
-      .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
-        console.log('exercises are', this.state.exercises);
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+      .then(res => this.setState({ exercises: res.data[0], goRender: true }, () => {
+        console.log('exercise is', this.state.exercises);
         this.getProgram();
       }
       ));
@@ -267,6 +287,7 @@ class Dashboard extends React.Component {
           ref={this.child}
           userChallenges = {this.state.userChallenges}
           user = {this.state.users}
+          handleChallenge = {this.handleChallenge}
         />
         }
 

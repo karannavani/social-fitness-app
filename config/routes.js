@@ -55,6 +55,9 @@ Router.route('/exerciseplans/:id')
   .patch(exercisePlanController.updateDay)
   .delete(exercisePlanController.delete);
 
+Router.route('/exerciseplans/:userId/active')
+  .get(exercisePlanController.active);
+
 //------- TRIBE ROUTES
 Router.route('/tribes/:tribeName')
   .get(tribeController.index);
@@ -80,6 +83,9 @@ Router.route('/challenges')
 Router.route('/challenges/:id')
   .get(challengeController.show)
   .post(challengeController.update);
+
+Router.route('/challenges/:id/delete')
+  .post(challengeController.delete);
 
 Router.route('/challenges/:id/completed')
   .post(challengeController.complete);
