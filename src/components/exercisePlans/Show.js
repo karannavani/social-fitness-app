@@ -82,7 +82,6 @@ export default class ExercisePlanShow extends React.Component{
       );
   }
 
-
   createAdoptedPlan = () => {
     const adoptedPlan = this.packageAdoptionData();
     axios.post('/api/exerciseplans', adoptedPlan)
@@ -100,8 +99,6 @@ export default class ExercisePlanShow extends React.Component{
     };
     Request.updateFeed(feedBody);
   }
-
-
 
   // NOTE: this needs refactoring
   packageAdoptionData = () =>{
@@ -156,21 +153,18 @@ export default class ExercisePlanShow extends React.Component{
     return packagedData;
   }
 
-  //start date can only be after current program completes
-  //validte date input
-
   render(){
     const { state } = this;
     return(
       <section className='container'>
-        {state &&
+        {state.day1 &&
           <div className='columns is-centered'>
             <div className=' column is-8 columns is-mobile is-multiline'>
               <div className='column is-6'>
-                <h1 className='title is-5'>Plan Name</h1>
+                <h1 className='title is-5'>{state.name}</h1>
               </div>
               <div className='column is-6'>
-                <h1 className='title is-5'>Tribe</h1>
+                <h1 className='title is-5'>{!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  }</h1>
               </div>
               <div className='column is-6'>
                 <p><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>

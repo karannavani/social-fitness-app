@@ -16,7 +16,7 @@ function exercisePlanPaginate( req, res, next ){
 
 function exercisePlanShow(req, res, next) {
   ExercisePlan.findById(req.params.id)
-    .populate('user')
+    .populate({path: 'user exercisePlanAdoptedFrom', populate: {path: 'user'}})
     .then(exercise => res.json(exercise))
     .catch(next);
 }
