@@ -18,8 +18,8 @@ export default class ChallengeCard extends React.Component{
   }
 
   acceptChallenge = (challengeId) => {
-      console.log('acceptChallenge fires');
-      axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()});
+    console.log('acceptChallenge fires');
+    axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()});
   }
 
   handleClick = () => {

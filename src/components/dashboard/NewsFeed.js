@@ -30,8 +30,7 @@ export default class NewsFeed extends React.Component{
       axios.post('/api/feed/paginate', paginateOptions)
         .then(res => {
           const sortedFeed = this.sortFeed(res.data.docs);
-          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages},
-            () => console.log('news feed state is', this.state));
+          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
         });
     }
   }

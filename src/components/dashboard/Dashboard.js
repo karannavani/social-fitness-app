@@ -19,19 +19,11 @@ class Dashboard extends React.Component {
     feedUpdate: {},
     userChallenges: []
   }
-  // shareExercises = (exerciseData) =>{
-  //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
-  // }
 
   // Getting all the challenges
   componentDidMount() {
-    axios.get('/api/challenges')
-      .then(res => this.setState({ challenges: res.data },
-        () => {
-          console.log('challenges are', this.state.challenges);
-          this.checkChallenges();
-        }));
 
+    this.getChallenges();
     //Getting user exercises
     axios.get(`/api/users/${Auth.currentUserId()}`)
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
@@ -42,21 +34,18 @@ class Dashboard extends React.Component {
   }
 
 
-
-
-  // getExercise = () => { // sets the exercises from the current plan on the state
-  //   // NOTE: this should be run conditonally if there is no execiseplan for the user
-  //   axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
-  //     .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
-  //       console.log('exercise is', this.state.exercises);
-  //       this.getProgram();
-  //     }
-  //     ));
-  // }
-
   // ************** CORE FEED FUNCTIONS ******************************
 
   // ************ CHALLENGES LOGIC **************
+
+  getChallenges = () => {
+    axios.get('/api/challenges')
+      .then(res => this.setState({ challenges: res.data },
+        () => {
+          console.log('challenges are', this.state.challenges);
+          this.checkChallenges();
+        }));
+  }
 
   checkChallenges = () => {
     const myChallenges = this.state.userChallenges;
@@ -75,9 +64,34 @@ class Dashboard extends React.Component {
     console.log('action is', action);
     console.log('id is', challengeId);
 
-    
+    if (action === 'complete') {
+      this.deleteChallenge(challengeId);
+      //delete from challengers array
+      // post to completed array
+      // add grit points
 
-    // if ()
+    } else if (action === 'skip') {
+      //delete from challengers array
+      console.log('user is', Auth.currentUserId());
+      this.deleteChallenge(challengeId);
+
+    }
+  }
+
+  deleteChallenge = (challengeId) => {
+    let index;
+    axios.post(`/api/challenges/${challengeId}/delete`, { id: Auth.currentUserId()})
+      .then(() => {
+        this.state.userChallenges.map(challenge => {
+          if (challenge._id === challengeId) {
+            index = this.state.userChallenges.indexOf(challenge);
+          }
+        });
+        const newState = this.state;
+        newState.userChallenges.splice(index, index+1);
+        this.setState({ userChallenges: newState.userChallenges});
+
+      });
   }
 
   // ************ CHALLENGES LOGIC **************
@@ -91,7 +105,6 @@ class Dashboard extends React.Component {
       }
       ));
   }
-
 
   getProgram = () => {
     if (this.state.exercises) {
