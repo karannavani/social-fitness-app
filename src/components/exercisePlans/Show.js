@@ -24,7 +24,7 @@ export default class ExercisePlanShow extends React.Component{
     this.setState({newExercisePlanId});
 
     axios.get(`/api/exerciseplans/${this.props.match.params.id}`)
-      .then(res => this.setState(res.data));
+      .then(res => this.setState(res.data, () => console.log('the state is', this.state)));
   }
 
   handleChange = ({ target: { name, value }}) => {
@@ -163,14 +163,14 @@ export default class ExercisePlanShow extends React.Component{
     const { state } = this;
     return(
       <section className='container'>
-        {state &&
+        {state.day1 &&
           <div className='columns is-centered'>
             <div className=' column is-8 columns is-mobile is-multiline'>
               <div className='column is-6'>
-                <h1 className='title is-5'>Plan Name</h1>
+                <h1 className='title is-5'>{state.name}</h1>
               </div>
               <div className='column is-6'>
-                <h1 className='title is-5'>Tribe</h1>
+                <h1 className='title is-5'>{!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  }</h1>
               </div>
               <div className='column is-6'>
                 <p><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
