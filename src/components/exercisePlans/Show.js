@@ -52,45 +52,54 @@ export default class ExercisePlanShow extends React.Component{
     }
   }
 
-  validateStartDate = () => {
-    const momStartDate = moment(this.state.newStartDate).utc();
-    if (this.state.usersActivePlanStartDate) {
-      const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-      if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // validateStartDate = () => {
+  //   const momStartDate = moment(this.state.newStartDate).utc();
+  //   if (this.state.usersActivePlanStartDate) {
+  //     const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
+  //     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
   // the usersActiveplan start date is correct on the server
   // the usersActiveplan start date is correct on the client
   // the correct future start date is displayed when wrong date is chosen
   // the correct start date is displayed when correct date is chosen
 
-  // VstartDate = (userId, chosenStartDate, activePlanStartDate, futurePlans) => {
-  //   //get active plan
-  //   const momChosenStartDate = moment(chosenStartDate);
-  //   const activePlanEndDate = moment.unix(activePlanStartDate).add(6, 'days');
-  //
-  //   if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
-  //
-  //   console.log('made it past end of active date');
-  //   const futurePeriods = [];
-  //   futurePlans.forEach(plan => {
-  //     const momStartDate = moment.unix(plan.startDate);
-  //     console.log('the period moment start date is', momStartDate);
-  //     futurePeriods.push({
-  //       beforeDate: moment(momStartDate).subtract(7, 'days'),
-  //       endDate: moment(momStartDate).add(6, 'days')
-  //     });
-  //   });
-  //   console.log('the chosen moment start date is', momChosenStartDate);
-  //   console.log('the future periods are', futurePeriods);
-  //   return futurePlans.every( futurePeriod => {
-  //     console.log('the chosen date is not between the period====> ', !moment(momChosenStartDate).isBetween(futurePeriod.beforeDate, futurePeriod.endDate));
-  //     !moment(momChosenStartDate).isBetween(futurePeriod.beforeDate, futurePeriod.endDate);
-  //   });
-  // }
+  VstartDate = (userId, chosenStartDate, activePlanStartDate, futurePlans) => {
+    //get active plan
+    const momChosenStartDate = moment(chosenStartDate);
+    const activePlanEndDate = moment.unix(activePlanStartDate).add(6, 'days');
+
+    if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
+
+    console.log('made it past end of active date');
+    const futurePeriods = [];
+    futurePlans.forEach(plan => {
+      const momStartDate = moment.unix(plan.startDate);
+      console.log('the period moment start date is', momStartDate);
+      futurePeriods.push({
+        beforeDate: moment(momStartDate).subtract(7, 'days'),
+        endDate: moment(momStartDate).add(7, 'days')
+      });
+    });
+    if(!futurePeriods.length) return true;
+    console.log('the chosen date is not between the period====> ', !moment(momChosenStartDate).isBetween(futurePeriods[0].beforeDate, futurePeriods[0].endDate));
+
+    const validateArray =[];
+    for(let i = 0; i < futurePeriods.length; i++){
+      if(!moment(momChosenStartDate).isBetween(futurePeriods[i].beforeDate, futurePeriods[i].endDate)){
+        validateArray.push(true);
+      }else{
+        validateArray.push(false);
+      }
+    }
+
+    return validateArray.every(item => item);
+    // futurePlans.some( futurePeriod => {
+    // });
+  }
 
   // Gets the users most recent program and sets the start date to state
   getUsersCurrentPlan = () =>{
