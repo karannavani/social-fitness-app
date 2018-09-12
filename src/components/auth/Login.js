@@ -71,13 +71,13 @@ export default class AuthLogin extends React.Component{
 
               <div className="columns login-buttons">
 
-                <button className="button column is-info is-rounded is-3 is-offset-1">Log in</button>
+                <button className="auth-button has-text-centered column is-rounded is-3 is-offset-1">Log in</button>
 
                 <div className="column is-3 is-offset-1">
                   <a className="button is-rounded" onClick={ this.togglePasswordShow }>👁</a>
                 </div>
 
-                <button className="button is-rounded is-info is-3 is-offset-1"><Link to='/'>Back</Link></button>
+                <div className="auth-button column is-1 is-offset-1"><Link to='/'>Back</Link></div>
               </div>
 
             </div>
