@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../lib/Auth';
 import NewsFeed from './NewsFeed';
-import axios from 'axios';
+// import axios from 'axios';
 
 class Feed extends React.Component {
   state = {
@@ -24,6 +24,7 @@ class Feed extends React.Component {
     // console.log('prev props is ==>', prevProps.exercises);
     // console.log('state exercises is ==>', this.state.exercises);
     if (prevProps.exercises !== this.props.exercises) {
+      console.log('props looks like', this.props);
       console.log('this.props.exercise is', this.props.exercises);
       this.setState({ exercises: this.props.exercises, dotsArr: [] }, () => {
         if (this.props.exercises) this.createDots();
@@ -94,7 +95,7 @@ class Feed extends React.Component {
             <h3 className="title is-3">Your Grit: <i className="fas fa-bolt" style={{color: '#363636'}}></i> {this.props.userGrit}</h3>
           </div>
 
-          {/* {this.props.userChallenges.length &&
+          {this.props.userChallenges.length > 0 &&
             <div className="card program-card">
               <div className="card-content">
                 <div className="columns is-multiline is-vcentered">
@@ -110,7 +111,7 @@ class Feed extends React.Component {
                 </div>
               </div>
             </div>
-          } */}
+          }
 
           <div className="card program-card">
             <div className="card-content">
@@ -149,7 +150,7 @@ class Feed extends React.Component {
             </div>
           </div>
 
-
+          {this.props.exercises &&
           <div className="card program-card-unlogged">
             <div className="card-content">
               <h4 className="title is-4 white">This week</h4>
@@ -166,6 +167,7 @@ class Feed extends React.Component {
               <h4 className="title is-5 white">Predicted average per day: {this.state.exercises && this.state.exercises.workoutTimeAvg} mins</h4>
             </div>
           </div>
+          }
 
           <section className='container'>
             <NewsFeed />
