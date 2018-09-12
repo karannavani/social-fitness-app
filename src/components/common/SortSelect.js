@@ -4,7 +4,7 @@ import React from 'react';
 const SortSelect = ({ options, handleChange, defaultValue, title }) => {
   return(
     <div className="field">
-      <label className='label' >{title}</label>
+      <div  className='sub-text'>{title}</div>
       <div className="select">
         <select value={defaultValue} onChange= {handleChange }>
 

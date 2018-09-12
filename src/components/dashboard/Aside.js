@@ -39,9 +39,9 @@ class Aside extends React.Component {
     const {editProgram} = this.props;
     return(
 
-      <div className="column is-4 is-3-desktop dashAside">
+      <div className="column is-4 is-3-desktop aside">
         <div className="program-div">
-          {programToday && <h2 className="title is-2 white">Today</h2>}
+          {programToday && <h2 className="page-title-small">Today</h2>}
           {/* **************CARDS LOGIC************** */}
 
           {/* main card which displays today's exercise */}

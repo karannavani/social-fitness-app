@@ -12,7 +12,7 @@ function Home() {
 
       <p className="column is-full has-text-centered sub-text">Join a Tribe based on your exercise routines and <br/>
        earn Grit Points by taking on challenges, completing plans and showing that</p>
-      <p className="bold-sub-text column is-full has-text-centered">you're not a little bitch.</p>
+      <p className="bold-sub-text column is-full has-text-centered">you&apos;re not a little bitch.</p>
       <p className="column is-full has-text-centered sub-text">You can track your progress and see how the rest of your Tribe are performing.</p>
       <div className="auth-button column is-1 is-offset-4 has-text-centered"><Link to='/login' className="">Login</Link></div>
       <div className="auth-button column is-1 is-offset-2 has-text-centered"><Link to='/register' className="">Sign Up</Link></div>

@@ -6,10 +6,10 @@ const PlanHistoryCard = ({plan, keyId}) =>{
   return(
     <Link
       to={`/exerciseplan/${plan._id}`}
-      style={plan.activePlan ? {border: '1px solid red'} : null}
-      key={keyId} className='column is-3 box'>
+      key={keyId}
+      className={`column is-3 historic-plans  ${plan.activePlan ? 'active-plan-glow' : ''}`}>
 
-      <div className='columns is-multiline is-mobile'>
+      <div className='columns is-centered is-multiline is-mobile'>
         <div>Program Name Goes Here</div>
         <div className='column is-6'>
           {plan.totalGrit &&<p><i className="fas fa-bolt fas-regular"></i>: {plan.totalGrit}</p>}

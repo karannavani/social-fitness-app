@@ -96,7 +96,7 @@ class Feed extends React.Component {
           </div>
 
           {this.props.userChallenges.length > 0 &&
-            <div className="card program-card">
+            <div className="card feed-top-options">
               <div className="card-content">
                 <div className="columns is-multiline is-vcentered">
                   <div className="column is-1 is-pulled-left">
@@ -113,7 +113,7 @@ class Feed extends React.Component {
             </div>
           }
 
-          <div className="card program-card">
+          <div className="card feed-top-options">
             <div className="card-content">
               <div className="columns is-multiline is-vcentered">
                 <div className="column is-1 is-pulled-left">
@@ -129,7 +129,7 @@ class Feed extends React.Component {
           </div>
 
 
-          <div className="card program-card">
+          <div className="card feed-top-options">
             <div className="card-content">
               <div className="columns is-multiline is-vcentered">
                 <div className="column is-1 is-pulled-left">
@@ -151,7 +151,7 @@ class Feed extends React.Component {
           </div>
 
           {this.props.exercises &&
-          <div className="card program-card-unlogged">
+          <div className="card card-unlogged">
             <div className="card-content">
               <h4 className="title is-4 white">This week</h4>
               <div className="columns">

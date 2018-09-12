@@ -3,7 +3,7 @@ import PrimaryCard from './PrimaryCard';
 
 const UnloggedCard = ({program, programDay, handleProgramClick }) => {
   return(
-    <div className="card program-card-unlogged">
+    <div className="card aside-card-unlogged">
       <div className="card-content">
         <h3 key="0" className="title is-3 white">{programDay}</h3>
         <PrimaryCard
