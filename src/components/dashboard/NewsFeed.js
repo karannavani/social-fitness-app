@@ -12,6 +12,7 @@ import CreatePlan from './newsFeedCards/CreatePlan';
 import LogWorkout from './newsFeedCards/LogWorkout';
 import StartChallenge from './newsFeedCards/StartChallenge';
 import CompleteChallenge from './newsFeedCards/CompleteChallenge';
+import NewFollow from './newsFeedCards/NewFollow';
 
 export default class NewsFeed extends React.Component{
   state={
@@ -110,6 +111,15 @@ export default class NewsFeed extends React.Component{
                     key = {newsFeedItem._id}
                     user = {newsFeedItem.user}
                     challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'follow':
+                return(
+                  <NewFollow
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    followedUser = {newsFeedItem.followedUserId}
                     created = {newsFeedItem.daysAgoCreated}
                   />
                 );
