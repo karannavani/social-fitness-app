@@ -10,11 +10,14 @@ import NewsCardNewRegister from './newsFeedCards/NewRegister.js';
 import AdoptPlan from './newsFeedCards/AdoptPlan';
 import CreatePlan from './newsFeedCards/CreatePlan';
 import LogWorkout from './newsFeedCards/LogWorkout';
+import StartChallenge from './newsFeedCards/StartChallenge';
+import CompleteChallenge from './newsFeedCards/CompleteChallenge';
+import NewFollow from './newsFeedCards/NewFollow';
 
 export default class NewsFeed extends React.Component{
   state={
     page: 1,
-    limit: [3]
+    limit: [10]
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -41,13 +44,14 @@ export default class NewsFeed extends React.Component{
 
   handleLoadMoreNews = () => {
     const newLimit = this.state.limit.slice();
-    newLimit[0] += 3;
+    newLimit[0] += 10;
 
     this.setState({limit: newLimit});
   }
 
   render(){
     const { newsFeedItems } = this.state;
+    console.log('news feed items are', newsFeedItems);
     return(
       <section className='container'>
         {newsFeedItems &&
@@ -61,6 +65,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'createPlan':
@@ -69,6 +74,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'logWorkout':
@@ -79,6 +85,7 @@ export default class NewsFeed extends React.Component{
                     grit = {newsFeedItem.grit}
                     time = {newsFeedItem.time}
                     intensity = {newsFeedItem.intensity}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'register':
@@ -86,6 +93,34 @@ export default class NewsFeed extends React.Component{
                   <NewsCardNewRegister
                     key = {newsFeedItem._id}
                     user={newsFeedItem.user}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'createChallenge':
+                return(
+                  <StartChallenge
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'completeChallenge':
+                return(
+                  <CompleteChallenge
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'follow':
+                return(
+                  <NewFollow
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    followedUser = {newsFeedItem.followedUserId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
             }

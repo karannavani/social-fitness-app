@@ -5,6 +5,7 @@ import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Validate from '../../lib/Validate';
 import Flash from '../../lib/Flash';
 import Request from '../../lib/Request';
 import Id from '../../lib/Id';
@@ -39,7 +40,8 @@ export default class ExercisePlanShow extends React.Component{
 
     }else if(this.state.adopting){
 
-      if(this.VstartDate(Auth.currentUserId(), this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans)){
+      // if(this.VstartDate(Auth.currentUserId(), this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans)){
+      if(Validate.startDate(this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans )){
         const formattedDate = moment(this.state.newStartDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
         Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${formattedDate}`);
@@ -52,53 +54,18 @@ export default class ExercisePlanShow extends React.Component{
     }
   }
 
-  validateStartDate = () => {
-    const momStartDate = moment(this.state.newStartDate).utc();
-    if (this.state.usersActivePlanStartDate) {
-      const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-      if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
-      return false;
-    } else {
-      return true;
-    }
-  }
-  // the usersActiveplan start date is correct on the server
-  // the usersActiveplan start date is correct on the client
-  // the correct future start date is displayed when wrong date is chosen
-  // the correct start date is displayed when correct date is chosen
-
-  // VstartDate = (userId, chosenStartDate, activePlanStartDate, futurePlans) => {
-  //   //get active plan
-  //   const momChosenStartDate = moment(chosenStartDate);
-  //   const activePlanEndDate = moment.unix(activePlanStartDate).add(6, 'days');
-  //
-  //   if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
-  //
-  //   console.log('made it past end of active date');
-  //   const futurePeriods = [];
-  //   futurePlans.forEach(plan => {
-  //     const momStartDate = moment.unix(plan.startDate);
-  //     console.log('the period moment start date is', momStartDate);
-  //     futurePeriods.push({
-  //       beforeDate: moment(momStartDate).subtract(7, 'days'),
-  //       endDate: moment(momStartDate).add(6, 'days')
-  //     });
-  //   });
-  //   console.log('the chosen moment start date is', momChosenStartDate);
-  //   console.log('the future periods are', futurePeriods);
-  //   return futurePlans.every( futurePeriod => {
-  //     console.log('the chosen date is not between the period====> ', !moment(momChosenStartDate).isBetween(futurePeriod.beforeDate, futurePeriod.endDate));
-  //     !moment(momChosenStartDate).isBetween(futurePeriod.beforeDate, futurePeriod.endDate);
-  //   });
-  // }
-
   // Gets the users most recent program and sets the start date to state
   getUsersCurrentPlan = () =>{
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
       .then(res => {
-        this.setState({usersActivePlanStartDate: res.data[0].startDate});
+        this.setState({usersActivePlanStartDate: res.data}, () => {
+          if (this.state.usersActivePlanStartDate.length) {
+            this.setState({usersActivePlanStartDate: res.data[0].startDate});
+          }else{
+            this.setState({usersActivePlanStartDate: false});
+          }
+        });
       });
-
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
       .then(res => this.setState({futurePlans: res.data}));
   }

@@ -3,9 +3,9 @@ import FormInput from '../common/FormInput';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Validate from '../../lib/Validate';
 import Id from '../../lib/Id';
 import Request from '../../lib/Request';
-
 
 export default class ExercisePlanNew extends React.Component {
   state = {
@@ -13,22 +13,18 @@ export default class ExercisePlanNew extends React.Component {
   }
 
   componentDidMount(){
-    const paginateOptions = {
-      'userId': Auth.currentUserId(),
-      'page': 1,
-      'sort': { 'startDate': -1 },
-      'limit': 1
-    };
-    axios.post('/api/exerciseplans/paginate', paginateOptions)
-      .then(res => this.setState({usersActivePlanStartDate: res.data.docs}, ()=> {
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+      .then(res => this.setState({usersActivePlanStartDate: res.data}, ()=> {
         if (this.state.usersActivePlanStartDate.length) {
-          this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}, () => {
-            console.log('log', this.state.usersActivePlanStartDate);
-          });
+          this.setState({usersActivePlanStartDate: res.data[0].startDate});
         } else {
-          this.setState({ autoValidate: true });
+          this.setState({ autoValidate: true, usersActivePlanStartDate: false });
         }
       }));
+
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
+      .then(res => this.setState({futurePlans: res.data}))
+      .catch(err => console.log('the get future plans error is ', err));
   }
 
   handleSubmit = (event) => {
@@ -63,7 +59,7 @@ export default class ExercisePlanNew extends React.Component {
   handleChange = ({ target: { name, value, checked } }) => {
     const day = name.split('.')[0];
     this.setState({ [`${day}.intensity`]: 'Low' });
-    
+
     if(name.includes('time')) {
       value = parseInt(value);
       this.setState({[name]: value}, () => {
@@ -73,7 +69,7 @@ export default class ExercisePlanNew extends React.Component {
 
     } else if (name.includes('normalStartDate')){
       this.setState({[name]: value}, () =>{
-        if(this.validateStartDate() || this.state.autoValidate){
+        if(Validate.startDate(this.state.normalStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans) || this.state.autoValidate){
           const unixValue = moment(value).unix();
           console.log('value is', value);
           console.log('unix value is', unixValue);
@@ -105,11 +101,8 @@ export default class ExercisePlanNew extends React.Component {
   }
 
   validateStartDate = () => {
-    // console.log('from state ', this.state.normalStartDate);
     const momStartDate = moment(this.state.normalStartDate).utc();
-    // console.log('the newStartDate is:', momStartDate);
     const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-    // console.log('the date sevenDaysTime is: ', sevenDaysTime);
     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
 
     return false;

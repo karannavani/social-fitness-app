@@ -4,6 +4,7 @@ import Aside from './Aside';
 import Feed from './Feed';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Request from '../../lib/Request';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -22,12 +23,6 @@ class Dashboard extends React.Component {
 
   // Getting all the challenges
   componentDidMount() {
-    axios.get('/api/challenges')
-      .then(res => this.setState({ challenges: res.data },
-        () => {
-          this.checkChallenges();
-        }));
-
 
     this.getChallenges();
     //Getting user exercises
@@ -38,16 +33,6 @@ class Dashboard extends React.Component {
         }));
 
   }
-
-  // getExercise = () => { // sets the exercises from the current plan on the state
-  //   // NOTE: this should be run conditonally if there is no execiseplan for the user
-  //   axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
-  //     .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
-  //       console.log('exercise is', this.state.exercises);
-  //       this.getProgram();
-  //     }
-  //     ));
-  // }
 
 
   // ************** CORE FEED FUNCTIONS ******************************
@@ -68,30 +53,32 @@ class Dashboard extends React.Component {
     this.state.challenges.forEach(challenge => {
       if (challenge.challengers.includes(Auth.currentUserId())) {
         myChallenges.push(challenge);
-        this.setState({ userChallenges: myChallenges });
+        this.setState({ userChallenges: myChallenges },
+          () => console.log('updated user challenge is', this.state.userChallenges));
       }
     });
   }
 
   handleChallenge = ({target: {id}}) => {
-    console.log('clicked', id);
     const [action, challengeId] = id.split(' ');
-    console.log('action is', action);
-    console.log('id is', challengeId);
 
     if (action === 'complete') {
+      const feedBody = {
+        user: Auth.currentUserId(),
+        type: 'completeChallenge',
+        challengeId
+      };
+      Request.updateFeed(feedBody);
+
       axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()})
-        .then(res => console.log('res is', res))
-        .then(this.deleteChallenge(challengeId));
+        .then(() => this.awardGrit(challengeId))
+        .then(() => this.deleteChallenge(challengeId));
 
-
-
-      // post to completed array
-      // add grit points
+      // get grit of clicked challenge
+      // add that to user grit
 
     } else if (action === 'skip') {
       //delete from challengers array
-      console.log('user is', Auth.currentUserId());
       this.deleteChallenge(challengeId);
 
     }
@@ -113,12 +100,22 @@ class Dashboard extends React.Component {
       });
   }
 
+  awardGrit = (challengeId) => {
+    this.state.userChallenges.forEach(challenge => {
+      if (challenge._id === challengeId) {
+        const grit = challenge.challengeGrit;
+        this.updateGrit(grit);
+      }
+    });
+  }
+
   // ************ CHALLENGES LOGIC **************
 
   getExercise = () => { // sets the exercises from the current plan on the state
     // NOTE: this should be run conditonally if there is no execiseplan for the user
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
       .then(res => this.setState({ exercises: res.data[0], goRender: true }, () => {
+        console.log('exercise is', this.state.exercises);
         this.getProgram();
       }
       ));
@@ -161,6 +158,7 @@ class Dashboard extends React.Component {
 
   checkUnlogged = (exercise, i) => {
     if (exercise.exerciseCompleted === null) {
+      // console.log('unlogged exercise is', exercise);
       this.state.unloggedDays.push(i);
       this.state.unloggedExercises.push(exercise);
     }
@@ -174,6 +172,7 @@ class Dashboard extends React.Component {
   }
 
   handleEditSubmit = ({ target }) => { // saves the edit to the exercise db or cancels it
+    console.log('target is', target.id);
     const [id, day] = target.id.split(' ');
 
     if (id === 'complete') {
@@ -189,6 +188,7 @@ class Dashboard extends React.Component {
   handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
     const [id, day, grit] = target.id.split(' ');
     const newProgramState = this.state.exercises[day.toLowerCase()];
+    console.log('newProgramState before looks like', newProgramState);
 
     const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
 
@@ -197,6 +197,7 @@ class Dashboard extends React.Component {
       case ('complete'):
         newProgramState.exerciseCompleted = true;
         newProgramState.dailyGrit = parseInt(grit);
+        console.log('newProgramState after looks like', newProgramState);
         this.deleteUnlogged(unloggedIndex);
         this.programUpdate(day, newProgramState, grit);
         this.feedUpdate(newProgramState.time, newProgramState.intensity, newProgramState.dailyGrit);
@@ -228,10 +229,10 @@ class Dashboard extends React.Component {
   programUpdate = (day, newProgramState, grit) => {
 
     axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState})
+      // .then(res => console.log('res is', res.data))
       .then(res => this.setState({ exercises: res.data }));
 
-    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
-      .then(res => this.setState({ userGrit: res.data.grit }));
+    this.updateGrit(grit);
 
     if (this.state.programDay.replace(' ', '') === day) {
       this.setState({ programToday: newProgramState });
@@ -249,10 +250,13 @@ class Dashboard extends React.Component {
         grit
       }
     }, () => {
-      axios.post('/api/feed', this.state.feedUpdate)
-        .then(res => console.log('res from feed is', res));
-
+      axios.post('/api/feed', this.state.feedUpdate);
     });
+  }
+
+  updateGrit = (grit) => {
+    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
+      .then(res => this.setState({ userGrit: res.data.grit }));
   }
 
   // ************** CORE FEED FUNCTIONS ******************************

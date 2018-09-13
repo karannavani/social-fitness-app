@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const LogWorkout = ({ user, exercisePlan, grit, time, intensity }) => {
+const LogWorkout = ({ user, exercisePlan, grit, time, intensity, created }) => {
   return(
     <article className="media">
       <figure className="media-left">
@@ -11,8 +11,16 @@ const LogWorkout = ({ user, exercisePlan, grit, time, intensity }) => {
       </figure>
       <div className="media-content">
         <div className="content">
-          <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
-          <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+          <div className="columns">
+            <div className="column is-9">
+              <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
+              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+            </div>
+            <div className="column">
+              <h5 className="subtitle is-6 sub-text">{created}</h5>
+            </div>
+          </div>
+
           {/* CHANGEBLE CONTENT */}
           <p>Completed a {time} minutes long workout today at {intensity.toLowerCase()} intensity,
             bringing in {grit} grit points!</p>
@@ -27,19 +35,6 @@ const LogWorkout = ({ user, exercisePlan, grit, time, intensity }) => {
           {/* CHANGEBLE CONTENT */}
         </div>
 
-        <nav className="level is-mobile">
-          <div className="level-left">
-            <a className="level-item">
-              <span className="icon is-small"><i className="fas fa-reply"></i></span>
-            </a>
-            <a className="level-item">
-              <span className="icon is-small"><i className="fas fa-retweet"></i></span>
-            </a>
-            <a className="level-item">
-              <span className="icon is-small"><i className="fas fa-heart"></i></span>
-            </a>
-          </div>
-        </nav>
       </div>
     </article>
   );

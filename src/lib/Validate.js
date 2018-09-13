@@ -1,34 +1,37 @@
-import axios from 'axios';
 import moment from 'moment';
 
 const Validate = {};
 
-Validate.startDate = function(userId, chosenStartDate, activePlanStartDate) {
-  //get active plan
-  const momCST = moment(chosenStartDate);
-  // const today = moment();
-  let activePlanEndDate;
-  // const futurePlans = [];
-  axios.get(`/api/exerciseplans/${userId}/active`)
-    .then(res =>{
-      console.log('the returning data is', res.data[0].startDate)
+Validate.startDate = function(chosenStartDate, activePlanStartDate, futurePlans) {
+  const momChosenStartDate = moment(chosenStartDate);
+  const activePlanEndDate = moment.unix(activePlanStartDate).add(6, 'days');
+  
+  if(!activePlanStartDate && !futurePlans.length){
+    return true;
+  }
 
-      activePlanEndDate = moment.unix(res.data[0].startDate).add(6, 'days');
+  if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
 
-      console.log('activePlanEndDate is', activePlanEndDate)
-      console.log('the chosen data as momemnt is', momCST)
-      console.log('the cst is after the enddata', momCST.isAfter(moment(activePlanEndDate)))
-      if(momCST.isAfter(moment(activePlanEndDate))){
-        return
-      }
-      // return false;
-    } );
+  const futurePeriods = [];
+  futurePlans.forEach(plan => {
+    const momStartDate = moment.unix(plan.startDate);
+    futurePeriods.push({
+      beforeDate: moment(momStartDate).subtract(7, 'days'),
+      endDate: moment(momStartDate).add(7, 'days')
+    });
+  });
+  if(!futurePeriods.length) return true;
 
-  //
-  // axios.get(`/api/exerciseplans/${userId}/future`)
-  //   .then(res => res.data.forEach(plan => futurePlans.push(plan.startDate)))
+  const validateArray =[];
+  for(let i = 0; i < futurePeriods.length; i++){
+    if(!moment(momChosenStartDate).isBetween(futurePeriods[i].beforeDate, futurePeriods[i].endDate)){
+      validateArray.push(true);
+    }else{
+      validateArray.push(false);
+    }
+  }
 
-  //create an array of periods
+  return validateArray.every(item => item);
 };
 
 
