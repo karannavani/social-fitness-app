@@ -4,6 +4,7 @@ import Aside from './Aside';
 import Feed from './Feed';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Request from '../../lib/Request';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -62,6 +63,13 @@ class Dashboard extends React.Component {
     const [action, challengeId] = id.split(' ');
 
     if (action === 'complete') {
+      const feedBody = {
+        user: Auth.currentUserId(),
+        type: 'completeChallenge',
+        challengeId
+      };
+      Request.updateFeed(feedBody);
+
       axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()})
         .then(() => this.awardGrit(challengeId))
         .then(() => this.deleteChallenge(challengeId));

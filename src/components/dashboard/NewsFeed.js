@@ -11,6 +11,7 @@ import AdoptPlan from './newsFeedCards/AdoptPlan';
 import CreatePlan from './newsFeedCards/CreatePlan';
 import LogWorkout from './newsFeedCards/LogWorkout';
 import StartChallenge from './newsFeedCards/StartChallenge';
+import CompleteChallenge from './newsFeedCards/CompleteChallenge';
 
 export default class NewsFeed extends React.Component{
   state={
@@ -93,6 +94,14 @@ export default class NewsFeed extends React.Component{
               case 'createChallenge':
                 return(
                   <StartChallenge
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
+                  />
+                );
+              case 'completeChallenge':
+                return(
+                  <CompleteChallenge
                     key = {newsFeedItem._id}
                     user = {newsFeedItem.user}
                     challenge = {newsFeedItem.challengeId}

@@ -30,7 +30,7 @@ export default class ChallengeCard extends React.Component{
     const feedBody = {
       user: Auth.currentUserId(),
       type: 'createChallenge',
-      challengeId: this.props.challenge._id.toString()
+      challengeId: this.props.challenge._id
     };
     Request.updateFeed(feedBody);
   }
