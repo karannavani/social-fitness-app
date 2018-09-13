@@ -20,7 +20,6 @@ mongoose.connect(dbUri);
 const today = moment().unix();
 const dayInSeconds = 86400;
 
-//////// NOTE: make sure to increase number of ids so can increase the number of seeds
 const userIds = [
   '5b91752666708bc8b1622705', '5b91752666708bc8b1622706', '5b91752666708bc8b1622707', '5b91752666708bc8b1622708', '5b91752666708bc8b1622709',
   '5b91752666708bc8b162270a', '5b91752666708bc8b162270b', '5b91752666708bc8b162270c', '5b91752666708bc8b162270d', '5b91752666708bc8b162270e',
@@ -36,22 +35,6 @@ const userIds = [
   '5b91752666708bc8b1622763', '5b91752666708bc8b1622764', '5b91752666708bc8b1622765', '5b91752666708bc8b1622766', '5b91752666708bc8b1622767'
 
 ]; //60 ids
-
-function createId() {
-  const m = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Math;
-  const d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Date;
-  const h = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 16;
-  const s = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function (s) {
-    return m.floor(s).toString(h);
-  };
-  return s(d.now() / 1000) + ' '.repeat(h).replace(/./g, function () {
-    return s(m.random() * h);
-  });
-}
-
-// function randomNumber(){
-//   return Math.floor(Math.random() * 10000000000000);
-// }
 
 /////////////////////////////////////////////////////////////////////
 ////////////----------CREATE  USERS-----------///////////////////////
@@ -91,7 +74,7 @@ function addOtherUser(){
   for(let i = 3; i < userIds.length; i++ ){
     otherUserData.push(
       {
-        _id: createId(),
+        _id: userIds[i],
         username: chance.first() + randomAge(),
         email: chance.email(),
         password: 'pass',
@@ -123,8 +106,7 @@ const challengeData = [
     name: '10km Run',
     type: 'Distance',
     distance: 10,
-    challengeGrit: 60,
-    challengers: ['5b91752666708bc8b1622705']
+    challengeGrit: 60
   },
   {
     name: '5km Run',
@@ -183,7 +165,6 @@ function addGrit(){
 ////////////-------CREATE EXERCISE PLAN-------///////////////////////
 /////////////////////////////////////////////////////////////////////
 const exerciseIds = [
-
   '5b91752666708bc8b1622728', '5b91752666708bc8b1622729', '5b91752666708bc8b162272a', '5b91752666708bc8b162272b', '5b91752666708bc8b162272c',
   '5b91752666708bc8b162272d', '5b91752666708bc8b162272e', '5b91752666708bc8b162272f', '5b91752666708bc8b1622730', '5b91752666708bc8b1622731',
   '5b91752666708bc8b1622732', '5b91752666708bc8b1622733', '5b91752666708bc8b1622734', '5b91752666708bc8b1622735', '5b91752666708bc8b1622736',
@@ -310,7 +291,8 @@ function createActiveExercisePlan(){
       day7: createExerciseDay(),
       _id: exerciseIds[i],
       user: userIds[i],
-      startDate: today
+      startDate: today,
+      name: chance.word()
     });
   }
 
@@ -384,7 +366,8 @@ function createOrigionalHistoricExercisePlans(){
       day7: createHistoricExerciseDay(),
       _id: exerciseIds[i],
       user: randomUserId(),
-      startDate: randomStartDate(randomOrigionalStartDatesArray)
+      startDate: randomStartDate(randomOrigionalStartDatesArray),
+      name: chance.word()
     });
   }
   return plan;
@@ -405,7 +388,8 @@ function createAdoptedHistoricExercisePlans(){
       _id: exerciseIds[i],
       user: randomUserId(),
       exercisePlanAdoptedFrom: randomExerciseId(), // NOTE: this should always be the original program id
-      startDate: randomStartDate(randomAdoptedStartDatesArray)
+      startDate: randomStartDate(randomAdoptedStartDatesArray),
+      name: chance.word()
     });
   }
   return plan;

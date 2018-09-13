@@ -4,6 +4,8 @@ import Aside from './Aside';
 import Feed from './Feed';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Flash from '../../lib/Flash';
+import Request from '../../lib/Request';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -19,30 +21,32 @@ class Dashboard extends React.Component {
     feedUpdate: {},
     userChallenges: []
   }
-  // shareExercises = (exerciseData) =>{
-  //   this.setState({ exerciseData }, console.log('dash data is', exerciseData));
-  // }
+
+  // Getting all the challenges
   componentDidMount() {
+
+    this.getChallenges();
+    //Getting user exercises
+    axios.get(`/api/users/${Auth.currentUserId()}`)
+      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
+        () => {
+          this.getExercise();
+        }));
+  }
+
+
+  // ************** CORE FEED FUNCTIONS ******************************
+
+  // ************ CHALLENGES LOGIC **************
+
+  getChallenges = () => {
     axios.get('/api/challenges')
       .then(res => this.setState({ challenges: res.data },
         () => {
           console.log('challenges are', this.state.challenges);
           this.checkChallenges();
         }));
-
-
-    axios.get(`/api/users/${Auth.currentUserId()}`)
-      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
-        () => {
-          if (this.state.exerciseId.length) {
-            this.getExercise();
-          }
-
-        }));
-
   }
-
-
 
   checkChallenges = () => {
     const myChallenges = this.state.userChallenges;
@@ -55,11 +59,64 @@ class Dashboard extends React.Component {
     });
   }
 
+  handleChallenge = ({target: {id}}) => {
+    const [action, challengeId] = id.split(' ');
+
+    if (action === 'complete') {
+      const feedBody = {
+        user: Auth.currentUserId(),
+        type: 'completeChallenge',
+        challengeId
+      };
+      Request.updateFeed(feedBody);
+
+      axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()})
+        .then(() => this.awardGrit(challengeId))
+        .then(() => this.deleteChallenge(challengeId));
+
+    } else if (action === 'skip') {
+      //delete from challengers array
+      this.deleteChallenge(challengeId);
+
+    }
+  }
+
+  deleteChallenge = (challengeId) => {
+    let index;
+    axios.post(`/api/challenges/${challengeId}/delete`, { id: Auth.currentUserId()})
+      .then(() => {
+        this.state.userChallenges.map(challenge => {
+          if (challenge._id === challengeId) {
+            index = this.state.userChallenges.indexOf(challenge);
+          }
+        });
+        const newState = this.state;
+        newState.userChallenges.splice(index, index+1);
+        this.setState({ userChallenges: newState.userChallenges});
+
+      });
+  }
+
+  awardGrit = (challengeId) => {
+    this.state.userChallenges.forEach(challenge => {
+      if (challenge._id === challengeId) {
+        const grit = challenge.challengeGrit;
+        this.updateGrit(grit);
+        Flash.setMessage('success', `Woohoo! You earned ${grit} grit`);
+        console.log('path name is', this.state.history);
+        this.props.history.push(this.props.location.pathname);
+
+      }
+    });
+  }
+
+  // ************ CHALLENGES LOGIC **************
+
   getExercise = () => { // sets the exercises from the current plan on the state
     // NOTE: this should be run conditonally if there is no execiseplan for the user
-    axios.get(`/api/exerciseplans/${this.state.exerciseId}`)
-      .then(res => this.setState({ exercises: res.data, goRender: true }, () => {
-        console.log('exercises are', this.state.exercises);
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+      .then(res => this.setState({ exercises: res.data[0], goRender: true }, () => {
+        console.log('exercise is', this.state.exercises);
         this.getProgram();
       }
       ));
@@ -130,10 +187,7 @@ class Dashboard extends React.Component {
   }
 
   handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
-    // console.log('target is', target.id);
     const [id, day, grit] = target.id.split(' ');
-    // console.log('day is ====>', day);
-    // console.log('grit is ====>', grit);
     const newProgramState = this.state.exercises[day.toLowerCase()];
     console.log('newProgramState before looks like', newProgramState);
 
@@ -179,11 +233,7 @@ class Dashboard extends React.Component {
       // .then(res => console.log('res is', res.data))
       .then(res => this.setState({ exercises: res.data }));
 
-    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
-      .then(res => this.setState({ userGrit: res.data.grit }));
-
-    // axios.post('/api/feed', this.state.feedUpdate)
-    //   .then(res => console.log('res from feed is', res));
+    this.updateGrit(grit);
 
     if (this.state.programDay.replace(' ', '') === day) {
       this.setState({ programToday: newProgramState });
@@ -201,46 +251,63 @@ class Dashboard extends React.Component {
         grit
       }
     }, () => {
-      console.log('feed update looks like', this.state.feedUpdate);
-      axios.post('/api/feed', this.state.feedUpdate)
-        .then(res => console.log('res from feed is', res));
-
+      axios.post('/api/feed', this.state.feedUpdate);
     });
   }
+
+  updateGrit = (grit) => {
+    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
+      .then(res => this.setState({ userGrit: res.data.grit }));
+  }
+
+  // ************** CORE FEED FUNCTIONS ******************************
+
 
 
   render() {
     return(
-      <div className="columns">
-        {this.state.exercises && this.state.goRender &&
-          <Aside
-            exercises = {this.state.exercises}
-            exerciseId = {this.state.exerciseId}
-            editProgram = {this.state.editProgram}
-            programToday = {this.state.programToday}
-            programDay = {this.state.programDay}
-            programTomorrow = {this.state.programTomorrow}
-            tomorrowRest =  {this.state.tomorrowRest}
-            rest = {this.state.rest}
-            unloggedExercises = {this.state.unloggedExercises}
-            unloggedDays = {this.state.unloggedDays}
-            parentUpdate = {this.parentUpdate}
-            handleEdit = {this.handleEdit}
-            handleProgramClick = {this.handleProgramClick}
-            handleEditSubmit = {this.handleEditSubmit}
-          />
-        }
-        {/* // NOTE: put conditional render here when there is no data */}
+      <section className="container">
 
-        <Feed
-          exercises = {this.state.exercises}
-          forceUpdate = {this.state.forceUpdate}
-          userGrit = {this.state.userGrit}
-          ref={this.child}
-          userChallenges = {this.state.userChallenges}
-        />
+        <div className="columns">
+          <div className="column is-3">
 
-      </div>
+            {this.state.exercises && this.state.goRender &&
+              <Aside
+                exercises = {this.state.exercises}
+                exerciseId = {this.state.exerciseId}
+                editProgram = {this.state.editProgram}
+                programToday = {this.state.programToday}
+                programDay = {this.state.programDay}
+                programTomorrow = {this.state.programTomorrow}
+                tomorrowRest =  {this.state.tomorrowRest}
+                rest = {this.state.rest}
+                unloggedExercises = {this.state.unloggedExercises}
+                unloggedDays = {this.state.unloggedDays}
+                parentUpdate = {this.parentUpdate}
+                handleEdit = {this.handleEdit}
+                handleProgramClick = {this.handleProgramClick}
+                handleEditSubmit = {this.handleEditSubmit}
+              />
+            }
+            {/* // NOTE: put conditional render here when there is no data */}
+
+          </div>
+          <div className="column is-9">
+
+            {this.state.users && <Feed
+              exercises = {this.state.exercises}
+              forceUpdate = {this.state.forceUpdate}
+              userGrit = {this.state.userGrit}
+              ref={this.child}
+              userChallenges = {this.state.userChallenges}
+              user = {this.state.users}
+              handleChallenge = {this.handleChallenge}
+            />
+            }
+          </div>
+
+        </div>
+      </section>
     );
   }
 }

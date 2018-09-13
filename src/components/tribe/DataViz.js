@@ -4,7 +4,7 @@ import Auth from '../../lib/Auth';
 
 import TribeVsUserChart from './TribeVsUserChart';
 import UserGritVsTime from './UserGritVsTime';
-import ChallengesIndex from '../challenges/Index'
+import ChallengesIndex from '../challenges/Index';
 
 
 class Graphs extends React.Component{
@@ -53,10 +53,14 @@ class Graphs extends React.Component{
     const user = this.state.user;
     let i = 0;
     const userGritHistory = [];
-    for( i = 0; i < 14; i++ ) {
+    let stopCondition = 14;
+    if(user.dailyGrit.length <= 14 ){
+      stopCondition = user.dailyGrit.length;
+    }
+
+    for( i = 0; i < stopCondition; i++ ) {
       if(user.dailyGrit.length){
         userGritHistory.push(user.dailyGrit[i].grit);
-
       }
     }
     return this.incrementerV3(userGritHistory);
@@ -102,8 +106,10 @@ class Graphs extends React.Component{
           }
         </div>
         <div className="column challenges-index" style={{ height: '50vh', width: '50%'}}>
-          <p className="title is-12 has-text-centered">Challenges</p>
-          <hr />
+          <p className="title is-12 page-title-large">Challenges</p>
+          <div>
+            <hr />
+          </div>
           <ChallengesIndex />
 
         </div>

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+// import Auth from '../../../lib/Auth';
 
-const AdoptPlan = ({ user, exercisePlan, created }) => {
+const CompleteChallenge = ({ user, challenge, created }) => {
+  // console.log('this is start challenge ', challenge.toString());
   return(
     <article className="media">
       <figure className="media-left">
@@ -21,25 +22,16 @@ const AdoptPlan = ({ user, exercisePlan, created }) => {
               <h5 className="subtitle is-6 sub-text white-title">{created}</h5>
             </div>
           </div>
-
           {/* CHANGEBLE CONTENT */}
 
-          {/* IF TYPE IS ADOPT PLAN */}
-
-
-          <p className="news-feed-item-details"> Adopted a new plan –
-            <Link to={`/exerciseplan/${exercisePlan._id}`}> {exercisePlan.name} </Link>
-            and has lined himself up for {exercisePlan.totalAvailableGrit} grit points, starting on {moment.unix(exercisePlan.startDate).format('DD/MM/YYYY')}
-          </p>
-          <p> The program is a total of {exercisePlan.totalTime} minutes and a {exercisePlan.intensityAvg} average intensity </p>
-
-
+          <p className="news-feed-item-details"> Completed the {challenge.name} challenge and earned {challenge.challengeGrit} grit </p>
 
           {/* CHANGEBLE CONTENT */}
         </div>
+
       </div>
     </article>
   );
 };
 
-export default AdoptPlan;
+export default CompleteChallenge;

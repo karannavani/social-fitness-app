@@ -6,18 +6,18 @@ const FilterBar = ({ options, handleChange }) => {
 
   return(
     <aside className=''>
-      <div className='field'>
+      <span className='field'>
         <input
           onChange={ handleChange }
           type='checkbox'
           name='all'
           checked={allTrue}/>
         <label
-          className="checkbox"
+          className="checkbox has-padding-5  input-text"
           htmlFor='all' >Selected All</label>
-      </div>
+      </span>
       {options && options.map((option, i) =>
-        <div key={i} className='field'>
+        <span key={i} className='field'>
           <input
             onChange={ handleChange }
             type='checkbox'
@@ -25,9 +25,9 @@ const FilterBar = ({ options, handleChange }) => {
             name={option.value}
             className='checkbox'/>
           <label
-            className="checkbox"
+            className="checkbox has-padding-5 input-text"
             htmlFor={ option.value }>{option.label}</label>
-        </div>
+        </span>
       )}
     </aside>
   );

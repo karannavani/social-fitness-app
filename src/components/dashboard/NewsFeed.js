@@ -2,7 +2,6 @@ import React from 'react';
 
 //dependancies
 import axios from 'axios';
-// import Auth from '../../lib/Auth';
 import _ from 'lodash';
 
 //componenets
@@ -11,45 +10,31 @@ import NewsCardNewRegister from './newsFeedCards/NewRegister.js';
 import AdoptPlan from './newsFeedCards/AdoptPlan';
 import CreatePlan from './newsFeedCards/CreatePlan';
 import LogWorkout from './newsFeedCards/LogWorkout';
+import StartChallenge from './newsFeedCards/StartChallenge';
+import CompleteChallenge from './newsFeedCards/CompleteChallenge';
+import NewFollow from './newsFeedCards/NewFollow';
 
 export default class NewsFeed extends React.Component{
   state={
     page: 1,
-    limit: [3]
+    limit: [10],
+    loadClick: 1,
+    loadButton: true
   };
 
-  // componentDidMount() {
-  //   const paginateOptions = {
-  //     'page': this.state.page,
-  //     'sort': {'createdAt': -1 },
-  //     'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
-  //     'limit': this.state.limit[0]
-  //   };
-  //
-  //   axios.post('/api/feed/paginate', paginateOptions)
-  //     .then(res => {
-  //       const sortedFeed = this.sortFeed(res.data.docs);
-  //       this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
-  //     });
-  // }
-
   componentDidUpdate(prevProps, prevState) {
-    // console.log('component tried to update outside');
-    // console.log('prev state.limit is ', prevState.limit);
-    // console.log('this.state.limit is ', this.state.limit);
     if(prevProps !== this.props || prevState.limit !== this.state.limit) {
-      // console.log('component tried to update');
       const paginateOptions = {
         'page': this.state.page,
         'sort': {'createdAt': -1 },
-        'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
+        'populate': 'user exercisePlanId challengeId exercisePlanAdoptedFromId followUserId',
         'limit': this.state.limit[0]
       };
 
       axios.post('/api/feed/paginate', paginateOptions)
         .then(res => {
           const sortedFeed = this.sortFeed(res.data.docs);
-          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
+          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages, total: res.data.total });
         });
     }
   }
@@ -61,13 +46,24 @@ export default class NewsFeed extends React.Component{
 
   handleLoadMoreNews = () => {
     const newLimit = this.state.limit.slice();
-    newLimit[0] += 3;
+    newLimit[0] += 10;
 
-    this.setState({limit: newLimit}, ()=> console.log('the new state is', this.state));
+    let loadClick = this.state.loadClick;
+    loadClick++;
+
+    this.setState({limit: newLimit, loadClick}, () => {
+      if (this.state.loadClick === this.state.pages) {
+        this.setState({ loadButton: false });
+      }
+
+    });
+
+    // if (this.state.total )
   }
 
   render(){
     const { newsFeedItems } = this.state;
+    console.log('news feed items are', newsFeedItems);
     return(
       <section className='container'>
         {newsFeedItems &&
@@ -81,6 +77,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'createPlan':
@@ -89,6 +86,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'logWorkout':
@@ -99,21 +97,53 @@ export default class NewsFeed extends React.Component{
                     grit = {newsFeedItem.grit}
                     time = {newsFeedItem.time}
                     intensity = {newsFeedItem.intensity}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
-              // case 'register':
-              //   return(
-              //     <NewsCardNewRegister
-              //       user={newsFeedItem.user}
-              //     />
-              //   );
+              case 'register':
+                return(
+                  <NewsCardNewRegister
+                    key = {newsFeedItem._id}
+                    user={newsFeedItem.user}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'createChallenge':
+                return(
+                  <StartChallenge
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'completeChallenge':
+                return(
+                  <CompleteChallenge
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'follow':
+                return(
+                  <NewFollow
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    followedUser = {newsFeedItem.followedUserId}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
             }
           }
           )}
         </div>
+        { this.state.loadButton &&
         <div className='column is-full has-text-centered'>
           <a onClick={this.handleLoadMoreNews}>Click to load more</a>
         </div>
+        }
       </section>
         }
       </section>

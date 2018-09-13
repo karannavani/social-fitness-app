@@ -45,9 +45,9 @@ class TribeAside extends React.Component {
       <div>
         {this.state &&
           <div className="columns">
-            <div className="column is-4 is-3-desktop tribeAside">
+            <div className="column is-4 is-3-desktop aside">
               <div className="tribeAsideContainer">
-                <h2 className="subtitle is-4 has-text-grey">YOUR TRIBE</h2>
+                <h2 className="subtitle is-4 page-title-large">YOUR TRIBE</h2>
                 { this.state.user && this.state.tribeWeight && <div><p>{this.state.members.length} {this.state.tribeName}</p>
                   <p>Average weight: {this.state.tribeWeight.toFixed(2)}</p></div> }
                 <Link to='/exerciseplan/new'><button className="button is-info is-outlined is-rounded">Create plan</button></Link>

@@ -5,6 +5,7 @@ import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Validate from '../../lib/Validate';
 import Flash from '../../lib/Flash';
 import Request from '../../lib/Request';
 import Id from '../../lib/Id';
@@ -39,12 +40,13 @@ export default class ExercisePlanShow extends React.Component{
 
     }else if(this.state.adopting){
 
-      if(this.validateStartDate()){
-        const formattedDate = moment.unix(this.state.startDate).format('dddd, MMMM Do YYYY');
+      // if(this.VstartDate(Auth.currentUserId(), this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans)){
+      if(Validate.startDate(this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans )){
+        const formattedDate = moment(this.state.newStartDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
         Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${formattedDate}`);
       }else{
-        const sevenDaysTime = moment.utc(moment.unix(this.state.startDate)).add(7, 'days');
+        const sevenDaysTime = moment.unix(this.state.usersActivePlanStartDate).add(7, 'days');
         const formattedDate = moment(sevenDaysTime).format('dddd, MMMM Do YYYY');
         Flash.setMessage('danger', `You must choose a start date that starts after your current plan ends on ${formattedDate}`);
         this.props.history.push(this.props.location.path);
@@ -52,24 +54,22 @@ export default class ExercisePlanShow extends React.Component{
     }
   }
 
-  validateStartDate = () => {
-    const momStartDate = moment(this.state.newStartDate).utc();
-    const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-    if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
-    return false;
+  // Gets the users most recent program and sets the start date to state
+  getUsersCurrentPlan = () =>{
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+      .then(res => {
+        this.setState({usersActivePlanStartDate: res.data}, () => {
+          if (this.state.usersActivePlanStartDate.length) {
+            this.setState({usersActivePlanStartDate: res.data[0].startDate});
+          }else{
+            this.setState({usersActivePlanStartDate: false});
+          }
+        });
+      });
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
+      .then(res => this.setState({futurePlans: res.data}));
   }
 
-  //gets the users most recent program and sets the start date to state
-  getUsersCurrentPlan = () =>{
-    const findOneOptions = {
-      'userId': Auth.currentUserId(),
-      'page': 1,
-      'sort': { 'startDate': -1 },
-      'limit': 1
-    };
-    axios.post('/api/exerciseplans/paginate', findOneOptions)
-      .then(res => this.setState({usersActivePlanStartDate: res.data.docs[0].startDate}));
-  }
 
   createAdoptedPlan = () => {
     const adoptedPlan = this.packageAdoptionData();
@@ -145,54 +145,56 @@ export default class ExercisePlanShow extends React.Component{
 
   render(){
     const { state } = this;
+    const today = moment().format('YYYY-MM-DD');
+
     return(
       <section className='container'>
         {state &&
-          <div className='columns is-centered'>
+          <div className='columns is-multiline is-centered'>
             <div className=' column is-8 columns is-mobile is-multiline'>
-              <div className='column is-6'>
-                <h1 className='title is-5'>Plan Name</h1>
+              <div className='column is-5'>
+                <h1 className='title is-5 white-title'>{state.name}</h1>
+                {/* {!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  } */}
+                <h1 className='title is-5 white-title'>Tribe name goes here</h1>
+                <p className="white-title"><i className="fas fa-stopwatch fas-regular"></i> Average: {state.workoutTimeAvg} minutes</p>
+                <p className="white-title"><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
               </div>
-              <div className='column is-6'>
-                <h1 className='title is-5'>Tribe</h1>
-              </div>
-              <div className='column is-6'>
-                <p><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
-              </div>
-              <div className='column is-6'>
-                <p><i className="fas fa-stopwatch fas-regular"></i> Average: {state.workoutTimeAvg}</p>
+              <div className='column is-7 has-text-centered'>
+                {!this.state.adopting ?
+                  <button onClick={this.handleAdoption} className='button auth-button'>Want to Adopt?</button>
+                  :
+                  <div className="white-title">
+                    <h4 className="sub-text">Choose a start date</h4>
+                    <FormInput
+                      name='newStartDate'
+                      type='date'
+                      min={today}
+                      handleChange={this.handleChange}
+                      state={this.state}
+                    />
+                    <hr />
+                    <button onClick={this.handleAdoption} className='button auth-button'>Adopt</button>
+                  </div>
+                }
+
               </div>
 
               {/* day cards */}
+
               <div className='column is-12'>
-                {Object.keys(state).map((key, i) => {
+
+                {Object.keys(state).map((key) => {
+                  const dayNumber = key.slice(3);
                   if(!state[key].rest && state[key].intensity){
-                    return <UpcomingCard key={key} title={`Day ${i}`} programDetails={state[key]} />;
+                    return <UpcomingCard key={key} title={`Day ${dayNumber}`} programDetails={state[key]} />;
 
                   }else if(state[key].rest){
-                    return  <RestCard key={key} programDay={`Day ${i}`} title='Rest Day' />;
+                    return  <RestCard key={key} programDay={`Day ${dayNumber}`} title='Rest Day' />;
                   }
                 })
                 }
               </div>
 
-              <div className='column is-12 has-text-centered'>
-                {!this.state.adopting ?
-                  <button onClick={this.handleAdoption} className='button is-primary'>Want to Adopt?</button>
-                  :
-                  <div>
-                    <FormInput
-                      name='newStartDate'
-                      type='date'
-                      handleChange={this.handleChange}
-                      state={this.state}
-                      label='Choose your preferred start date'
-                    />
-                    <button onClick={this.handleAdoption} className='button is-primary'>Adopt</button>
-                  </div>
-                }
-
-              </div>
 
             </div>
           </div>

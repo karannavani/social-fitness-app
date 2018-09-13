@@ -16,12 +16,15 @@ const PrimaryCard = ({editWanted, programToday, programDay, handleProgramClick})
     <div>
       {programToday.intensity &&
       <div>
-        <h4 key={programToday.time} className="title is-4 white"><i className="fas fa-stopwatch"></i> {programToday.time} mins</h4>
-        <h4 key={programToday.intensity} className="title is-4 white"><i className="fas fa-fire"></i> {programToday.intensity}</h4>
-        <h4 className="title is-4 white"><i className="fas fa-bolt"></i> {calculateGrit(programToday.intensity, programToday.time)}</h4>
+        <h4 key={programToday.time} className="title is-4 white-title"><i className="fas fa-stopwatch"></i> {programToday.time} mins</h4>
+        <h4 key={programToday.intensity} className="title is-4 white-title"><i className="fas fa-fire"></i> {programToday.intensity}</h4>
+        <h4 className="title is-4 white-title"><i className="fas fa-bolt"></i> {calculateGrit(programToday.intensity, programToday.time)}</h4>
 
         <footer className="card-footer">
-          <a onClick={handleProgramClick} id={`complete ${programDay} ${calculateGrit(programToday.intensity, programToday.time)}`} className="card-footer-item"><i id={`complete ${programDay} ${calculateGrit(programToday.intensity, programToday.time)}`} className="fas fa-check"></i></a>
+          <a onClick={handleProgramClick} id={`complete ${programDay} ${calculateGrit(programToday.intensity, programToday.time)}`} className="card-footer-item">
+            <i id={`complete ${programDay} ${calculateGrit(programToday.intensity, programToday.time)}`} className="fas fa-check">
+
+            </i></a>
 
           {editWanted &&
             <a onClick={handleProgramClick} id={`edit ${programDay} ${calculateGrit(programToday.intensity, programToday.time)}`} className="card-footer-item">

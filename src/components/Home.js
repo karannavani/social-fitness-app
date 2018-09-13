@@ -6,13 +6,17 @@ function Home() {
   return(
     <div className="columns  is-multiline">
       <div className="column has-text-centered is-multiline">
-        <h1 className="title is-1">Welcome to Grit!</h1>
-        <hr />
+        <h1 className="title is-1 page-title-large">welcome to tribe</h1>
+        <hr className="hr2"></hr>
       </div>
-      <p className="column is-full has-text-centered">Join a Tribe based on your exercise routines and earn Grit Points by taking on challenges, completing plans and showing that you have Grit.</p>
-      <p className="column is-full has-text-centered">You can track your progress and see how the rest of your Tribe are performing.</p>
-      <Link to='/login' className="column is-2 is-offset-3 button is-info">Login</Link>
-      <Link to='/register' className="column is-2 is-offset-2 button is-info">Sign Up</Link>
+
+      <p className="column is-full has-text-centered sub-text">Join a Tribe based on your exercise routines and <br/>
+       earn Grit Points by taking on challenges, completing plans and showing that</p>
+      <p className="bold-sub-text column is-full has-text-centered">you&apos;re not a little bitch.</p>
+      {/* <p className="bold-sub-text column is-full has-text-centered">you have grit.</p> */}
+      <p className="column is-full has-text-centered sub-text">You can track your progress and see how the rest of your Tribe are performing.</p>
+      <div className="auth-button column is-1 is-offset-4 has-text-centered"><Link to='/login' className="">Login</Link></div>
+      <div className="auth-button column is-1 is-offset-2 has-text-centered"><Link to='/register' className="">Sign Up</Link></div>
     </div>
   );
 }

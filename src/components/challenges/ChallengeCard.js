@@ -1,6 +1,9 @@
 import React from 'react';
-import Auth from '../../lib/Auth';
 import axios from 'axios';
+import Request from '../../lib/Request';
+import Auth from '../../lib/Auth';
+import Flash from '../../lib/Flash';
+import { browserHistory } from 'react-router-dom';
 
 export default class ChallengeCard extends React.Component{
   state={
@@ -18,28 +21,37 @@ export default class ChallengeCard extends React.Component{
   }
 
   acceptChallenge = (challengeId) => {
-      console.log('acceptChallenge fires');
-      axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()});
+    axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()});
   }
 
   handleClick = () => {
 
-    console.log('_onclick fires');
     this.acceptChallenge(this.props.challenge._id);
     const accepted = true;
     this.setState({accepted}, () => console.log('the new state is ', this.state, this.props));
+    const feedBody = {
+      user: Auth.currentUserId(),
+      type: 'createChallenge',
+      challengeId: this.props.challenge._id
+    };
+    Request.updateFeed(feedBody);
+
+    // Flash.setMessage('success', 'Accepted!');
+    // console.log('path name is', browserHistory);
+
   }
+
 
   render(){
     const { challenge } = this.props;
     return(
       <div className="column is-4 challenge card">
-        <p className="challenge-title">{challenge.name}</p>
-        <p className = "challenge-details">{challenge.challengeGrit} grit points</p>
-        <p>{challenge.challengers.length} challengers</p>
+        <p className="black-title">{challenge.name}</p>
+        <p className = "challenge-details black-title">{challenge.challengeGrit} grit points</p>
+        <p className="black-title">{challenge.challengers.length} challengers</p>
 
         {!this.state.accepted &&
-          <p>Accept?
+          <p className="black-title">Accept?
             <button onClick={this.handleClick}>
               <i className="far fa-check-circle"></i>
             </button>

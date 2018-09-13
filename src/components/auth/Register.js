@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import Chance from 'chance';
 const chance = new Chance();
 
@@ -25,7 +26,11 @@ export default class AuthRegister extends React.Component{
     firstName: 'Kristi',
     surname: 'Sayer',
     username: 'Mooapples',
-    age: 28
+    age: 28,
+    dailyGrit: [{
+      date: moment().unix(),
+      grit: 100
+    }]
   }
 
   componentDidMount(){
@@ -74,7 +79,7 @@ export default class AuthRegister extends React.Component{
         <form onSubmit={ this.handleSubmit }>
           <div className="columns is-multiline">
 
-            <h1 className="column is-12 title is-6">Set up your Tribe account</h1>
+            <h1 className="column is-12 page-title-large">Set up your Tribe account</h1>
 
             <div className="column is-one-third">
               <FormInput
@@ -84,6 +89,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-third">
@@ -94,6 +100,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
 
@@ -105,6 +112,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-full">
@@ -115,6 +123,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-half">
@@ -125,6 +134,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-half">
@@ -135,6 +145,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
 
@@ -146,6 +157,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-quarter">
@@ -156,6 +168,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-quarter">
@@ -166,6 +179,7 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
 
             <div className="column is-one-quarter">
@@ -187,11 +201,12 @@ export default class AuthRegister extends React.Component{
                 state={ this.state }
                 handleChange={ this.handleChange }
               />
+              <hr />
             </div>
             <button className="button column is-info is-rounded is-3 is-offset-2">Register</button>
 
             <div className="level">
-              <p>Already got an account?</p><Link to='/login' className="column">Log in</Link>
+              <p className="white-title">Already got an account?</p><Link to='/login' className="column">Log in</Link>
             </div>
 
           </div>
