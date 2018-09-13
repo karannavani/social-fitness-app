@@ -13,7 +13,7 @@ export default class ExercisePlanNew extends React.Component {
   }
 
   componentDidMount(){
-    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`, Auth.bearerHeader())
       .then(res => this.setState({usersActivePlanStartDate: res.data}, ()=> {
         if (this.state.usersActivePlanStartDate.length) {
           this.setState({usersActivePlanStartDate: res.data[0].startDate});
@@ -22,7 +22,7 @@ export default class ExercisePlanNew extends React.Component {
         }
       }));
 
-    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`, Auth.bearerHeader())
       .then(res => this.setState({futurePlans: res.data}))
       .catch(err => console.log('the get future plans error is ', err));
   }
@@ -42,13 +42,13 @@ export default class ExercisePlanNew extends React.Component {
     };
     Request.updateFeed(feedBody);
 
-    axios.post('/api/exerciseplans', newPlanData)
+    axios.post('/api/exerciseplans', newPlanData, Auth.bearerHeader())
       .then(res => console.log('res is', res))
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
     if(this.state.autoValidate) {
-      axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId} )
+      axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId}, Auth.bearerHeader() )
         .then(res => console.log('res is', res.data))
         .catch(err => console.log('add exerciseplan id error', err));
     }

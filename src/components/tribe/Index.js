@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import Auth from '../../lib/Auth';
 
 export default class TribesIndex extends React.Component{
   state = {};
 
   componentDidMount() {
-    axios.get('/api/users')
+    axios.get('/api/users', Auth.bearerHeader())
       .then(res => {
         const users = res.data;
         const gargantuans = [];

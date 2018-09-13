@@ -24,7 +24,7 @@ export default class ExercisePlanShow extends React.Component{
     const newExercisePlanId = Id.create();
     this.setState({newExercisePlanId});
 
-    axios.get(`/api/exerciseplans/${this.props.match.params.id}`)
+    axios.get(`/api/exerciseplans/${this.props.match.params.id}`, Auth.bearerHeader())
       .then(res => this.setState(res.data));
   }
 
@@ -56,7 +56,7 @@ export default class ExercisePlanShow extends React.Component{
 
   // Gets the users most recent program and sets the start date to state
   getUsersCurrentPlan = () =>{
-    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`, Auth.bearerHeader())
       .then(res => {
         this.setState({usersActivePlanStartDate: res.data}, () => {
           if (this.state.usersActivePlanStartDate.length) {
@@ -66,14 +66,14 @@ export default class ExercisePlanShow extends React.Component{
           }
         });
       });
-    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`, Auth.bearerHeader())
       .then(res => this.setState({futurePlans: res.data}));
   }
 
 
   createAdoptedPlan = () => {
     const adoptedPlan = this.packageAdoptionData();
-    axios.post('/api/exerciseplans', adoptedPlan)
+    axios.post('/api/exerciseplans', adoptedPlan, Auth.bearerHeader())
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 

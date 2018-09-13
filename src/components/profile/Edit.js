@@ -2,7 +2,7 @@ import React from 'react';
 
 // DEPENDANCIES
 import axios from 'axios';
-import Flash from '../../lib/Auth';
+import Auth from '../../lib/Auth';
 
 //components
 import FormInput from '../common/FormInput';
@@ -11,12 +11,11 @@ export default class UserEdit extends React.Component{
   state={};
 
   componentDidMount(){
-    axios.get(`/api/users/${this.props.match.params.id}`)
+    axios.get(`/api/users/${this.props.match.params.id}`, Auth.bearerHeader())
       .then(res => this.setState(res.data));
   }
 
   handleChange = ({ target: { name, value } }) => {
-    // console.log('Handle change is called', value);
     this.setState({[ name ]: value});
   }
 
@@ -24,16 +23,13 @@ export default class UserEdit extends React.Component{
     event.preventDefault();
     console.log('form to submit is', this.state);
     //axios to PUT /api/users/:id
-    axios.put(`/api/users/${this.props.match.params.id}`, this.state)
+    axios.put(`/api/users/${this.props.match.params.id}`, this.state, Auth.bearerHeader())
       .then(res => {
         console.log('update response is', res.data);
-        // Flash.setMessage('success', res.data.messages );
         this.props.history.push(`/profile/${this.props.match.params.id}`);
       })
       .catch(err =>{
         console.log('update err is ===>',err.response);
-        // Flash.setMessage('danger', 'Invalid email/password');
-        // console.log('flash messages is', Flash.getMessages());
         this.props.history.push(this.props.location.pathname);
       });
   }
