@@ -8,8 +8,10 @@ import './scss/style.scss';
 //partials
 import Home from './components/Home';
 import Header from './components/Header';
+
 // import Footer from './components/Footer';
 import FlashMessages from './components/common/FlashMessages';
+import SecureRoute from './components/common/SecureRoute';
 
 //Auth
 import AuthLogin from './components/auth/Login';
@@ -42,18 +44,18 @@ class App extends React.Component {
           <Route path='/register' component={AuthRegister} />
 
           <Route exact path='/tribe' component={TribesIndex} />
-          <Route path='/tribe/:tribeName' component={Tribe} />
+          <SecureRoute path='/tribe/:tribeName' component={Tribe} />
 
           {/* user */}
           {/* <HashRouter exact path='/profile/:id#history' component={UserShow} /> */}
-          <Route path='/profile/:id' component={UserShow} />
-          <Route path='/users/:id/edit' component={UserEdit} />
+          <SecureRoute path='/profile/:id' component={UserShow} />
+          <SecureRoute path='/users/:id/edit' component={UserEdit} />
 
           {/* exercisePlans */}
-          <Route path='/exerciseplan/new' component={ExercisePlanNew} />
-          <Route path='/exerciseplan/:id' component={ExercisePlanShow} />
+          <SecureRoute path='/exerciseplan/new' component={ExercisePlanNew} />
+          <SecureRoute path='/exerciseplan/:id' component={ExercisePlanShow} />
 
-          <Route path='/dashboard' component={Dashboard} />
+          <SecureRoute path='/dashboard' component={Dashboard} />
         </Switch>
         {/* <Footer /> */}
       </main>

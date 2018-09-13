@@ -10,11 +10,11 @@ class TribeAside extends React.Component {
   state = {}
 
   componentDidMount() {
-    axios.get(`/api/tribes/${this.props.match.params.tribeName}`)
+    axios.get(`/api/tribes/${this.props.match.params.tribeName}`, Auth.bearerHeader())
       .then(res => this.setState({ members: res.data, tribeName: this.props.match.params.tribeName }, () => {
         this.tribeWeight();
       } ));
-    axios.get(`/api/users/${Auth.currentUserId()}`)
+    axios.get(`/api/users/${Auth.currentUserId()}`, Auth.bearerHeader())
       .then(res => this.setState({ user: res.data }));
     // .then(res => console.log('user data is', res.data));
   }

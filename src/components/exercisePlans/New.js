@@ -13,7 +13,7 @@ export default class ExercisePlanNew extends React.Component {
   }
 
   componentDidMount(){
-    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`, Auth.bearerHeader())
       .then(res => this.setState({usersActivePlanStartDate: res.data}, ()=> {
         if (this.state.usersActivePlanStartDate.length) {
           this.setState({usersActivePlanStartDate: res.data[0].startDate});
@@ -22,7 +22,7 @@ export default class ExercisePlanNew extends React.Component {
         }
       }));
 
-    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`, Auth.bearerHeader())
       .then(res => this.setState({futurePlans: res.data}))
       .catch(err => console.log('the get future plans error is ', err));
   }
@@ -42,13 +42,13 @@ export default class ExercisePlanNew extends React.Component {
     };
     Request.updateFeed(feedBody);
 
-    axios.post('/api/exerciseplans', newPlanData)
+    axios.post('/api/exerciseplans', newPlanData, Auth.bearerHeader())
       .then(res => console.log('res is', res))
       .then(() => this.props.history.push('/dashboard'))
       .catch(err => console.log('adoption error message: ', err));
 
     if(this.state.autoValidate) {
-      axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId} )
+      axios.post(`/api/users/${Auth.currentUserId()}/exerciseplan`, {exercisePlanId: planId}, Auth.bearerHeader() )
         .then(res => console.log('res is', res.data))
         .catch(err => console.log('add exerciseplan id error', err));
     }
@@ -62,18 +62,12 @@ export default class ExercisePlanNew extends React.Component {
 
     if(name.includes('time')) {
       value = parseInt(value);
-      this.setState({[name]: value}, () => {
-        console.log('state is', this.state);
-        // console.log(this.state.day1.rest);
-      });
+      this.setState({[name]: value});
 
     } else if (name.includes('normalStartDate')){
       this.setState({[name]: value}, () =>{
         if(Validate.startDate(this.state.normalStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans) || this.state.autoValidate){
           const unixValue = moment(value).unix();
-          console.log('value is', value);
-          console.log('unix value is', unixValue);
-          // console.log('unix converted is', moment(unixValue).unix());
           this.setState({errors: null, startDate: unixValue, validStartDate: true});
         } else {
           //date is not valid
@@ -93,10 +87,7 @@ export default class ExercisePlanNew extends React.Component {
       });
 
     } else {
-      this.setState({[name]: value }, () => {
-        console.log('state is', this.state);
-        // console.log(this.state.day1.rest);
-      });
+      this.setState({[name]: value });
     }
   }
 

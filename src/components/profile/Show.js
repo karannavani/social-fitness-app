@@ -47,8 +47,9 @@ export default class UserShow extends React.Component{
 
   fetchUserData = () => {
     const userId = this.props.match.params.id;
-    axios.get(`/api/users/${userId}`)
+    axios.get(`/api/users/${userId}`, Auth.bearerHeader())
       .then(res => this.setState({user: res.data}));
+
 
     this.fetchPaginatePlanHistory();
   }
@@ -64,9 +65,9 @@ export default class UserShow extends React.Component{
     };
 
     //returns 10 user exercises and sorts then by startDate with newest first.
-    axios.post('/api/exerciseplans/paginate', paginateOptions)
+    axios.post('/api/exerciseplans/paginate', paginateOptions, Auth.bearerHeader())
       .then(res => {
-      // console.log(`there are ${res.data.pages} pages for this user`);
+        // console.log(`there are ${res.data.pages} pages for this user`);
         const planDateAsc = this.sortPlans(res.data.docs);
         this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
       });
@@ -107,18 +108,18 @@ export default class UserShow extends React.Component{
       return this.state.user.followers.includes(Auth.currentUserId());
     }
 
-    // NOTE: might have a case where clicking fast will allow user to unfollow twice.
-    handleUnFollow = () =>{
-      axios.put(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
-        .then(res => {
-          this.setState({ user: res.data });
-        });
-    }
+  // NOTE: might have a case where clicking fast will allow user to unfollow twice.
+  handleUnFollow = () =>{
+    axios.put(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id}, Auth.bearerHeader())
+      .then(res => {
+        this.setState({ user: res.data });
+      });
+  }
 
     handleFollow = () =>{
       const viewedUserId = this.props.match.params.id;
 
-      axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: viewedUserId})
+      axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: viewedUserId}, Auth.bearerHeader())
         .then(res => {
           this.setState({ user: res.data });
         });
