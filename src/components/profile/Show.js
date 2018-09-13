@@ -2,13 +2,13 @@
 import React from 'react';
 
 //dependancies
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import _ from 'lodash';
 import Auth from '../../lib/Auth';
 import Request from '../../lib/Request';
-import _ from 'lodash';
 
 //Components
+import { Link } from 'react-router-dom';
 import SortSelect from '../common/SortSelect';
 import Paginate from '../common/Paginate';
 import FilterBar from './FilterBar';

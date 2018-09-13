@@ -31,7 +31,6 @@ class Dashboard extends React.Component {
         () => {
           this.getExercise();
         }));
-
   }
 
 
