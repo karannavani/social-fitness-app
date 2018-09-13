@@ -45,12 +45,12 @@ class ChallengeCard extends React.Component{
     const { challenge } = this.props;
     return(
       <div className="column is-3 challenge card">
-        <p className="white-title">{challenge.name}</p>
-        <p className = "challenge-details white-title">{challenge.challengeGrit} grit points</p>
-        <p className="white-title">{challenge.challengers.length} challengers</p>
+        <p className="black-title">{challenge.name}</p>
+        <p className = "challenge-details black-title">{challenge.challengeGrit} grit points</p>
+        <p className="black-title">{challenge.challengers.length} challengers</p>
 
         {!this.state.accepted &&
-          <p className="white-title">Accept?
+          <p className="black-title">Accept?
             <button onClick={this.handleClick}>
               <i className="far fa-check-circle"></i>
             </button>
