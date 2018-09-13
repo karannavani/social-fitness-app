@@ -237,7 +237,11 @@ a:hover {
 
 
 
-
+.news-feed-item-details {
+  color: white !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold !important;
+}
 
 
 
@@ -248,7 +252,9 @@ a:hover {
 
 
 .card-completed {
-  background: linear-gradient(90deg, #f8ff00 0%, #3ad59f 100%);  // margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  background: #84EE3E;  // margin-right: auto;
   margin: auto;
   margin-bottom: 20px;
 }
@@ -325,9 +331,7 @@ input.programEdit  {
 }
 
 .challenge {
-  background: #FF4E50;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #F9D423, #FF4E50);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #F9D423, #FF4E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #77798f;  /* fallback for old browsers */
 }
 
 .challenges-index {

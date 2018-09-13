@@ -13,16 +13,16 @@ const LogWorkout = ({ user, exercisePlan, grit, time, intensity, created }) => {
         <div className="content">
           <div className="columns">
             <div className="column is-9">
-              <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
-              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+              <Link to={`/profile/${user._id}`} className='title is-4 is-block sub-text' >{user.username}</Link>
+              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block sub-text'>{user.tribe} </Link>
             </div>
             <div className="column">
-              <h5 className="subtitle is-6 sub-text">{created}</h5>
+              <h5 className="subtitle is-6 white-title">{created}</h5>
             </div>
           </div>
 
           {/* CHANGEBLE CONTENT */}
-          <p>Completed a {time} minutes long workout today at {intensity.toLowerCase()} intensity,
+          <p className="news-feed-item-details">Completed a {time} minutes long workout today at {intensity.toLowerCase()} intensity,
             bringing in {grit} grit points!</p>
           <div className="card">
             <div className="card-content card-completed">

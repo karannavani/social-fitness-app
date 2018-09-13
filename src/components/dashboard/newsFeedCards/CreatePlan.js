@@ -14,22 +14,22 @@ const CreatePlan = ({ user, exercisePlan, created }) => {
         <div className="content">
           <div className="columns">
             <div className="column is-9">
-              <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
-              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+              <Link to={`/profile/${user._id}`} className='title is-4 is-block sub-text' >{user.username}</Link>
+              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block sub-text'>{user.tribe} </Link>
             </div>
             <div className="column">
-              <h5 className="subtitle is-6 sub-text">{created}</h5>
+              <h5 className="subtitle is-6 sub-text white-title">{created}</h5>
             </div>
           </div>          {/* CHANGEBLE CONTENT */}
 
 
           {/* IF TYPE IS CREATE */}
 
-          <p> Created a new plan –
+          <p className="news-feed-item-details"> Created a new plan –
             <Link to={`/exerciseplan/${exercisePlan._id}`}> {exercisePlan.name} </Link>
             and has lined himself up for {exercisePlan.totalAvailableGrit} grit points, starting on {moment.unix(exercisePlan.startDate).format('DD/MM/YYYY')}
           </p>
-          <p> The program is a total of {exercisePlan.totalTime} minutes and a {exercisePlan.intensityAvg} average intensity </p>
+          <p className="news-feed-item-details"> The program is a total of {exercisePlan.totalTime} minutes and a {exercisePlan.intensityAvg} average intensity </p>
 
 
           {/* CHANGEBLE CONTENT */}
