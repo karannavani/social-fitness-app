@@ -41,7 +41,7 @@ export default class ExercisePlanShow extends React.Component{
     }else if(this.state.adopting){
 
       // if(this.VstartDate(Auth.currentUserId(), this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans)){
-      if(Validate.startDate(this.state.newStartDate)){
+      if(Validate.startDate(this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans )){
         const formattedDate = moment(this.state.newStartDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
         Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${formattedDate}`);
@@ -54,53 +54,18 @@ export default class ExercisePlanShow extends React.Component{
     }
   }
 
-  // validateStartDate = () => {
-  //   const momStartDate = moment(this.state.newStartDate).utc();
-  //   if (this.state.usersActivePlanStartDate) {
-  //     const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-  //     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
-
-  VstartDate = (userId, chosenStartDate, activePlanStartDate, futurePlans) => {
-    //get active plan
-    const momChosenStartDate = moment(chosenStartDate);
-    const activePlanEndDate = moment.unix(activePlanStartDate).add(6, 'days');
-
-    if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
-
-    const futurePeriods = [];
-    futurePlans.forEach(plan => {
-      const momStartDate = moment.unix(plan.startDate);
-      futurePeriods.push({
-        beforeDate: moment(momStartDate).subtract(7, 'days'),
-        endDate: moment(momStartDate).add(7, 'days')
-      });
-    });
-    if(!futurePeriods.length) return true;
-
-    const validateArray =[];
-    for(let i = 0; i < futurePeriods.length; i++){
-      if(!moment(momChosenStartDate).isBetween(futurePeriods[i].beforeDate, futurePeriods[i].endDate)){
-        validateArray.push(true);
-      }else{
-        validateArray.push(false);
-      }
-    }
-
-    return validateArray.every(item => item);
-  }
-
   // Gets the users most recent program and sets the start date to state
   getUsersCurrentPlan = () =>{
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
       .then(res => {
-        this.setState({usersActivePlanStartDate: res.data[0].startDate});
+        this.setState({usersActivePlanStartDate: res.data}, () => {
+          if (this.state.usersActivePlanStartDate.length) {
+            this.setState({usersActivePlanStartDate: res.data[0].startDate});
+          }else{
+            this.setState({usersActivePlanStartDate: false});
+          }
+        });
       });
-
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/future`)
       .then(res => this.setState({futurePlans: res.data}));
   }
