@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 // import Auth from '../../../lib/Auth';
 
-const StartChallenge = ({ user, followedUser }) => {
+const StartChallenge = ({ user, challenge }) => {
+  // console.log('this is start challenge ', challenge.toString());
   return(
     <article className="media">
       <figure className="media-left">
@@ -17,7 +18,7 @@ const StartChallenge = ({ user, followedUser }) => {
 
           {/* CHANGEBLE CONTENT */}
 
-          <p> Recently Followed {followedUser.username} </p>
+          <p> Just started the {challenge.name} challenge, potential for {challenge.challengeGrit}</p>
 
           {/* CHANGEBLE CONTENT */}
         </div>

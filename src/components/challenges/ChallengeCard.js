@@ -1,6 +1,7 @@
 import React from 'react';
 import Auth from '../../lib/Auth';
 import axios from 'axios';
+import Request from '../../lib/Request';
 
 export default class ChallengeCard extends React.Component{
   state={
@@ -26,7 +27,14 @@ export default class ChallengeCard extends React.Component{
     this.acceptChallenge(this.props.challenge._id);
     const accepted = true;
     this.setState({accepted}, () => console.log('the new state is ', this.state, this.props));
+    const feedBody = {
+      user: Auth.currentUserId(),
+      type: 'createChallenge',
+      challengeId: this.props.challenge._id.toString()
+    };
+    Request.updateFeed(feedBody);
   }
+
 
   render(){
     const { challenge } = this.props;

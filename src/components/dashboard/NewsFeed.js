@@ -49,6 +49,7 @@ export default class NewsFeed extends React.Component{
 
   render(){
     const { newsFeedItems } = this.state;
+    console.log('news feed items are', newsFeedItems);
     return(
       <section className='container'>
         {newsFeedItems &&
@@ -94,6 +95,7 @@ export default class NewsFeed extends React.Component{
                   <StartChallenge
                     key = {newsFeedItem._id}
                     user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
                   />
                 );
             }

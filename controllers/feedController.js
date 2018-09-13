@@ -10,7 +10,7 @@ function feedCreate( req, res, next ){
 function feedIndex( req, res, next ){
   Feed
     .find()
-    .populate('user exercisePlanId exercisePlanAdoptedFromId followUserId')
+    .populate('challengeId user exercisePlanId exercisePlanAdoptedFromId followUserId ')
     .sort({ createdAt: -1 })
     .then(feed => res.json(feed))
     .catch(next);
