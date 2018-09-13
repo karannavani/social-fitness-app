@@ -29,9 +29,6 @@ function challengeDelete(req, res, next) {
   Challenge
     .findById(req.params.id)
     .then(challenge => {
-      // console.log('reached here =======>');
-      console.log('challenge is', challenge);
-      console.log('body is', req.body.id);
       const index = challenge.challengers.indexOf(req.body.id);
       challenge.challengers.splice(index,index+1);
       return challenge.save();

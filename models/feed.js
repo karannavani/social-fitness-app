@@ -51,6 +51,7 @@ const feedSchema = new mongoose.Schema({
   exercisePlanName: String, // NOTE: can get this out of the populated plan
   exercisePlanId: { type: ObjectId, ref: 'ExercisePlan' }, // NOTE: populate this to get all the workout details
   exercisePlanAdoptedFromId: { type: ObjectId, ref: 'ExercisePlan' },
+  challengeId: { type: ObjectId, ref: 'Challenge' },
 
   // follow
   followedUserId: { type: ObjectId, ref: 'User' } // NOTE: populate this if available

@@ -10,6 +10,8 @@ import NewsCardNewRegister from './newsFeedCards/NewRegister.js';
 import AdoptPlan from './newsFeedCards/AdoptPlan';
 import CreatePlan from './newsFeedCards/CreatePlan';
 import LogWorkout from './newsFeedCards/LogWorkout';
+import StartChallenge from './newsFeedCards/StartChallenge';
+import CompleteChallenge from './newsFeedCards/CompleteChallenge';
 
 export default class NewsFeed extends React.Component{
   state={
@@ -48,6 +50,7 @@ export default class NewsFeed extends React.Component{
 
   render(){
     const { newsFeedItems } = this.state;
+    console.log('news feed items are', newsFeedItems);
     return(
       <section className='container'>
         {newsFeedItems &&
@@ -61,6 +64,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'createPlan':
@@ -69,6 +73,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'logWorkout':
@@ -79,6 +84,7 @@ export default class NewsFeed extends React.Component{
                     grit = {newsFeedItem.grit}
                     time = {newsFeedItem.time}
                     intensity = {newsFeedItem.intensity}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'register':
@@ -86,6 +92,25 @@ export default class NewsFeed extends React.Component{
                   <NewsCardNewRegister
                     key = {newsFeedItem._id}
                     user={newsFeedItem.user}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'createChallenge':
+                return(
+                  <StartChallenge
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
+                  />
+                );
+              case 'completeChallenge':
+                return(
+                  <CompleteChallenge
+                    key = {newsFeedItem._id}
+                    user = {newsFeedItem.user}
+                    challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
             }
