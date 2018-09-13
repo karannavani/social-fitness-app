@@ -28,6 +28,7 @@ class Header extends React.Component {
             <div className="navbar-menu">
               <div className="navbar-end">
                 {Auth.isAuthenticated() && <Link className="navbar-item" to="/dashboard">Dashboard</Link>}
+                {Auth.isAuthenticated() && <Link className="navbar-item" to="/exerciseplan/new">Create a plan</Link>}
                 {Auth.isAuthenticated() && <Link className="navbar-item" to={`/profile/${Auth.currentUserId()}`}>Profile</Link>}
                 {Auth.isAuthenticated() && <Link className="navbar-item" to={`/tribe/${Auth.currentUserTribe()}`}>Tribe</Link> }
                 <Link className="navbar-item" to="/tribe">All Tribes</Link>
