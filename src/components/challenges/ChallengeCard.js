@@ -39,13 +39,13 @@ export default class ChallengeCard extends React.Component{
   render(){
     const { challenge } = this.props;
     return(
-      <div className="column is-4 challenge card">
-        <p className="black-title">{challenge.name}</p>
-        <p className = "challenge-details black-title">{challenge.challengeGrit} grit points</p>
-        <p className="black-title">{challenge.challengers.length} challengers</p>
+      <div className="column is-3 challenge card">
+        <p className="white-title">{challenge.name}</p>
+        <p className = "challenge-details white-title">{challenge.challengeGrit} grit points</p>
+        <p className="white-title">{challenge.challengers.length} challengers</p>
 
         {!this.state.accepted &&
-          <p className="black-title">Accept?
+          <p className="white-title">Accept?
             <button onClick={this.handleClick}>
               <i className="far fa-check-circle"></i>
             </button>

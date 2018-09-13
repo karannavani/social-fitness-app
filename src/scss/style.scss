@@ -28,6 +28,18 @@ hr {
   height: 8px;
 }
 
+.logo {
+  height: 150px;
+}
+
+.home-title {
+  color: #eaeaed;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 100px;
+  letter-spacing: 2px;
+  font-weight: 900px;
+}
+
 // =================== NAV BAR ====================
 
 .navbar {
@@ -188,15 +200,35 @@ a:hover {
   // background-color: blue;
 }
 
-.tribeAsideContainer {
-  background-color: #29425899;
-  background: -webkit-linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  height: 270px;
+.tribeAsideContainer-tribe {
+  background-color: #00aff7;
+  font-family: 'Montserrat', sans-serif;
+  height: 170px;
+  width: 100%;
+  margin-top: 10px;
+  color: white;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.tribeAsideContainer-leader {
+  background-color: #55566a;
+  height: 418px;
   width: 100%;
   margin-top: 10px;
   color: white;
   overflow: auto;
+
+}
+
+.each-leader {
+  background-color: #ffffff00;
+  font-family: 'Montserrat', sans-serif;
+  color: #eaeaed;
+  font-size: 20px;
+  font-weight: 900;
+  border: none;
+  box-shadow: none;
 }
 
 .tribe-average-stats {
@@ -320,16 +352,10 @@ input.programEdit  {
 }
 
 
-
-.each-leader {
-  background: #0f2027;
-  background: -webkit-linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  color: white;
-}
-
 .challenge {
-  background: #77798f;  /* fallback for old browsers */
+  background: orange;  /* fallback for old browsers */
+  box-sizing: border-box;
+  border: 2px solid;
 }
 
 .challenges-index {

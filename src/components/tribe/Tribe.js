@@ -42,30 +42,28 @@ class TribeAside extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         {this.state &&
           <div className="columns">
             <div className="column is-4 is-3-desktop aside">
-              <div className="tribeAsideContainer">
-                <h2 className="subtitle is-4 page-title-large">YOUR TRIBE</h2>
-                { this.state.user && this.state.tribeWeight && <div><p>{this.state.members.length} {this.state.tribeName}</p>
-                  <p>Average weight: {this.state.tribeWeight.toFixed(2)}</p></div> }
-                <Link to='/exerciseplan/new'><button className="button is-info is-outlined is-rounded">Create plan</button></Link>
+              <h2 className="page-title-small">YOUR TRIBE</h2>
+              <div className="tribeAsideContainer-tribe">
+                { this.state.user && this.state.tribeWeight && <div>
+                  <p className="page-title-small">{this.state.tribeName}</p>
+                  <p className="upcomingDetails">Members: {this.state.members.length}</p>
+                  <p className="upcomingDetails">Average weight: {this.state.tribeWeight.toFixed(2)}</p></div> }
               </div>
-              <div className="tribeAsideContainer">
-                <h2 className="subtitle is-4 has-text-grey">LEADER BOARD</h2>
+              <h2 className="page-title-small">LEADER BOARD</h2>
+              <div className="tribeAsideContainer-leader">
                 {this.state.members && this.leadersSort().slice(0, 10).map(leader =>
-                  <div className="columns" key={leader._id}>
+                  <div className="columns upcomingDetails" key={leader._id}>
                     <Link to={`/profile/${leader._id}`} >
-                      <div className="column card each-leader">
+                      <div className="column each-leader">
                         {leader.username} Grit: {leader.grit}
                       </div>
                     </Link>
                   </div>
                 )}
-              </div>
-              <div className="tribeAsideContainer">
-                <h2 className="subtitle is-4 has-text-grey">ADOPTED PROGRAMMES</h2>
               </div>
             </div>
             <div className="column is-8">

@@ -10,9 +10,12 @@ class TribeVsUserChart extends React.Component{
           label: 'grit',
           data: [],
           backgroundColor: [
-            '#222325',
-            '#00d98b'
-          ]
+            '#ffffff00',
+            '#84EE3E'
+          ],
+          borderColor: '#777991',
+          hoverBorderColor: '#00d2ff',
+          hoverBackgroundColor: '#55566c'
         }
       ]
     }
@@ -36,11 +39,15 @@ class TribeVsUserChart extends React.Component{
             title: {
               display: true,
               text: 'Your contribution to the tribe',
-              fontSize: 20
+              fontSize: 20,
+              fontColor: '#eaeaed',
+              fontFamily: 'Montserrat'
             },
             legend: {
               display: true,
-              position: 'bottom'
+              position: 'bottom',
+              fontFamily: 'Montserrat',
+              color: '#eaeaed'
             },
             maintainAspectRatio: false
           }}

@@ -48,7 +48,7 @@ export default class UserShow extends React.Component{
   fetchUserData = () => {
     const userId = this.props.match.params.id;
     axios.get(`/api/users/${userId}`)
-    .then(res => this.setState({user: res.data}));
+      .then(res => this.setState({user: res.data}));
 
     this.fetchPaginatePlanHistory();
   }
@@ -65,11 +65,11 @@ export default class UserShow extends React.Component{
 
     //returns 10 user exercises and sorts then by startDate with newest first.
     axios.post('/api/exerciseplans/paginate', paginateOptions)
-    .then(res => {
+      .then(res => {
       // console.log(`there are ${res.data.pages} pages for this user`);
-      const planDateAsc = this.sortPlans(res.data.docs);
-      this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
-    });
+        const planDateAsc = this.sortPlans(res.data.docs);
+        this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
+      });
   }
 
   //returns an array of sorted plans
@@ -85,7 +85,7 @@ export default class UserShow extends React.Component{
       this.state.filterIntensityOptions.some(option => {
         return option.active && plan.intensityAvg === option.value;
       }));
-    }
+  }
 
     sortedFilteredPlans = () => {
       const filteredOptions = this.filterByOptions(this.state.exercisePlans);
@@ -110,18 +110,18 @@ export default class UserShow extends React.Component{
     // NOTE: might have a case where clicking fast will allow user to unfollow twice.
     handleUnFollow = () =>{
       axios.put(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
-      .then(res => {
-        this.setState({ user: res.data });
-      });
+        .then(res => {
+          this.setState({ user: res.data });
+        });
     }
 
     handleFollow = () =>{
       const viewedUserId = this.props.match.params.id;
 
       axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: viewedUserId})
-      .then(res => {
-        this.setState({ user: res.data });
-      });
+        .then(res => {
+          this.setState({ user: res.data });
+        });
 
       const newFollowBody = {
         user: Auth.currentUserId(),

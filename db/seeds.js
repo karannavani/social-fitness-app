@@ -137,6 +137,18 @@ const challengeData = [
     type: 'Body Weight Exercise',
     reps: 50,
     challengeGrit: 15
+  },
+  {
+    name: '50km Cycling',
+    type: 'Distance',
+    distance: 50,
+    challengeGrit: 100
+  },
+  {
+    name: '20km Cycling',
+    type: 'Distance',
+    distance: 20,
+    challengeGrit: 40
   }
 ];
 
