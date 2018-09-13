@@ -24,10 +24,9 @@ class Dashboard extends React.Component {
 
   // Getting all the challenges
   componentDidMount() {
-
     this.getChallenges();
     //Getting user exercises
-    axios.get(`/api/users/${Auth.currentUserId()}`)
+    axios.get(`/api/users/${Auth.currentUserId()}`, Auth.bearerHeader())
       .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
         () => {
           this.getExercise();
@@ -40,7 +39,7 @@ class Dashboard extends React.Component {
   // ************ CHALLENGES LOGIC **************
 
   getChallenges = () => {
-    axios.get('/api/challenges')
+    axios.get('/api/challenges', Auth.bearerHeader())
       .then(res => this.setState({ challenges: res.data },
         () => {
           console.log('challenges are', this.state.challenges);
@@ -70,20 +69,21 @@ class Dashboard extends React.Component {
       };
       Request.updateFeed(feedBody);
 
-      axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()})
+      axios.post(`/api/challenges/${challengeId}/completed`, { id: Auth.currentUserId()}, Auth.bearerHeader())
         .then(() => this.awardGrit(challengeId))
         .then(() => this.deleteChallenge(challengeId));
 
+      // get grit of clicked challenge
+      // add that to user grit
     } else if (action === 'skip') {
       //delete from challengers array
       this.deleteChallenge(challengeId);
-
     }
   }
 
   deleteChallenge = (challengeId) => {
     let index;
-    axios.post(`/api/challenges/${challengeId}/delete`, { id: Auth.currentUserId()})
+    axios.post(`/api/challenges/${challengeId}/delete`, { id: Auth.currentUserId()}, Auth.bearerHeader())
       .then(() => {
         this.state.userChallenges.map(challenge => {
           if (challenge._id === challengeId) {
@@ -93,7 +93,6 @@ class Dashboard extends React.Component {
         const newState = this.state;
         newState.userChallenges.splice(index, index+1);
         this.setState({ userChallenges: newState.userChallenges});
-
       });
   }
 
@@ -114,7 +113,7 @@ class Dashboard extends React.Component {
 
   getExercise = () => { // sets the exercises from the current plan on the state
     // NOTE: this should be run conditonally if there is no execiseplan for the user
-    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+    axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`, Auth.bearerHeader())
       .then(res => this.setState({ exercises: res.data[0], goRender: true }, () => {
         console.log('exercise is', this.state.exercises);
         this.getProgram();
@@ -125,20 +124,14 @@ class Dashboard extends React.Component {
   getProgram = () => {
     if (this.state.exercises) {
       const { exercises: { startDate } } = this.state; // getting startDate of the exercise
-      // const today = moment.utc();
-      // const today = moment();
-      // const tomorrow = moment.utc().add(1, 'days');
       const today = moment().add(3, 'days'); //manual today for testing
-      // const tomorrow = moment.utc(today).add(1, 'days');//manual tomorrowfor testing
       const tomorrow = moment(today).add(1, 'days');//manual tomorrowfor testing
       this.setState({ momentToday: moment(today).unix()});
 
       for (let i = 1; i < 8; i++) {
 
         // generate 7 dates from the start date – these are the program dates
-        // const date = moment.utc(moment.unix(startDate)).add(i-1, 'days');
         const date = moment.unix(startDate).add(i-1, 'days');
-        // console.log('date is', date.format('DD/MM/YYYY'));
 
         // if a program date matches today's date, get the program at that index and set it as today's program
         if (date.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
@@ -163,7 +156,6 @@ class Dashboard extends React.Component {
       this.state.unloggedDays.push(i);
       this.state.unloggedExercises.push(exercise);
     }
-
   }
 
   handleEdit = ({ target: { name, value } }) => { // handles exercise edit for that day
@@ -179,7 +171,7 @@ class Dashboard extends React.Component {
     if (id === 'complete') {
       this.setState({ editProgram: false });
       axios.patch(`/api/exerciseplans/${this.state.exerciseId}`,
-        {[day.toLowerCase()]: this.state.programToday});
+        {[day.toLowerCase()]: this.state.programToday}, Auth.bearerHeader());
 
     } else if (id === 'skip') {
       this.setState({ editProgram: false });
@@ -228,8 +220,7 @@ class Dashboard extends React.Component {
   }
 
   programUpdate = (day, newProgramState, grit) => {
-
-    axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState})
+    axios.patch(`/api/exerciseplans/${this.state.exerciseId}`, {[day.toLowerCase()]: newProgramState}, Auth.bearerHeader())
       // .then(res => console.log('res is', res.data))
       .then(res => this.setState({ exercises: res.data }));
 
@@ -251,19 +242,16 @@ class Dashboard extends React.Component {
         grit
       }
     }, () => {
-      axios.post('/api/feed', this.state.feedUpdate);
+      axios.post('/api/feed', this.state.feedUpdate, Auth.bearerHeader());
     });
   }
 
   updateGrit = (grit) => {
-    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit })
+    axios.post(`/api/users/${Auth.currentUserId()}/grit`, {date: this.state.momentToday, grit: grit }, Auth.bearerHeader())
       .then(res => this.setState({ userGrit: res.data.grit }));
   }
 
   // ************** CORE FEED FUNCTIONS ******************************
-
-
-
   render() {
     return(
       <section className="container">

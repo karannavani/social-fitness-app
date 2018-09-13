@@ -11,7 +11,7 @@ class Graphs extends React.Component{
   state = {}
 
   componentDidMount(){
-    axios.get(`/api/users/${Auth.currentUserId()}`)
+    axios.get(`/api/users/${Auth.currentUserId()}`, Auth.bearerHeader())
       .then(res => this.setState({ user: res.data }));
 
     const paginateOptions = {
@@ -21,7 +21,7 @@ class Graphs extends React.Component{
       'populate': 'user',
       'limit': 2
     };
-    axios.post('/api/exerciseplans/paginate', paginateOptions)
+    axios.post('/api/exerciseplans/paginate', paginateOptions, Auth.bearerHeader())
       .then(res => this.setState({ userAvailableGrit: res.data.docs }, () => {
         this.userAvailableGrit();
       }

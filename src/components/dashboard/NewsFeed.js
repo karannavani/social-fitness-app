@@ -3,10 +3,10 @@ import React from 'react';
 //dependancies
 import axios from 'axios';
 import _ from 'lodash';
+import Auth from '../../lib/Auth';
 
 //componenets
 import NewsCardNewRegister from './newsFeedCards/NewRegister.js';
-
 import AdoptPlan from './newsFeedCards/AdoptPlan';
 import CreatePlan from './newsFeedCards/CreatePlan';
 import LogWorkout from './newsFeedCards/LogWorkout';
@@ -31,7 +31,7 @@ export default class NewsFeed extends React.Component{
         'limit': this.state.limit[0]
       };
 
-      axios.post('/api/feed/paginate', paginateOptions)
+      axios.post('/api/feed/paginate', paginateOptions, Auth.bearerHeader())
         .then(res => {
           const sortedFeed = this.sortFeed(res.data.docs);
           this.setState({newsFeedItems: sortedFeed, pages: res.data.pages, total: res.data.total });

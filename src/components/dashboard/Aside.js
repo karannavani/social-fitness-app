@@ -12,7 +12,6 @@ import UpcomingRestCard from '../common/cards/UpcomingRestCard';
 
 class Aside extends React.Component {
   state = {
-    // editProgram: false, // this is linked to the edit button on the exercise card
     unloggedExercises: [],
     unloggedDays: []
   }
@@ -27,7 +26,6 @@ class Aside extends React.Component {
       this.setState({ exercises: this.props.exercises });
     }
   }
-
 
   render() {
     const {programToday, programDay, programTomorrow,
