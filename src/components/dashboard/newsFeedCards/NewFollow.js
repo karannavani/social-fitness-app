@@ -14,16 +14,16 @@ const NewFollow = ({ user, followedUser, created }) => {
         <div className="content">
           <div className="columns">
             <div className="column is-9">
-              <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
-              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+              <Link to={`/profile/${user._id}`} className='title is-4 is-block sub-text' >{user.username}</Link>
+              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block sub-text'>{user.tribe} </Link>
             </div>
             <div className="column">
-              <h5 className="subtitle is-6 sub-text">{created}</h5>
+              <h5 className="subtitle is-6 white-title">{created}</h5>
             </div>
           </div>
           {/* CHANGEBLE CONTENT */}
 
-          <p> Recently Followed {followedUser.username} </p>
+          <p className="news-feed-item-details"> Recently Followed {followedUser.username} </p>
 
           {/* CHANGEBLE CONTENT */}
         </div>

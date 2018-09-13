@@ -11,27 +11,31 @@ class Header extends React.Component {
 
   render() {
     return(
-      <header>
+      <header >
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
-            <Link className="navbar-item" to="/dashboard">TRIBE</Link>
+          <div className="container">
 
-            <a role="button" className="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-              <span className="burger-menu"></span>
-              <span className="burger-menu"></span>
-              <span className="burger-menu"></span>
-            </a>
-          </div>
+            <div className="navbar-brand">
+              <Link className="navbar-item" to="/dashboard">TRIBE</Link>
 
-          <div className="navbar-menu">
-            <div className="navbar-end">
-              {Auth.isAuthenticated() && <Link className="navbar-item" to="/dashboard">Dashboard</Link>}
-              {Auth.isAuthenticated() && <Link className="navbar-item" to={`/profile/${Auth.currentUserId()}`}>Profile</Link>}
-              {Auth.isAuthenticated() && <Link className="navbar-item" to={`/tribe/${Auth.currentUserTribe()}`}>Tribe</Link> }
-              {Auth.isAuthenticated() && <Link className="navbar-item" to="/tribe">All Tribes</Link> }
-              {!Auth.isAuthenticated() && <Link className="navbar-item" to="/login">Log In</Link>}
-              {Auth.isAuthenticated() &&
-                <a onClick={ this.handleLogout } className="navbar-item" >Log Out</a>}
+              <a role="button" className="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                <span className="burger-menu"></span>
+                <span className="burger-menu"></span>
+                <span className="burger-menu"></span>
+              </a>
+            </div>
+
+            <div className="navbar-menu">
+              <div className="navbar-end">
+                {Auth.isAuthenticated() && <Link className="navbar-item" to="/dashboard">Dashboard</Link>}
+                {Auth.isAuthenticated() && <Link className="navbar-item" to={`/profile/${Auth.currentUserId()}`}>Profile</Link>}
+                {Auth.isAuthenticated() && <Link className="navbar-item" to={`/tribe/${Auth.currentUserTribe()}`}>Tribe</Link> }
+                {Auth.isAuthenticated() && <Link className="navbar-item" to="/tribe">All Tribes</Link> }
+                {!Auth.isAuthenticated() && <Link className="navbar-item" to="/login">Log In</Link>}
+                {Auth.isAuthenticated() && <Link className="navbar-item" to="/exerciseplan/new">Create Plan</Link>}
+                {Auth.isAuthenticated() &&
+                  <a onClick={ this.handleLogout } className="navbar-item" >Log Out</a>}
+              </div>
             </div>
           </div>
         </nav>

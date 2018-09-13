@@ -106,8 +106,10 @@ class Graphs extends React.Component{
           }
         </div>
         <div className="column challenges-index" style={{ height: '50vh', width: '50%'}}>
-          <p className="title is-12 has-text-centered">Challenges</p>
-          <hr />
+          <p className="title is-12 page-title-large">Challenges</p>
+          <div>
+            <hr />
+          </div>
           <ChallengesIndex />
 
         </div>

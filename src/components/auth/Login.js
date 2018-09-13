@@ -44,19 +44,21 @@ export default class AuthLogin extends React.Component{
     return(
       <section>
         <form onSubmit={ this.handleSubmit }>
-          <div className="columns is-centered is-multiline">
-            <div className="column is-6 is-offest-3">
+          <div className="columns is-multiline">
+            <div className="column is-5 is-offset-3">
 
-              <h1 className="column title is-6">Log into your account</h1>
+              <h1 className="column page-title-small has-text-centered">Log into your account</h1>
 
               <div className="column">
                 <FormInput
+                  className="form-input"
                   name='email'
                   type='email'
                   state={ this.state }
                   handleChange={ this.handleChange }
                   placeholder='example@email.com'
                 />
+                <hr />
               </div>
 
               <div className="column">
@@ -67,17 +69,18 @@ export default class AuthLogin extends React.Component{
                   handleChange={ this.handleChange }
                   placeholder='Password'
                 />
+                <hr />
               </div>
 
               <div className="columns login-buttons">
 
                 <button className="auth-button has-text-centered column is-rounded is-3 is-offset-1">Log in</button>
 
-                <div className="column is-3 is-offset-1">
-                  <a className="button is-rounded" onClick={ this.togglePasswordShow }>👁</a>
+                <div className="column is-1 is-offset-1">
+                  <a className="" onClick={ this.togglePasswordShow }>show</a>
                 </div>
 
-                <div className="auth-button column is-1 is-offset-1"><Link to='/'>Back</Link></div>
+                <div className="auth-button column is-3 has-text-centered is-offset-2"><Link to='/'>Back</Link></div>
               </div>
 
             </div>

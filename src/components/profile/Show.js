@@ -28,9 +28,9 @@ export default class UserShow extends React.Component{
       {value: 'startDate|asc', label: 'Start Date (Old to New' }
     ],
     filterIntensityOptions: [
-      {label: 'Low Intensity', value: 'Low', active: true},
-      {label: 'Medium Intensity', value: 'Medium', active: true},
-      {label: 'High Intensity', value: 'High', active: true}
+      {label: 'Low', value: 'Low', active: true},
+      {label: 'Medium', value: 'Medium', active: true},
+      {label: 'High', value: 'High', active: true}
     ],
     page: 1
   };
@@ -48,7 +48,7 @@ export default class UserShow extends React.Component{
   fetchUserData = () => {
     const userId = this.props.match.params.id;
     axios.get(`/api/users/${userId}`)
-      .then(res => this.setState({user: res.data}));
+    .then(res => this.setState({user: res.data}));
 
     this.fetchPaginatePlanHistory();
   }
@@ -65,11 +65,11 @@ export default class UserShow extends React.Component{
 
     //returns 10 user exercises and sorts then by startDate with newest first.
     axios.post('/api/exerciseplans/paginate', paginateOptions)
-      .then(res => {
-        // console.log(`there are ${res.data.pages} pages for this user`);
-        const planDateAsc = this.sortPlans(res.data.docs);
-        this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
-      });
+    .then(res => {
+      // console.log(`there are ${res.data.pages} pages for this user`);
+      const planDateAsc = this.sortPlans(res.data.docs);
+      this.setState({exercisePlans: planDateAsc, pages: res.data.pages});
+    });
   }
 
   //returns an array of sorted plans
@@ -85,194 +85,194 @@ export default class UserShow extends React.Component{
       this.state.filterIntensityOptions.some(option => {
         return option.active && plan.intensityAvg === option.value;
       }));
-  }
+    }
 
-  sortedFilteredPlans = () => {
-    const filteredOptions = this.filterByOptions(this.state.exercisePlans);
-    return this.sortPlans(filteredOptions);
-  }
+    sortedFilteredPlans = () => {
+      const filteredOptions = this.filterByOptions(this.state.exercisePlans);
+      return this.sortPlans(filteredOptions);
+    }
 
-  handleGoToTribe = () => {
-    this.props.history.push(`/tribe/${this.state.user.tribe}`);
-  }
+    handleGoToTribe = () => {
+      this.props.history.push(`/tribe/${this.state.user.tribe}`);
+    }
 
-  //returns true if the current user is viewing their own profile
-  isUsersPage = () => {
-    if(Auth.currentUserId() === (this.props.match.params.id)) return true;
-    return false;
-  }
+    //returns true if the current user is viewing their own profile
+    isUsersPage = () => {
+      if(Auth.currentUserId() === (this.props.match.params.id)) return true;
+      return false;
+    }
 
-  // returns true if viewer (logged in user) is following the displayed user
-  isFollowing = () => {
-    return this.state.user.followers.includes(Auth.currentUserId());
-  }
+    // returns true if viewer (logged in user) is following the displayed user
+    isFollowing = () => {
+      return this.state.user.followers.includes(Auth.currentUserId());
+    }
 
-  // NOTE: might have a case where clicking fast will allow user to unfollow twice.
-  handleUnFollow = () =>{
-    axios.put(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
+    // NOTE: might have a case where clicking fast will allow user to unfollow twice.
+    handleUnFollow = () =>{
+      axios.put(`/api/users/${Auth.currentUserId()}/follow`, {id: this.props.match.params.id})
       .then(res => {
         this.setState({ user: res.data });
       });
-  }
+    }
 
-  handleFollow = () =>{
-    const viewedUserId = this.props.match.params.id;
+    handleFollow = () =>{
+      const viewedUserId = this.props.match.params.id;
 
-    axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: viewedUserId})
+      axios.post(`/api/users/${Auth.currentUserId()}/follow`, {id: viewedUserId})
       .then(res => {
         this.setState({ user: res.data });
       });
 
-    const newFollowBody = {
-      user: Auth.currentUserId(),
-      type: 'follow',
-      followedUserId: viewedUserId
+      const newFollowBody = {
+        user: Auth.currentUserId(),
+        type: 'follow',
+        followedUserId: viewedUserId
+      };
+
+      Request.updateFeed(newFollowBody);
+    }
+
+    handleSortSelectChange = ({ target }) => {
+      this.setState({sortString: target.value});
+    }
+
+    handleFilterChange = ({target}) => {
+      const filterIntensityOptions = this.state.filterIntensityOptions.slice();
+      filterIntensityOptions.forEach(option => {
+        if(option.value === target.name || target.name === 'all'){
+          option.active = target.checked;
+        }
+      });
+      this.setState({ filterIntensityOptions });
+    }
+
+    handlePageChange = (page) => {
+      return () => {
+        this.setState({page}, () => this.fetchPaginatePlanHistory());
+      };
     };
 
-    Request.updateFeed(newFollowBody);
-  }
-
-  handleSortSelectChange = ({ target }) => {
-    this.setState({sortString: target.value});
-  }
-
-  handleFilterChange = ({target}) => {
-    const filterIntensityOptions = this.state.filterIntensityOptions.slice();
-    filterIntensityOptions.forEach(option => {
-      if(option.value === target.name || target.name === 'all'){
-        option.active = target.checked;
-      }
-    });
-    this.setState({ filterIntensityOptions });
-  }
-
-  handlePageChange = (page) => {
-    return () => {
-      this.setState({page}, () => this.fetchPaginatePlanHistory());
-    };
-  };
-
-  render(){
-    const { user, exercisePlans, sortOptions } = this.state;
+    render(){
+      const { user, exercisePlans, sortOptions } = this.state;
 
 
-    // const this.filterByOptions()
-    return(
-      <section>
-        {/* HERO */}
-        {user &&
-          <section className='hero is-medium is-primary'>
-            <div className='hero-body'>
-              <div className='container '>
-                {/* PERSONAL DETAILS */}
-                <section className=' columns'>
-                  <figure className="column is-2">
-                    <p className="image is-128x128">
-                      <img src={user.imageUrl} />
-                    </p>
-                  </figure>
-                  <div className=" column is-9">
-                    <div className="content">
-                      <h2 className='title is-4'><strong>{user.username}</strong></h2>
-                      <p className='subtitle '>{user.firstName} {user.surname}</p>
-                      <hr/>
-                      <p>Height: {user.height}{user.heightUnit}</p>
-                      <p>Weight: {user.weight}{user.weightUnit}</p>
-                      <p>Age: {user.age}</p>
-                    </div>
-                  </div>
+      // const this.filterByOptions()
+      return(
+        <section>
+          {/* HERO */}
+          {user &&
+            <div className='container '>
+              {/* PERSONAL DETAILS */}
+              <section className='columns'>
 
-                  <div className=" column is-1">
+                <div className="column is-2 is-offset-2">
+                  <p className="image is-128x128">
+                    <img className="profile-picture" src={user.imageUrl} />
+                  </p>
+
+                  <div>
                     {this.isUsersPage() ?
-                      <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info"><i className="far fa-edit"></i>Profile</Link>
+                      <Link to={`/users/${user._id}/edit`} className="button is-rounded is-info"><i className="far fa-edit"></i></Link>
                       :
                       <div>
                         {this.isFollowing() ?
                           <button
                             onClick={ this.handleUnFollow }
-                            className="button is-rounded is-info"><i className="fas fa-sm fa-minus"></i>  Unfollow</button>
+                            className="button is-rounded is-info">Unfollow</button>
                           :
                           <button
                             onClick={ this.handleFollow }
-                            className="button is-rounded is-info"><i className="fas fa-sm fa-plus"></i>  Follow</button>
+                            className="button is-rounded is-info">Follow</button>
                         }
                       </div>
                     }
                   </div>
-                </section>
+                </div>
+
+                <div className="column is-3 is-offset-1">
+                  <div className="content">
+                    <h2 className="page-title-small">{user.username}</h2>
+                    <p className="sub-text">{user.firstName} {user.surname}</p>
+                    <p className="sub-text">Height: {user.height}{user.heightUnit}</p>
+                    <p className="sub-text">Weight: {user.weight}{user.weightUnit}</p>
+                    <p className="sub-text">Age: {user.age}</p>
+                  </div>
+                </div>
+
 
                 {/* TRIBE FOLLOWERS FOLLOWING */}
+                <div className='column is-2 is-offset-1'>
+                  <div onClick={this.handleGoToTribe} >
+                    <p className="page-title-small"> {user.tribe}</p>
+                  </div>
+                  <p className="sub-text">{user.followers.length} Followers</p>
+                  <p className="sub-text"> Following {user.following.length}</p>
+                </div>
 
-                <div className='columns' style={{border: '1px solid black'}}>
-                  <div onClick={this.handleGoToTribe} className='column is-4 has-text-centered'>
-                    <p> {user.tribe}</p>
+              </section>
+            </div>
+
+          }
+          <hr />
+          {/* HISTORY */}
+          <section className='container'>
+            <h2  className='page-title-large'>History</h2>
+
+
+            {exercisePlans && user && !exercisePlans.length ?
+              <div className="sub-text"> You dont have any plans yet.
+                <Link to='/exerciseplan/new'>Click</Link> here to create one or visit your
+                <Link to={`/tribe/${user.tribe}`}> tribes</Link>  page and adopt one
+              </div>
+              :
+              <div className='columns is-centered is-multiline'>
+
+                <section className='columns is-centered is-multiline'>
+                  <div className='column is-5
+                    6'>
+                    <SortSelect
+                      options={sortOptions}
+                      title='Sort Plans'
+                      handleChange={this.handleSortSelectChange}
+                    />
                   </div>
-                  <div className='column is-4 has-text-centered'>
-                    <p>{user.followers.length} Followers</p>
+
+                  <div className='column is-7'>
+                    <h1 className="sub-text">Filter by intensity</h1>
+                    <FilterBar
+                      options={this.state.filterIntensityOptions}
+                      handleChange={this.handleFilterChange}
+                    />
                   </div>
-                  <div className='column is-4 has-text-centered'>
-                    <p> Following {user.following.length}</p>
-                  </div>
+                  <hr/>
+                </section>
+
+                <div className="columns is-centered is-multiline">
+                  {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
+
+                    <PlanHistoryCard
+                      plan={ exercisePlan }
+                      key={exercisePlan._id}
+                      keyId={exercisePlan._id}
+                    />
+                  )}
+
+                  {this.state.pages &&
+                      <div className='column is-4 is-offset-2 has-text-centered'>
+                        <Paginate
+                          currentPage={this.state.page}
+                          startPage={1}
+                          endPage={this.state.pages}
+                          handleClick={this.handlePageChange}
+                        />
+                      </div>
+                  }
                 </div>
               </div>
-            </div>
+            }
           </section>
-        }
-
-        {/* HISTORY */}
-        <section id='history' className='container'>
-          <h2  className='title has-text-centered is-2'>History</h2>
-          {/* map over an array of past exercise */}
-
-          {/* BUG: this is not always stable */}
-          {exercisePlans && user && !exercisePlans.length ?
-            <div> You dont have any plans yet.
-              <Link to='/exerciseplan/new'>Click</Link> here to create one or visit your
-              <Link to={`/tribe/${user.tribe}`}> tribes</Link>  page and adopt one
-            </div>
-            :
-            <div className='columns is-multiline'>
-              <section className='column is-12 columns'>
-                <div className='column is-6'>
-                  <SortSelect
-                    options={sortOptions}
-                    title='Sort Plans'
-                    handleChange={this.handleSortSelectChange}
-                    defaultValue={this.state.sortString}
-                  />
-                </div>
-                <div className='column is-6'>
-                  <FilterBar
-                    options={this.state.filterIntensityOptions}
-                    handleChange={this.handleFilterChange}
-                  />
-                </div>
-                <hr/>
-              </section>
-
-              {exercisePlans && this.sortedFilteredPlans().map( exercisePlan =>
-                <PlanHistoryCard
-                  plan={ exercisePlan }
-                  key={exercisePlan._id}
-                  keyId={exercisePlan._id}
-                />
-              )}
-
-              {this.state.pages &&
-                <div className='column is-12 has-text-centered'>
-                  <Paginate
-                    currentPage={this.state.page}
-                    startPage={1}
-                    endPage={this.state.pages}
-                    handleClick={this.handlePageChange}
-                  />
-                </div>
-              }
-            </div>
-          }
         </section>
-      </section>
 
-    );
-  }
+      );
+    }
 }
