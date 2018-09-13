@@ -4,6 +4,7 @@ import Aside from './Aside';
 import Feed from './Feed';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Flash from '../../lib/Flash';
 import Request from '../../lib/Request';
 
 class Dashboard extends React.Component {
@@ -73,9 +74,6 @@ class Dashboard extends React.Component {
         .then(() => this.awardGrit(challengeId))
         .then(() => this.deleteChallenge(challengeId));
 
-      // get grit of clicked challenge
-      // add that to user grit
-
     } else if (action === 'skip') {
       //delete from challengers array
       this.deleteChallenge(challengeId);
@@ -104,6 +102,10 @@ class Dashboard extends React.Component {
       if (challenge._id === challengeId) {
         const grit = challenge.challengeGrit;
         this.updateGrit(grit);
+        Flash.setMessage('success', `Woohoo! You earned ${grit} grit`);
+        console.log('path name is', this.state.history);
+        this.props.history.push(this.props.location.pathname);
+
       }
     });
   }
@@ -301,10 +303,10 @@ class Dashboard extends React.Component {
               user = {this.state.users}
               handleChallenge = {this.handleChallenge}
             />
-          }
-        </div>
+            }
+          </div>
 
-      </div>
+        </div>
       </section>
     );
   }

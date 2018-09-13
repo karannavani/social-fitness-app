@@ -1,7 +1,9 @@
 import React from 'react';
-import Auth from '../../lib/Auth';
 import axios from 'axios';
 import Request from '../../lib/Request';
+import Auth from '../../lib/Auth';
+import Flash from '../../lib/Flash';
+import { browserHistory } from 'react-router-dom';
 
 export default class ChallengeCard extends React.Component{
   state={
@@ -33,6 +35,10 @@ export default class ChallengeCard extends React.Component{
       challengeId: this.props.challenge._id
     };
     Request.updateFeed(feedBody);
+
+    // Flash.setMessage('success', 'Accepted!');
+    // console.log('path name is', browserHistory);
+
   }
 
 
