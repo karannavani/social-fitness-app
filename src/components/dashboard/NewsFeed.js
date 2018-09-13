@@ -24,7 +24,7 @@ export default class NewsFeed extends React.Component{
       const paginateOptions = {
         'page': this.state.page,
         'sort': {'createdAt': -1 },
-        'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
+        'populate': 'user exercisePlanId challengeId exercisePlanAdoptedFromId followUserId',
         'limit': this.state.limit[0]
       };
 
