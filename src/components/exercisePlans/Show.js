@@ -150,19 +150,33 @@ export default class ExercisePlanShow extends React.Component{
     return(
       <section className='container'>
         {state &&
-          <div className='columns is-centered'>
+          <div className='columns is-multiline is-centered'>
             <div className=' column is-8 columns is-mobile is-multiline'>
-              <div className='column is-6'>
-                <h1 className='title is-5'>Plan Name</h1>
+              <div className='column is-5'>
+                <h1 className='title is-5 white-title'>{state.name}</h1>
+                {/* {!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  } */}
+                <h1 className='title is-5 white-title'>Tribe name goes here</h1>
+                <p className="white-title"><i className="fas fa-stopwatch fas-regular"></i> Average: {state.workoutTimeAvg} minutes</p>
+                <p className="white-title"><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
               </div>
-              <div className='column is-6'>
-                <h1 className='title is-5'>Tribe</h1>
-              </div>
-              <div className='column is-6'>
-                <p><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
-              </div>
-              <div className='column is-6'>
-                <p><i className="fas fa-stopwatch fas-regular"></i> Average: {state.workoutTimeAvg}</p>
+              <div className='column is-7 has-text-centered'>
+                {!this.state.adopting ?
+                  <button onClick={this.handleAdoption} className='button auth-button'>Want to Adopt?</button>
+                  :
+                  <div className="white-title">
+                    <h4 className="sub-text">Choose a start date</h4>
+                    <FormInput
+                      name='newStartDate'
+                      type='date'
+                      min={today}
+                      handleChange={this.handleChange}
+                      state={this.state}
+                    />
+                    <hr />
+                    <button onClick={this.handleAdoption} className='button auth-button'>Adopt</button>
+                  </div>
+                }
+
               </div>
 
               {/* day cards */}
@@ -181,25 +195,6 @@ export default class ExercisePlanShow extends React.Component{
                 }
               </div>
 
-              <div className='column is-12 has-text-centered'>
-                {!this.state.adopting ?
-                  <button onClick={this.handleAdoption} className='button is-primary'>Want to Adopt?</button>
-                  :
-                  <div>
-                    <FormInput
-                      name='newStartDate'
-                      type='date'
-                      min={today}
-                      handleChange={this.handleChange}
-                      state={this.state}
-                      label='Choose your preferred start date'
-                    />
-
-                    <button onClick={this.handleAdoption} className='button is-primary'>Adopt</button>
-                  </div>
-                }
-
-              </div>
 
             </div>
           </div>

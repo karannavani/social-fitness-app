@@ -17,7 +17,9 @@ import NewFollow from './newsFeedCards/NewFollow';
 export default class NewsFeed extends React.Component{
   state={
     page: 1,
-    limit: [10]
+    limit: [10],
+    loadClick: 1,
+    loadButton: true
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,14 +27,14 @@ export default class NewsFeed extends React.Component{
       const paginateOptions = {
         'page': this.state.page,
         'sort': {'createdAt': -1 },
-        'populate': 'user exercisePlanId exercisePlanAdoptedFromId followUserId',
+        'populate': 'user exercisePlanId challengeId exercisePlanAdoptedFromId followUserId',
         'limit': this.state.limit[0]
       };
 
       axios.post('/api/feed/paginate', paginateOptions, Auth.bearerHeader())
         .then(res => {
           const sortedFeed = this.sortFeed(res.data.docs);
-          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages});
+          this.setState({newsFeedItems: sortedFeed, pages: res.data.pages, total: res.data.total });
         });
     }
   }
@@ -46,7 +48,17 @@ export default class NewsFeed extends React.Component{
     const newLimit = this.state.limit.slice();
     newLimit[0] += 10;
 
-    this.setState({limit: newLimit});
+    let loadClick = this.state.loadClick;
+    loadClick++;
+
+    this.setState({limit: newLimit, loadClick}, () => {
+      if (this.state.loadClick === this.state.pages) {
+        this.setState({ loadButton: false });
+      }
+
+    });
+
+    // if (this.state.total )
   }
 
   render(){
@@ -127,9 +139,11 @@ export default class NewsFeed extends React.Component{
           }
           )}
         </div>
+        { this.state.loadButton &&
         <div className='column is-full has-text-centered'>
           <a onClick={this.handleLoadMoreNews}>Click to load more</a>
         </div>
+        }
       </section>
         }
       </section>

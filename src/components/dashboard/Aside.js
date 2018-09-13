@@ -34,9 +34,9 @@ class Aside extends React.Component {
     const {editProgram} = this.props;
     return(
 
-      <div className="column is-4 is-3-desktop dashAside">
+      <div className="aside">
         <div className="program-div">
-          {programToday && <h2 className="title is-2 white">Today</h2>}
+          {programToday && <h2 className="page-title-small">Today</h2>}
           {/* **************CARDS LOGIC************** */}
 
           {/* main card which displays today's exercise */}
@@ -91,7 +91,7 @@ class Aside extends React.Component {
           }
 
           {unloggedExercises.length > 0 &&
-          <h3 className="title is-3 white">Unlogged</h3>}
+          <h3 className="page-title-small">Unlogged</h3>}
           {unloggedExercises.length > 0 && unloggedExercises.map((exercise, i) =>
             <div key = {i}>
               <UnloggedCard
