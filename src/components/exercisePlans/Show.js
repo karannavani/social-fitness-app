@@ -25,7 +25,7 @@ export default class ExercisePlanShow extends React.Component{
     this.setState({newExercisePlanId});
 
     axios.get(`/api/exerciseplans/${this.props.match.params.id}`, Auth.bearerHeader())
-      .then(res => this.setState(res.data));
+      .then(res => this.setState(res.data, () => console.log('the exercise data is: ', this.state)));
   }
 
   handleChange = ({ target: { name, value }}) => {
@@ -140,22 +140,22 @@ export default class ExercisePlanShow extends React.Component{
     return packagedData;
   }
 
-  //start date can only be after current program completes
-  //validte date input
-
   render(){
     const { state } = this;
     const today = moment().format('YYYY-MM-DD');
+    // console.log('state adopted from is', !!state.exercisePlanAdoptedFrom);
+    // console.log('state exercise adopted from user is', state.exercisePlanAdoptedFrom);
 
     return(
       <section className='container'>
-        {state &&
+        {state.user &&
           <div className='columns is-multiline is-centered'>
             <div className=' column is-8 columns is-mobile is-multiline'>
               <div className='column is-5'>
                 <h1 className='title is-5 white-title'>{state.name}</h1>
-                {/* {!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  } */}
-                <h1 className='title is-5 white-title'>Tribe name goes here</h1>
+
+                <h1 className='title is-5 white-title'>{!state.exercisePlanAdoptedFrom ? state.user.tribe :  state.exercisePlanAdoptedFrom.user.tribe  }</h1>
+                <h1 className='white-title sub-title'>Plan created by: {state.exercisePlanAdoptedFrom && state.exercisePlanAdoptedFrom.user.username  }</h1>
                 <p className="white-title"><i className="fas fa-stopwatch fas-regular"></i> Average: {state.workoutTimeAvg} minutes</p>
                 <p className="white-title"><i className="fas fa-fire fas-regular"></i>: {state.intensityAvg}</p>
               </div>
