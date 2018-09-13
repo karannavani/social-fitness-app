@@ -5,6 +5,7 @@ import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import Auth from '../../lib/Auth';
+import Validate from '../../lib/Validate';
 import Flash from '../../lib/Flash';
 import Request from '../../lib/Request';
 import Id from '../../lib/Id';
@@ -39,7 +40,8 @@ export default class ExercisePlanShow extends React.Component{
 
     }else if(this.state.adopting){
 
-      if(this.VstartDate(Auth.currentUserId(), this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans)){
+      // if(this.VstartDate(Auth.currentUserId(), this.state.newStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans)){
+      if(Validate.startDate(this.state.newStartDate)){
         const formattedDate = moment(this.state.newStartDate).format('dddd, MMMM Do YYYY');
         this.createAdoptedPlan();
         Flash.setMessage('success', `Successfully adopted a plan. It will start on the ${formattedDate}`);
@@ -62,10 +64,6 @@ export default class ExercisePlanShow extends React.Component{
   //     return true;
   //   }
   // }
-  // the usersActiveplan start date is correct on the server
-  // the usersActiveplan start date is correct on the client
-  // the correct future start date is displayed when wrong date is chosen
-  // the correct start date is displayed when correct date is chosen
 
   VstartDate = (userId, chosenStartDate, activePlanStartDate, futurePlans) => {
     //get active plan
@@ -74,18 +72,15 @@ export default class ExercisePlanShow extends React.Component{
 
     if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
 
-    console.log('made it past end of active date');
     const futurePeriods = [];
     futurePlans.forEach(plan => {
       const momStartDate = moment.unix(plan.startDate);
-      console.log('the period moment start date is', momStartDate);
       futurePeriods.push({
         beforeDate: moment(momStartDate).subtract(7, 'days'),
         endDate: moment(momStartDate).add(7, 'days')
       });
     });
     if(!futurePeriods.length) return true;
-    console.log('the chosen date is not between the period====> ', !moment(momChosenStartDate).isBetween(futurePeriods[0].beforeDate, futurePeriods[0].endDate));
 
     const validateArray =[];
     for(let i = 0; i < futurePeriods.length; i++){
@@ -97,8 +92,6 @@ export default class ExercisePlanShow extends React.Component{
     }
 
     return validateArray.every(item => item);
-    // futurePlans.some( futurePeriod => {
-    // });
   }
 
   // Gets the users most recent program and sets the start date to state

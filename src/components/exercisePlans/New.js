@@ -19,6 +19,12 @@ export default class ExercisePlanNew extends React.Component {
       'sort': { 'startDate': -1 },
       'limit': 1
     };
+    // NOTE: this can be refactored
+    // axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+    //   .then(res => {
+    //     this.setState({usersActivePlanStartDate: res.data[0].startDate});
+    //   });
+
     axios.post('/api/exerciseplans/paginate', paginateOptions)
       .then(res => this.setState({usersActivePlanStartDate: res.data.docs}, ()=> {
         if (this.state.usersActivePlanStartDate.length) {
@@ -63,7 +69,7 @@ export default class ExercisePlanNew extends React.Component {
   handleChange = ({ target: { name, value, checked } }) => {
     const day = name.split('.')[0];
     this.setState({ [`${day}.intensity`]: 'Low' });
-    
+
     if(name.includes('time')) {
       value = parseInt(value);
       this.setState({[name]: value}, () => {
@@ -105,11 +111,8 @@ export default class ExercisePlanNew extends React.Component {
   }
 
   validateStartDate = () => {
-    // console.log('from state ', this.state.normalStartDate);
     const momStartDate = moment(this.state.normalStartDate).utc();
-    // console.log('the newStartDate is:', momStartDate);
     const sevenDaysTime = moment.utc(moment.unix(this.state.usersActivePlanStartDate)).add(6, 'days');
-    // console.log('the date sevenDaysTime is: ', sevenDaysTime);
     if(moment(momStartDate).isAfter(sevenDaysTime)) return true;
 
     return false;

@@ -1,34 +1,49 @@
 import axios from 'axios';
 import moment from 'moment';
+import Auth from './Auth';
 
 const Validate = {};
 
-Validate.startDate = function(userId, chosenStartDate, activePlanStartDate) {
+Validate.startDate = function(chosenStartDate, futurePlans){
   //get active plan
-  const momCST = moment(chosenStartDate);
-  // const today = moment();
-  let activePlanEndDate;
-  // const futurePlans = [];
-  axios.get(`/api/exerciseplans/${userId}/active`)
-    .then(res =>{
-      console.log('the returning data is', res.data[0].startDate)
+  const momChosenStartDate = moment(chosenStartDate);
 
-      activePlanEndDate = moment.unix(res.data[0].startDate).add(6, 'days');
+  const activePlanStartDate = this.getActivePlanStartDate();
+  const activePlanEndDate = moment.unix(activePlanStartDate).add(6, 'days');
+  console.log('the active plan is', activePlanEndDate)
 
-      console.log('activePlanEndDate is', activePlanEndDate)
-      console.log('the chosen data as momemnt is', momCST)
-      console.log('the cst is after the enddata', momCST.isAfter(moment(activePlanEndDate)))
-      if(momCST.isAfter(moment(activePlanEndDate))){
-        return
-      }
-      // return false;
-    } );
+  if(!momChosenStartDate.isAfter(activePlanEndDate)) return false;
+  return true;
 
+  // const futurePeriods = [];
+  // futurePlans.forEach(plan => {
+  //   const momStartDate = moment.unix(plan.startDate);
+  //   futurePeriods.push({
+  //     beforeDate: moment(momStartDate).subtract(7, 'days'),
+  //     endDate: moment(momStartDate).add(7, 'days')
+  //   });
+  // });
+  // if(!futurePeriods.length) return true;
   //
-  // axios.get(`/api/exerciseplans/${userId}/future`)
-  //   .then(res => res.data.forEach(plan => futurePlans.push(plan.startDate)))
+  // const validateArray =[];
+  // for(let i = 0; i < futurePeriods.length; i++){
+  //   if(!moment(momChosenStartDate).isBetween(futurePeriods[i].beforeDate, futurePeriods[i].endDate)){
+  //     validateArray.push(true);
+  //   }else{
+  //     validateArray.push(false);
+  //   }
+  // }
+  //
+  // return validateArray.every(item => item);
 
-  //create an array of periods
+
+};
+
+Validate.getActivePlanStartDate = function(){
+  axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`)
+    .then(res => {
+      return res.data[0].startDate;
+    });
 };
 
 
