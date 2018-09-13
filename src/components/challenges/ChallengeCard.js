@@ -3,9 +3,9 @@ import axios from 'axios';
 import Request from '../../lib/Request';
 import Auth from '../../lib/Auth';
 import Flash from '../../lib/Flash';
-import { browserHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-export default class ChallengeCard extends React.Component{
+class ChallengeCard extends React.Component{
   state={
     accepted: false
   }
@@ -21,7 +21,7 @@ export default class ChallengeCard extends React.Component{
   }
 
   acceptChallenge = (challengeId) => {
-    axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()});
+    axios.post(`/api/challenges/${challengeId}`, { id: Auth.currentUserId()}, Auth.bearerHeader());
   }
 
   handleClick = () => {
@@ -36,9 +36,8 @@ export default class ChallengeCard extends React.Component{
     };
     Request.updateFeed(feedBody);
 
-    // Flash.setMessage('success', 'Accepted!');
-    // console.log('path name is', browserHistory);
-
+    Flash.setMessage('success', 'CHALLENGE ACCEPTED!');
+    this.props.history.push(this.props.location.pathname);
   }
 
 
@@ -60,3 +59,5 @@ export default class ChallengeCard extends React.Component{
     );
   }
 }
+
+export default withRouter(ChallengeCard);

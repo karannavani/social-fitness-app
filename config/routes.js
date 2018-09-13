@@ -88,10 +88,10 @@ Router.route('/feed/:id')
 
 //-------- CHALLENGES ROUTES
 Router.route('/challenges')
-  .get(secureRoute, challengeController.index);
+  .get(challengeController.index);
 
 Router.route('/challenges/:id')
-  .all(secureRoute)
+  // .all(secureRoute)
   .get(challengeController.show)
   .post(challengeController.update);
 

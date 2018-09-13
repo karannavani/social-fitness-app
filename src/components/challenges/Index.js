@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-// import Auth from '../../lib/Auth';
+import Auth from '../../lib/Auth';
 
 // Components
 import ChallengeCard from './ChallengeCard';
@@ -12,7 +12,7 @@ export default class ChallengesIndex extends React.Component{
   componentDidUpdate() {
 
     axios.get('/api/challenges')
-      .then(res => this.setState({ challenges: res.data }));
+      .then(res => this.setState({ challenges: res.data }), Auth.bearerHeader());
   }
 
   render() {
