@@ -176,6 +176,10 @@ a:hover {
   background-color: #00aff7;
 }
 
+.program-card {
+  background-color: #ff7d2e;
+}
+
 .card-content {
   // background-color: blue;
 }
@@ -286,6 +290,13 @@ a:hover {
   background: rgba(0,210,255,1);
 }
 
+.feed-animations-text {
+  font-family: 'Montserrat', sans-serif;
+  color: #eaeaed;
+  font-size: 15px;
+  font-weight: bold;
+}
+
 
 input.programEdit  {
   background: none;
@@ -327,8 +338,7 @@ input.programEdit  {
 
 
 .dashFeed {
-  // padding-right: 60px;
-  // flex: auto;
+  color: white;
 }
 
 .dot-green {
