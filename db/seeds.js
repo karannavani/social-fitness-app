@@ -20,7 +20,6 @@ mongoose.connect(dbUri);
 const today = moment().unix();
 const dayInSeconds = 86400;
 
-//////// NOTE: make sure to increase number of ids so can increase the number of seeds
 const userIds = [
   '5b91752666708bc8b1622705', '5b91752666708bc8b1622706', '5b91752666708bc8b1622707', '5b91752666708bc8b1622708', '5b91752666708bc8b1622709',
   '5b91752666708bc8b162270a', '5b91752666708bc8b162270b', '5b91752666708bc8b162270c', '5b91752666708bc8b162270d', '5b91752666708bc8b162270e',
@@ -36,22 +35,6 @@ const userIds = [
   '5b91752666708bc8b1622763', '5b91752666708bc8b1622764', '5b91752666708bc8b1622765', '5b91752666708bc8b1622766', '5b91752666708bc8b1622767'
 
 ]; //60 ids
-
-// function createId() {
-//   const m = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Math;
-//   const d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Date;
-//   const h = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 16;
-//   const s = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function (s) {
-//     return m.floor(s).toString(h);
-//   };
-//   return s(d.now() / 1000) + ' '.repeat(h).replace(/./g, function () {
-//     return s(m.random() * h);
-//   });
-// }
-
-// function randomNumber(){
-//   return Math.floor(Math.random() * 10000000000000);
-// }
 
 /////////////////////////////////////////////////////////////////////
 ////////////----------CREATE  USERS-----------///////////////////////

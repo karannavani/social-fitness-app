@@ -15,6 +15,7 @@
   "scripts": {
     "start:server": "nodemon",
     "start:client": "webpack-dev-server",
+    "test:server":  "nyc mocha test/server/**/*_spec.js --require test/server/spec_helper --recursive --exit",
     "build": "webpack -p",
     "start": "yarn build && node index",
     "seed": "node db/seeds"
