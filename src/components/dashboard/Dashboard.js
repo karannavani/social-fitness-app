@@ -27,7 +27,7 @@ class Dashboard extends React.Component {
     this.getChallenges();
     //Getting user exercises
     axios.get(`/api/users/${Auth.currentUserId()}`, Auth.bearerHeader())
-      .then(res => this.setState({ users: res.data, exerciseId: res.data.exercisePlan, userGrit: res.data.grit },
+      .then(res => this.setState({ users: res.data, userGrit: res.data.grit },
         () => {
           this.getExercise();
         }));
@@ -114,8 +114,7 @@ class Dashboard extends React.Component {
   getExercise = () => { // sets the exercises from the current plan on the state
     // NOTE: this should be run conditonally if there is no execiseplan for the user
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`, Auth.bearerHeader())
-      .then(res => this.setState({ exercises: res.data[0], goRender: true }, () => {
-        console.log('exercise is', this.state.exercises);
+      .then(res => this.setState({ exercises: res.data[0], goRender: true,exerciseId: res.data[0]._id }, () => {
         this.getProgram();
       }
       ));
@@ -165,7 +164,6 @@ class Dashboard extends React.Component {
   }
 
   handleEditSubmit = ({ target }) => { // saves the edit to the exercise db or cancels it
-    console.log('target is', target.id);
     const [id, day] = target.id.split(' ');
 
     if (id === 'complete') {
@@ -181,7 +179,6 @@ class Dashboard extends React.Component {
   handleProgramClick = ({ target }) => { // allows user to complete, edit and skip days
     const [id, day, grit] = target.id.split(' ');
     const newProgramState = this.state.exercises[day.toLowerCase()];
-    console.log('newProgramState before looks like', newProgramState);
 
     const unloggedIndex = this.state.unloggedDays.indexOf(`Day ${day.slice(3)}`);
 
@@ -190,7 +187,6 @@ class Dashboard extends React.Component {
       case ('complete'):
         newProgramState.exerciseCompleted = true;
         newProgramState.dailyGrit = parseInt(grit);
-        console.log('newProgramState after looks like', newProgramState);
         this.deleteUnlogged(unloggedIndex);
         this.programUpdate(day, newProgramState, grit);
         this.feedUpdate(newProgramState.time, newProgramState.intensity, newProgramState.dailyGrit);
@@ -235,7 +231,7 @@ class Dashboard extends React.Component {
     this.setState({
       feedUpdate: {
         user: this.state.users._id,
-        exercisePlanId: this.state.exerciseId[0],
+        exercisePlanId: this.state.exerciseId,
         type: 'logWorkout',
         time,
         intensity,
