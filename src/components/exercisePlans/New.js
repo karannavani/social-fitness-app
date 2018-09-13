@@ -62,18 +62,12 @@ export default class ExercisePlanNew extends React.Component {
 
     if(name.includes('time')) {
       value = parseInt(value);
-      this.setState({[name]: value}, () => {
-        console.log('state is', this.state);
-        // console.log(this.state.day1.rest);
-      });
+      this.setState({[name]: value});
 
     } else if (name.includes('normalStartDate')){
       this.setState({[name]: value}, () =>{
         if(Validate.startDate(this.state.normalStartDate, this.state.usersActivePlanStartDate, this.state.futurePlans) || this.state.autoValidate){
           const unixValue = moment(value).unix();
-          console.log('value is', value);
-          console.log('unix value is', unixValue);
-          // console.log('unix converted is', moment(unixValue).unix());
           this.setState({errors: null, startDate: unixValue, validStartDate: true});
         } else {
           //date is not valid
@@ -93,10 +87,7 @@ export default class ExercisePlanNew extends React.Component {
       });
 
     } else {
-      this.setState({[name]: value }, () => {
-        console.log('state is', this.state);
-        // console.log(this.state.day1.rest);
-      });
+      this.setState({[name]: value });
     }
   }
 
