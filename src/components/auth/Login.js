@@ -11,9 +11,9 @@ import Flash from '../../lib/Flash';
 
 export default class AuthLogin extends React.Component{
   state={
-    passwordHidden: true,
-    email: 'rnnsea001@gmail.com',
-    password: 'pass'
+    // passwordHidden: true,
+    // email: 'rnnsea001@gmail.com',
+    // password: 'pass'
   };
 
   handleSubmit = (event) => {
