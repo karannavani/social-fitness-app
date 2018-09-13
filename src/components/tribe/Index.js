@@ -107,10 +107,10 @@ export default class TribesIndex extends React.Component{
   render() {
     return(
       <section>
-        <div className="columns is-multiline">
+        <div className="columns">
 
           {this.state.heightgargantuans &&
-            <div className="column is-4 card tribe-average-stats has-text-centered">
+            <div className="column card tribe-average-stats has-text-centered">
               <p className="title is-6 tribe-average-stats">Gargantuans</p>
               <p>Average Height: {this.state.heightgargantuans.toFixed(2)} cm</p>
               <p>Average weight: {this.state.weightgargantuans.toFixed(2)} kg</p>
@@ -121,7 +121,7 @@ export default class TribesIndex extends React.Component{
           }
 
           {this.state.heightallNaturals &&
-            <div className="column is-4 card tribe-average-stats has-text-centered">
+            <div className="column card tribe-average-stats has-text-centered">
               <p className="title is-6 tribe-average-stats">All Naturals</p>
               <p>Average Height: {this.state.heightallNaturals.toFixed(2)} cm</p>
               <p>Average weight: {this.state.weightallNaturals.toFixed(2)} kg</p>
@@ -132,7 +132,7 @@ export default class TribesIndex extends React.Component{
           }
 
           {this.state.heightinbetweeners &&
-            <div className="column is-4 card tribe-average-stats has-text-centered">
+            <div className="column card tribe-average-stats has-text-centered">
               <p className="title is-6 tribe-average-stats">Inbetweeners</p>
               <p>Average Height: {this.state.heightinbetweeners.toFixed(2)} cm</p>
               <p>Average weight: {this.state.weightinbetweeners.toFixed(2)} kg</p>

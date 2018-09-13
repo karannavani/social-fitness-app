@@ -86,7 +86,7 @@ export default class UserShow extends React.Component{
       this.state.filterIntensityOptions.some(option => {
         return option.active && plan.intensityAvg === option.value;
       }));
-    }
+  }
 
     sortedFilteredPlans = () => {
       const filteredOptions = this.filterByOptions(this.state.exercisePlans);

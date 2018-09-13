@@ -15,7 +15,7 @@ export default class UserGritVsTime extends React.Component{
           data: [],
           lineTension: 0,
           backgroundColor: [
-            '#00d98b'
+            '#84EE3E'
           ],
           fill: false,
           cubicInterpolationMode: 'default'
@@ -25,7 +25,7 @@ export default class UserGritVsTime extends React.Component{
           data: [ 25, 59, 72, 96, 135, 170, 257, 280, 294, 337, 410, 437, 468, 546],
           lineTension: 0,
           backgroundColor: [
-            '#0045c6'
+            '#00d2ff'
           ],
           fill: false
         }
@@ -52,7 +52,8 @@ export default class UserGritVsTime extends React.Component{
             title: {
               display: true,
               text: '14 days of Grit',
-              fontSize: 20
+              fontSize: 20,
+              fontColor: '#eaeaed'
             },
             legend: {
               display: true,

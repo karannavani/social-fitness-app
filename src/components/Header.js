@@ -16,7 +16,7 @@ class Header extends React.Component {
           <div className="container">
 
             <div className="navbar-brand">
-              <Link className="navbar-item" to="/dashboard">TRIBE</Link>
+              <Link className="navbar-item" to="/tribe"><img src="../assets/GRIT-logo.png" alt="logo" /></Link>
 
               <a role="button" className="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
                 <span className="burger-menu"></span>

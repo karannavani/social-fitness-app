@@ -6,7 +6,8 @@ function Home() {
   return(
     <div className="columns  is-multiline">
       <div className="column has-text-centered is-multiline">
-        <h1 className="title is-1 page-title-large">welcome to tribe</h1>
+        {/* <h1 className="home-title">GRIT</h1> */}
+        <img src="../assets/GRIT-logo.png" alt="logo" className="logo"/>
         <hr className="hr2"></hr>
       </div>
 

@@ -44,7 +44,7 @@ class ChallengeCard extends React.Component{
   render(){
     const { challenge } = this.props;
     return(
-      <div className="column is-4 challenge card">
+      <div className="column is-3 challenge card">
         <p className="black-title">{challenge.name}</p>
         <p className = "challenge-details black-title">{challenge.challengeGrit} grit points</p>
         <p className="black-title">{challenge.challengers.length} challengers</p>
