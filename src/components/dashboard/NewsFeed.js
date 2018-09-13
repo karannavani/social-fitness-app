@@ -64,6 +64,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'createPlan':
@@ -72,6 +73,7 @@ export default class NewsFeed extends React.Component{
                     key={newsFeedItem._id}
                     user={newsFeedItem.user}
                     exercisePlan={newsFeedItem.exercisePlanId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'logWorkout':
@@ -82,6 +84,7 @@ export default class NewsFeed extends React.Component{
                     grit = {newsFeedItem.grit}
                     time = {newsFeedItem.time}
                     intensity = {newsFeedItem.intensity}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'register':
@@ -89,6 +92,7 @@ export default class NewsFeed extends React.Component{
                   <NewsCardNewRegister
                     key = {newsFeedItem._id}
                     user={newsFeedItem.user}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'createChallenge':
@@ -97,6 +101,7 @@ export default class NewsFeed extends React.Component{
                     key = {newsFeedItem._id}
                     user = {newsFeedItem.user}
                     challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
               case 'completeChallenge':
@@ -105,6 +110,7 @@ export default class NewsFeed extends React.Component{
                     key = {newsFeedItem._id}
                     user = {newsFeedItem.user}
                     challenge = {newsFeedItem.challengeId}
+                    created = {newsFeedItem.daysAgoCreated}
                   />
                 );
             }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 // import Auth from '../../../lib/Auth';
 
-const CompleteChallenge = ({ user, challenge }) => {
+const CompleteChallenge = ({ user, challenge, created }) => {
   // console.log('this is start challenge ', challenge.toString());
   return(
     <article className="media">
@@ -13,9 +13,15 @@ const CompleteChallenge = ({ user, challenge }) => {
       </figure>
       <div className="media-content">
         <div className="content">
-          <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
-          <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
-
+          <div className="columns">
+            <div className="column is-9">
+              <Link to={`/profile/${user._id}`} className='title is-4 is-block' >{user.username}</Link>
+              <Link to={`/tribe/${user.tribe}`} className='subtitle is-block'>{user.tribe} </Link>
+            </div>
+            <div className="column">
+              <h5 className="subtitle is-6 sub-text">{created}</h5>
+            </div>
+          </div>
           {/* CHANGEBLE CONTENT */}
 
           <p> Completed the {challenge.name} challenge and earned {challenge.challengeGrit} grit </p>
