@@ -116,6 +116,7 @@ class Dashboard extends React.Component {
     axios.get(`/api/exerciseplans/${Auth.currentUserId()}/active`, Auth.bearerHeader())
       .then(res => this.setState({ exercises: res.data[0], goRender: true,exerciseId: res.data[0]._id }, () => {
         this.getProgram();
+        // this.getProgram();
       }
       ));
   }
