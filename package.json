@@ -13,7 +13,7 @@
    "start:server": "nodemon",
    "start:client": "webpack-dev-server",
    "seed": "node db/seeds",
-   "build": "webpack -p",
+   "build": "webpack",
    "start": "yarn build && node index"
  },
  "engines": {
