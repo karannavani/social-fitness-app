@@ -1,25 +1,24 @@
 {
-  "name": "ripe-tomatoes",
+  "name": "grit",
   "version": "1.0.0",
   "main": "index.js",
   "author": "WDI35",
   "license": "MIT",
-  "nodeConfig": {
-    "ignore": [
-      "src/*"
-    ]
-  },
-  "engines": {
-    "node": "9.10.0"
-  },
-  "scripts": {
-    "start:server": "nodemon",
-    "start:client": "webpack-dev-server",
-    "test:server": "nyc mocha test/server/**/*_spec.js --require test/server/spec_helper --recursive --exit",
-    "build": "webpack -p",
-    "start": "yarn build && node index",
-    "seed": "node db/seeds"
-  },
+  "nodemonConfig": {
+   "ignore": [
+     "src/*"
+   ]
+ },
+ "scripts": {
+   "start:server": "nodemon",
+   "start:client": "webpack-dev-server",
+   "seed": "node db/seeds",
+   "build": "webpack -p",
+   "start": "yarn build && node index"
+ },
+ "engines": {
+   "node": "9.10.0"
+ },
   "dependencies": {
     "axios": "^0.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
