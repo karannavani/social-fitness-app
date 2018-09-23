@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Auth from '../../lib/Auth';
 import NewsFeed from './NewsFeed';
 // import axios from 'axios';
 
@@ -113,7 +111,7 @@ class Feed extends React.Component {
                 { dotsArr.length === 7 && dotsArr.map((dot, i) =>
                   <div className="column has-text-centered" key={i}>
                     <i className={`animated swing title is-4 fas fa-circle dot-${dotsArr[i].color}`} key={i}></i>
-                    <h5 className="subtitle is-5 white animated swing"><i className="fas fa-bolt animated swing"></i></h5>
+                    <h5 className="subtitle is-5 white animated swing"><i className="fas fa-bolt animated swing"></i> <span style={{ color: 'white' }}>{dotsArr[i].grit}</span></h5>
                   </div>
                 )}
               </div>
