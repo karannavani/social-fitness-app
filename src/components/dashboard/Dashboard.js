@@ -124,7 +124,7 @@ class Dashboard extends React.Component {
   getProgram = () => {
     if (this.state.exercises) {
       const { exercises: { startDate } } = this.state; // getting startDate of the exercise
-      const today = moment().add(3, 'days'); //manual today for testing
+      const today = moment(); //manual today for testing
       const tomorrow = moment(today).add(1, 'days');//manual tomorrowfor testing
       this.setState({ momentToday: moment(today).unix()});
 
