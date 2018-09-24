@@ -40,7 +40,7 @@ Based on this, we divided up our tasks on Trello and assigned owners to each car
 
 2. **Tracking** – Daily progress is tracked from the dashboard, successful completion of an exercise awards the user with grit points, based on time and intensity.
 
-<p align="center"><img src="https://giant.gfycat.com/DismalContentJabiru.gif" width="500px"></p>
+<p align="center"><img src="https://giant.gfycat.com/ArcticFirmJabiru.gif" width="500px"></p>
 
 3. **Challenges** – Tribe-wide challenges can be found on the Tribe page and users can compete with other members by taking on these challenges.
 
