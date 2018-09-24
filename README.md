@@ -45,7 +45,7 @@ Based on this, we divided up our tasks on Trello and assigned owners to each car
 
 3. **Challenges** – Tribe-wide challenges can be found on the Tribe page and users can compete with other members by taking on these challenges.
 
-<iframe src='https://gfycat.com/ifr/BlondOddballJanenschia' frameborder='0' scrolling='no' width='2880' height='1800' allowfullscreen></iframe>
+<p align="center"><img src="https://thumbs.gfycat.com/SmartPoshLeafbird-size_restricted.gif"></p>
 
 4. **Insights** – The tribe page is rich with data visualisation which shows the tribe stats and how the user stacks up against it.
 
