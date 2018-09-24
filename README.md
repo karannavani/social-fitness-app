@@ -36,16 +36,16 @@ Based on this, we divided up our tasks on Trello and assigned owners to each car
 ### Functionality
 1. **Plans** – Users can create a new 7 day exercise plan or adopt one from someone else in their tribe.
 
-<img src="https://thumbs.gfycat.com/SmartPoshLeafbird-size_restricted.gif">
+<div style='position:relative;padding-bottom:54%'><iframe src='https://gfycat.com/ifr/ArcticFirmJabiru' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0' allowfullscreen></iframe></div>
 
 
 2. **Tracking** – Daily progress is tracked from the dashboard, successful completion of an exercise awards the user with grit points, based on time and intensity.
 
-<p align="center"><img src="https://thumbs.gfycat.com/ArcticFirmJabiru-size_restricted.gif"></p>
+<div style='position:relative;padding-bottom:54%'><iframe src='https://gfycat.com/ifr/ArcticFirmJabiru' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0' allowfullscreen></iframe></div>
 
 3. **Challenges** – Tribe-wide challenges can be found on the Tribe page and users can compete with other members by taking on these challenges.
 
-<p align="center"><img src="https://thumbs.gfycat.com/BlondOddballJanenschia-size_restricted.gif"></p>
+<iframe src='https://gfycat.com/ifr/BlondOddballJanenschia' frameborder='0' scrolling='no' width='2880' height='1800' allowfullscreen></iframe>
 
 4. **Insights** – The tribe page is rich with data visualisation which shows the tribe stats and how the user stacks up against it.
 
