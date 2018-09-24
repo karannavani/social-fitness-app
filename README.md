@@ -50,18 +50,17 @@ Based on this, we divided up our tasks on Trello and assigned owners to each car
 
 5. **Feed** – The feed shows a stream of updates and milestones from users on the app.
 
+---
+# Blockers
+* **Model complexity:** We made extensive use of use subschemas and relational data, which proved to be fiddly at times. We had to be creative with how we approached our models and had to iterate our back end continuously. 
+
+* **React norms:** Getting to grips with how React handles state updates and different levels of relationships between components was a major obstacle in the beginning. It took some getting used to and by day 3 we had a much better understanding.
 
 ---
 # Wins
 * **Deep interconnectedness:** Despite challenges, we managed to accomplish an intricate level of connection between all our individual pieces. 
 
 * **Data driven:** Gathering rich data and using it to drive the experience was our focus from the very beginning. Good communication and planning with our models helped us achieve that. 
- 
----
-# Blockers
-* **Model complexity:** We made extensive use of use subschemas and relational data, which proved to be fiddly at times. We had to be creative with how we approached our models and had to iterate our back end continuously. 
-
-* **React norms:** Getting to grips with how React handles state updates and different levels of relationships between components was a major obstacle in the beginning. It took some getting used to and by day 3 we had a much better understanding.
 
 ---
 # Future Features
