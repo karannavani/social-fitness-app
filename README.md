@@ -36,7 +36,7 @@ Based on this, we divided up our tasks on Trello and assigned owners to each car
 ### Functionality
 1. **Plans** – Users can create a new 7 day exercise plan or adopt one from someone else in their tribe.
 
-<p align="center"><img src="https://thumbs.gfycat.com/SmartPoshLeafbird-size_restricted.gif"></p>
+<img src="https://thumbs.gfycat.com/SmartPoshLeafbird-size_restricted.gif">
 
 
 2. **Tracking** – Daily progress is tracked from the dashboard, successful completion of an exercise awards the user with grit points, based on time and intensity.
