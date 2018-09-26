@@ -1,6 +1,6 @@
 <p align="center"><img src="https://imgur.com/Ga1ufSd.png" width="400px"></p>
 
-> **[Visit Grit](https://thriftyapp.herokuapp.com)**
+> **[Visit Grit](https://grit-app.herokuapp.com)**
 <p>A social fitness app where you join a tribe, create and track workout plans and earn grit points for persevering. </p>
 
 # Goal
@@ -64,7 +64,7 @@ Based on this, we divided up our tasks on Trello and assigned owners to each car
 
 ---
 # Future Features
-* **Responsiveness:** Being riddled with bugs did not give us enough to build a stable responsive version, this would be top priority as a future feature.
+* **Responsiveness:** Being riddled with bugs did not give us enough time to build a stable responsive version, this would be top priority as a future feature.
 
 * **More with ‘following’:** While you can follow other users currently, we did not write any code to take advantage of that. In the future, I want to use that to provide more tailored experiences and exercise recommendations.
 
