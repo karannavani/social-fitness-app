@@ -35,7 +35,7 @@
     "lodash": "^4.17.13",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.2.10",
+    "mongoose": "^5.7.5",
     "mongoose-paginate": "^5.0.3",
     "mongoose-unique-validator": "^2.0.1",
     "morgan": "^1.9.1",
