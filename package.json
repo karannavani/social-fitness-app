@@ -23,7 +23,7 @@
     "axios": "^0.18.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "bulma": "^0.7.1",
