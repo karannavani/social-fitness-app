@@ -39,7 +39,7 @@
     "mongoose-paginate": "^5.0.3",
     "mongoose-unique-validator": "^2.0.1",
     "morgan": "^1.9.1",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.13.1",
     "react": "^16.4.2",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.4.2",
