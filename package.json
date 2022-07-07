@@ -34,7 +34,7 @@
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.13",
     "mocha": "^5.2.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "mongoose": "^5.2.10",
     "mongoose-paginate": "^5.0.3",
     "mongoose-unique-validator": "^2.0.1",
