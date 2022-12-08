@@ -30,7 +30,7 @@
     "chai": "^4.1.2",
     "chance": "^1.0.16",
     "chart.js": "^2.7.2",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.13",
     "mocha": "^5.2.0",
